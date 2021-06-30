@@ -1,0 +1,123 @@
+<?xml version='1.0' encoding='UTF-8' ?> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:a="http://xmlns.jcp.org/jsf/passthrough">
+
+    <f:view locale="#{localization.language}">
+        <h:head>
+            <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+            <h:outputStylesheet library="css" name="cssTemplate.css"/>
+            <h:outputStylesheet library="css" name="cssPages.css"/>
+            <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+            <script type="text/javascript" src="resources/js/TemplateFunctions.js"></script> 
+            <script type="text/javascript" src="resources/js/IndexJS.js"></script> 
+            <title><ui:insert name="title">Title</ui:insert></title>
+        </h:head>
+
+        <h:body onload="#{localizationForcer.init()};currentSlide(1);currentSlideLatest(1)">
+            <div id="top">
+                <div id="top-content-right">
+                    <div id="top-content-login">
+                        <h:commandButton id="btnShowLogin" value="#{l['template.login']}"
+                                         class="loginButton" 
+                                         onclick="showLogin()" 
+                                         rendered="#{activeUserSession.showBtnLogin}"/>
+
+                        <div id="loginPopup" class="popup">
+                            <div class="popuptext" id="myPopup">
+                                <h:form>
+                                    <h:inputText id="lgnUserbv" a:placeholder="#{l['template.username']}" class="loginText"
+                                                 value="#{activeUserSession.username}" required="true" rendered="#{activeUserSession.showInputUsername}"/>
+                                    <h:inputSecret id="lgnPassbv" a:placeholder="#{l['template.password']}" class="loginText"
+                                                   value="#{activeUserSession.password}" required="true" rendered="#{activeUserSession.showInputPass}"/>
+                                    <h:commandButton id="btnLogin" value="#{l['template.login']}"
+                                                     class="btnLoginInPopup"
+                                                     action="#{activeUserSession.authenticate}"/>
+                                    <h:outputScript rendered="#{activeUserSession.renderScripter}">#{activeUserSession.script}</h:outputScript>
+                                </h:form>
+                            </div>
+                        </div>
+                        <h:form>
+                            <h:outputLabel id="lgnActiveUser" class="loginUserInfo" value="#{l['template.loginMessage']} #{activeUserSession.activeUser.username}" 
+                                           rendered="#{activeUserSession.showLblInfo}"/>
+                            <h:commandButton id="btnLogout" value="#{l['template.logout']}"
+                                             rendered="#{activeUserSession.showBtnLogout}"
+                                             class="loginButton"
+                                             action="#{activeUserSession.authenticate}"/>
+                        </h:form>
+                    </div>
+                    <div id="top-content-additional">
+                        <h:form id="frmRegForg">
+                            <h:commandButton class="loginButton" value="#{l['template.registration']}" rendered="#{activeUserSession.showRegistrationLink}" action="registration.xhtml?faces-redirect=true"/> 
+                            <p:commandLink id="lnkFrgPass" class="loginAdditional" value="#{l['template.forgotenPass']}" rendered="#{activeUserSession.showForgottenPassLink}"/>
+                        </h:form>
+                    </div>
+                    <div id="top-content-language">
+                        <h:form>
+                            <h:selectOneMenu id="language-select" value="#{localization.language}" valueChangeListener="#{localization.selectLanguage}" onchange="submit()" styleClass="languageSelect">
+                                <f:selectItem itemLabel="#{l['template.language.croatian']}" itemValue="hr"/> 
+                                <f:selectItem itemLabel="#{l['template.language.english']}" itemValue="en"/>
+                            </h:selectOneMenu>
+                        </h:form>
+                    </div>
+                </div>
+            </div>
+
+            <div id="divForgot" class="divForgotPass">
+                <h:form id="frmForgot" class="divForgotPass-content animate">
+                    <div class="imgcontainer">
+                        <img src="resources/images/Logo_Spider.png" alt="Logo" class="avatar"/>
+                    </div>
+                    <div class="container">
+                        <h:outputLabel id='messageFrg' class="frgLabel" value="#{forgotenPasswordBean.message}"/>
+                        <h:inputText id="username" a:placeholder="#{l['template.username']}" class="frgText" value="#{forgotenPasswordBean.username}"/>
+                        <h:inputText  id="email" a:placeholder="#{l['template.email']}" class="frgText" value="#{forgotenPasswordBean.email}"/>                 
+                        <p:commandButton id="btnForgot" value="#{l['template.sendPassword']}"
+                                         class="btnSendEmail"
+                                         update="frmForgot"
+                                         action="#{forgotenPasswordBean.sendPassword()}"/>
+                        <h:commandButton id="btnCancel" class="cancelbtn" value="X"/>
+                    </div>
+                </h:form> 
+            </div>
+
+            <div>
+                <div id="navigation">
+                    <h:form>
+                        <h:commandLink value="#{l['template.link.home']}" class="navigation-link" action="index.xhmtl?faces-redirect=true"/>
+                        <h:commandLink value="LINK 2" class="navigation-link" action="index.xhmtl?faces-redirect=true"/>
+                        <h:commandLink value="LINK 3" class="navigation-link" action="index.xhmtl?faces-redirect=true"/>
+                        <h:commandLink value="LINK 4" class="navigation-link" action="index.xhmtl?faces-redirect=true"/>
+                        <h:commandLink value="LINK 5" class="navigation-link" action="index.xhmtl?faces-redirect=true"/>
+                    </h:form>
+
+                </div>
+                <div id="content">
+                    <ui:insert name="content">Content</ui:insert>
+                </div>
+            </div>
+            <div id="bottom">
+                <div id="bottom-left">
+                    <h:outputLabel class="bottom-left-header" value="#{l['template.footer.contact']}"/>
+                    <h:outputLabel class="bottom-left-label" value="#{footerInformation.creator}"/>
+                    <h:outputLabel class="bottom-left-label" value="#{l['template.footer.email']}#{footerInformation.email}"/>
+                    <h:outputLabel class="bottom-left-label" value="#{l['template.footer.telephone']}#{footerInformation.telephone}"/>
+                    <h:outputLabel class="bottom-left-label" value="#{l['template.footer.adress']}#{footerInformation.adress}, #{footerInformation.city} #{footerInformation.postalCode}"/>
+                
+                </div>
+                <div id="bottom-splitter"/>
+                <div id="bottom-right">
+                    <h:outputText class="bottom-right-text" value="#{l['template.footer.opensourceInfromation']}"/>
+                </div>
+                <div id="bottom-splitter-down"/>
+                <div id="bottom-down">
+                    <h:outputLabel class="bottom-down-label" value="#{l['template.footer.information']}"/>
+                </div>
+            </div>
+        </h:body>
+    </f:view>
+</html>

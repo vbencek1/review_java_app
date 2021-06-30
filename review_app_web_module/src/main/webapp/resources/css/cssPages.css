@@ -1,0 +1,610 @@
+
+/* BOJE
+
+crna:         #333333
+bijela:       #FFFFFF
+plava:        #D9D9D9
+narančasta:   #FF785A
+crvena:       #CC2936
+lijepa plava: #048BA8
+
+
+extra crna: #131313
+formal gray: #f2f3f7
+crvena-hover: #ff3333
+*/
+
+/* REGISTRATION*/
+html, body {
+    margin: 0;
+    padding: 0;
+    font-family: sans-serif;
+    font-size: 12px;
+} 
+
+.page-top-bar{
+    width: 100%;
+    height: 60px;
+    background: #333333;
+    margin: auto;
+    display: flex; 
+    justify-content: flex-end;
+}
+
+.page-top-header{
+    font-size: 36px;
+    line-height: 40px;
+    margin: 1em 0 .6em 0;
+    font-weight: normal;
+    color: white;
+    font-family: 'Hammersmith One', sans-serif;
+    text-shadow: 0 -1px 0 rgba(0,0,0,0.4);
+    position: relative;
+    color: #131313;
+
+}
+
+.regButtonBack{
+    text-decoration: none;
+    display: inline-block;
+    padding: 1px 16px; 
+    background-color: #D9D9D9;
+    color: black;
+    border-radius: 50%;
+    margin: 8px 10px 8px 10px;
+    font-size: 34px;
+    font-weight: bold;
+    height: 44px;
+}
+.regButtonBack:hover {
+    background-color: #FF785A;
+    color: black;
+}
+
+.page-reg-form{
+    margin: auto;
+    width: 500px;
+    height: 600px;
+    border: 3px solid #333333;
+    padding: 50px 50px 50px 50px;
+    border-radius: 1%;
+    background: #f2f3f7;
+}
+
+.page-reg-form > form > label{
+    color: #CC2936;
+    letter-spacing: 0.8px;
+    font-style: italic;
+    white-space: pre-wrap;
+}
+
+.input-left{
+    color: gray;
+    background-color: #FFFFFF;
+    border: solid 1px;
+    border-radius:5px;
+    box-shadow: inset 0px 0px 0px 0px red;
+    padding: 5px 0px 5px 15px;
+    margin: 3px 0 20px 0px;
+    width: 48%;
+    height: 40px;
+}
+
+.input-right{
+    color: gray;
+    background-color: #FFFFFF;
+    border: solid 1px;
+    border-radius:5px;
+    box-shadow: inset 0px 0px 0px 0px red;
+    padding: 5px 0px 5px 15px;
+    margin: 3px 0 20px 0px;
+    width: 48%;
+    height: 40px;
+    float: right;
+}
+.page-reg-form > form > button{
+    border-radius:5px;
+    border: none;
+    background: none #CC2936;
+    color: white;
+    font-size: 12px;
+    font-weight: bold;
+    padding: 1px 35px 1px;
+    margin: 10px 0px 2px 0px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    box-shadow: inset 0px 0px 0px 0px red;
+    height: 40px; 
+    width: 100%;
+    float:right;
+}
+
+.page-reg-form > form > button:hover{
+    background-color: #ff3333;
+    border: gray 3px;
+}
+
+#div-confirm{
+    margin-top: 60px;
+}
+
+.page-reg-form > #div-confirm > form > label{
+    color: #FF785A;
+    font-style: italic;
+}
+
+.page-reg-form > #div-confirm > form > button{
+    margin-top:10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    border: none;
+    background: #FF785A;
+    width: 48%;
+    height: 35px;
+    float: right;
+}
+
+.page-reg-form > #div-confirm > form > button:hover{
+    background:  #ff6633;
+}
+
+.page-reg-form > #div-confirm > form > input{
+    margin-top:10px;
+    margin-bottom: 10px;
+    border: solid 1px;
+    border-radius:5px;
+    box-shadow: inset 0px 0px 0px 0px red;
+    height: 35px;
+    width: 48%;
+}
+.commandLinkCustum{
+    color: #CC2936;
+    font-style: italic;
+    font-weight: bold;
+    text-decoration: none;
+}
+.commandLinkCustum:hover{
+    color: #ff3333;
+}
+
+/* INDEX */
+
+.div-home-recommended{
+    margin: 0px 0px 10px 0px;
+    border: none;
+    border-radius: 5px;
+    background: #f2f3f7;
+    width: 100%;
+    height: 300px;
+}
+
+.div-home-popular{
+    margin: 0px 0px 10px 0px;
+    border: none;
+    border-radius: 5px;
+    background: #f2f3f7;
+    width: 100%;
+    height: auto;
+}
+
+.div-home-latest{
+    margin: 0px 0px 0px 0px;
+    border: none;
+    border-radius: 5px;
+    background: #f2f3f7;
+    width: 100%;
+    height: auto;
+}
+
+.div-home-header{
+    display: block;
+    letter-spacing: 1px;
+    font-size: 18px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-left:10px;
+    color: #333333;
+}
+
+/* Slides */
+.div-home-slide{
+    display: none;
+    height: 220px;
+    text-align: center;
+}
+
+.div-home-slide-latest{
+    display: none;
+    height: 220px;
+    text-align: center;
+}
+
+.div-home-noSlide{
+    height: 220px;
+    text-align: center;
+}
+
+/* Next & previous buttons */
+.prev, .next {
+    cursor: pointer;
+    top: 50%;
+    width: auto;
+    margin-top: -30px;
+    padding: 16px;
+    color: #888;
+    font-weight: bold;
+    font-size: 20px;
+    border-radius: 0 3px 3px 0;
+}
+
+/* Position the "next button" to the right */
+.next {
+    float:right;
+    right: 0;
+    border-radius: 3px 0 0 3px;
+}
+
+/* On hover, add a black background color with a little bit see-through */
+.prev:hover, .next:hover {
+    background-color: rgba(0,0,0,0.8);
+    color: white;
+}
+
+/* The dot/bullet/indicator container */
+.dot-container {
+    text-align: right;
+    margin-right: 20px;
+    padding: 10px;
+    background: none;
+}
+
+/* The dots/bullets/indicators */
+.dot, .dot-latest {
+    cursor: pointer;
+    height: 15px;
+    width: 15px;
+    margin: 0 2px;
+    background-color: #bbb;
+    border-radius: 50%;
+    display: inline-block;
+    transition: background-color 0.6s ease;
+}
+
+/* Add a background color to the active dot/circle */
+.active, .dot:hover, .dot-latest:hover{
+    background-color: #717171;
+}
+
+.div-book-container{
+    width: 40%;
+    height: 220px;
+    padding: 10px;
+    background: #FFFFFF;
+    float: left;
+    margin-left: 5%;
+    border-radius: 10px;
+}
+
+.div-book-container:hover{
+    border: 1.5px solid #FF785A;
+    -webkit-box-shadow: 0 8px 6px -6px black;
+    -moz-box-shadow: 0 8px 6px -6px black;
+    box-shadow: 0 8px 6px -6px black;
+    cursor: pointer;
+}
+
+.div-book-image-container{
+    height: 90%;
+    width: 30%;
+    border: 1px solid #333333;
+    border-radius: 10px;
+    float:left;
+}
+
+
+img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 10px;
+}
+
+.div-book-header{
+    color: #FF785A;
+    letter-spacing: 1px;
+    font-size: 16px;
+    display: block;
+    margin-bottom: 20px;
+    float:left;
+    width: 60%;
+    text-align: left;
+    padding-left:20px;
+}
+
+.div-book-details{
+    color: #333333;
+    letter-spacing: 1px;
+    font-size: 14px;
+    display: block;
+    margin-bottom: 5px;
+    float:left;
+    width: 60%;
+    text-align: left;
+    padding-left:20px;
+}
+
+.div-book-description{
+    color: #333333;
+    font-size: 12px;
+    font-style: italic;
+    display: block;
+    width: 60%;
+    float:left;
+    text-align: left;
+    padding-left:20px;
+}
+
+.div-book-grade-text{
+    color: #333333;
+    letter-spacing: 1px;
+    font-size: 14px;
+    display: block;
+    margin-top:20px;
+    float:left;
+    width: 60%;
+    text-align: left;
+    padding-left:20px;
+}
+
+.div-book-grade-text-gradeText{
+    
+}
+
+.div-book-grade-text-gradeValue{
+    color:#FF785A;
+}
+
+.div-book-grade-text-NOratings{
+    color: graytext;
+}
+
+/*BOOK DETAILS */
+
+.div-bookDetails{
+    width: 80%;
+    margin-left:10%;
+    height: auto; /* set on auto later*/
+    overflow:auto;
+    background: #f2f3f7;
+    border-radius: 10px;
+    padding: 30px 2% 30px 2%;
+}
+
+.div-bookDetails-header{
+    color: #FF785A;
+    letter-spacing: 3px;
+    font-size: 18px;
+    display: block;
+    margin-bottom: 20px;
+    border-bottom: 1px solid #333333;
+    float:left;
+    width: 55%;
+    text-align: left;
+    margin-left:20px;
+}
+
+.div-div-bookDetails-imgGradeContainer{
+    width: 40%;
+    height: auto;
+    float:left;
+}
+
+.div-bookDetails-image-container{
+    height: 57%;
+    width: 100%;
+    border: 2px solid #333333;
+    border-radius: 10px;
+    float: left;
+}
+
+.div-bookDetails-maintxtContainer{
+    background: white;
+    border-radius: 5px;
+    padding: 10px;
+    float:left;
+    width: 55%;
+    margin-left: 20px;
+    margin-bottom: 10px;
+}
+
+.div-bookDetails-subtxtContainer{
+    background: white;
+    border-radius: 5px;
+    padding: 10px;
+    float:left;
+    width: 55%;
+    height: 260px;
+    margin-left: 20px;
+    margin-bottom: 10px;
+}
+
+.div-bookDetails-gradeContainer{
+    margin-top: 10px;
+    background: white;
+    border-radius: 5px;
+    padding: 5px;
+    float:left;
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+.div-bookDetails-text-container{
+    width: 100%;
+    display: block;
+    float:left;
+    margin-bottom: 20px;
+}
+
+.div-bookDetails-details{
+    color: #333333;
+    letter-spacing: 1px;
+    font-size: 14px;
+    display: block;
+    float:left;
+    padding-left:20px;
+}
+
+.div-bookDetails-details-orange{
+    color: #FF785A;
+    letter-spacing: 1px;
+    font-size: 14px;
+    display: block;
+    float:left;
+    padding-left:20px;
+}
+.div-bookDetails-toogleBtn{
+    border-radius:5px;
+    border: none;
+    background: #FF785A;
+    color: #FFFFFF;
+    font-size: 12px;
+    padding: 1px 15px 0px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    box-shadow: inset 0px 0px 0px 0px red;
+    height: 25px;
+    width: 200px;
+    margin-top:20px;
+    display: block;
+}
+
+.div-bookDetails-addReviewBtn{
+    border-radius:5px;
+    border: none;
+    background: #048BA8;
+    color: #FFFFFF;
+    font-size: 12px;
+    padding: 1px 15px 0px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    box-shadow: inset 0px 0px 0px 0px red;
+    height: 25px;
+    width: 200px;
+    display: block;
+}
+
+.div-bookDetails-toogleBtn:hover{
+    background-color: #ff3333;
+    border: 1px solid transparent; 
+    cursor: pointer;
+}
+
+.div-bookDetails-addReviewBtn:hover{
+    background-color: darkcyan;
+    border: 1px solid transparent; 
+    cursor: pointer;
+}
+
+.div-bookDetails-review-textbox{
+    width: 100%;
+    height: 100px;
+    padding: 10px;
+    margin-bottom: 5px;
+    border: 1px solid #048BA8;
+    border-radius:5px;
+    text-align: justify;
+}
+.div-bookDetails-review-textbox:active{
+    border: 1px solid #048BA8;
+}
+
+.div-bookDetails-review-gradeSelect {
+    background: transparent;
+    border: none;
+    border-bottom: 2px solid #048BA8;
+    color: #048BA8;
+}
+
+.ui-widget.ui-widget.div-bookDetails-review-btnScroll{
+   width: 120px;
+   border-radius: 5px;
+   margin: 5px 5px 0px 0px;
+   float:right;
+   padding: 0px;
+}
+.div-bookDetails-comments{
+    background: #333333;
+    width: 100%;
+    height: auto;
+    border-radius: 5px;
+    padding: 10px;
+    padding-bottom: 0;
+    float:left;
+}
+
+.div-bookDetails-divBtnComments{
+    width: 100%;
+    height: 50px;
+}
+
+.div-bookDetails-SingleComment{
+    background: #faf7f7;
+    border-radius: 5px;
+    width: 100%;
+    height: 80px;
+    margin-bottom: 10px;
+}
+.div-bookDetails-SingleComment-header{
+    padding: 5px 10px 5px 10px;
+    font-size: 14px;
+    color:#333333;
+    display: block;
+}
+
+.div-bookDetails-SingleComment-date{
+   float:right;
+   font-size: 12px;
+}
+.div-bookDetails-SingleComment-body{
+    padding-left: 20px;
+    color:#333333;
+}
+
+/*Fill stars  solution from: https://stackoverflow.com/questions/33858426/only-fill-60-percent-star-using-css-width/33858727*/ 
+.ratings {
+  position: relative;
+  vertical-align: middle;
+  display: inline-block;
+  color: #b1b1b1;
+  overflow: hidden;
+}
+
+.full-stars{
+  position: absolute;
+  left: 0;
+  top: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  color: #FF785A;
+}
+
+.empty-stars:before,
+.full-stars:before {
+  content: "\2605\2605\2605\2605\2605";
+}
+
+.empty-stars:before {
+  -webkit-text-stroke: 1px #848484;
+}
+
+.full-stars:before {
+  -webkit-text-stroke: 1px orange;
+}
+
+/* Webkit-text-stroke is not supported on firefox or IE */
+/* Firefox */
+@-moz-document url-prefix() {
+  .full-stars{
+    color: #ECBE24;
+  }
+}

@@ -1,0 +1,466 @@
+
+/* BOJE
+
+crna:        #333333
+bijela:      #FFFFFF
+plava:       #D9D9D9
+narančasta:  #FF785A
+crvena:      #CC2936
+
+extra crna: #131313
+formal gray: #f2f3f7
+crvena-hover: #ff3333
+
+*/
+html, body {
+    margin: 0;
+    padding: 0;
+    font-family: sans-serif;
+    font-size: 12px;
+} 
+
+#top {
+    position: relative;
+    background-color: #333333;
+    color: white;
+    padding: 5px;
+    border-bottom: solid 2px #353535;
+    border-top: solid 2px #353535;
+    height: 60px;
+}
+
+#top-content-right{
+    float: right;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    margin-top: 10px;
+}
+
+#top-content-login{
+    margin: 0 10px 0 0;
+    padding: 0 0 0 0;
+}
+#top-content-language{
+    
+}
+
+.languageSelect{
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid #D9D9D9;
+    color: #FFFFFF;
+}
+
+.languageSelect *{
+    background: #333333;
+}
+
+.loginText {
+    background-color: #D9D9D9;
+    color: #333333;
+    border: 1px solid #FFFFFF;;
+    border-radius:0px;
+    box-shadow: inset 0px 0px 0px 0px red;
+    width: 90%;
+    height: 25px;
+    margin-bottom: 10px;
+    padding-left: 5px;
+}
+
+.loginText:hover{
+    border: 1px solid #FF785A;
+    border-radius:0px;
+}
+
+.loginText:focus{
+    outline: none !important;
+    border: 1px solid #FF785A;
+    border-radius:0px;
+}
+
+.loginButton {
+    border-radius:0px;
+    border: 1px white solid;
+    background: none;
+    color: #FFFFFF;
+    font-size: 12px;
+    padding: 1px 15px 0px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    box-shadow: inset 0px 0px 0px 0px red;
+    height: 25px;
+}
+.loginButton:hover{
+    background-color: #FF785A;
+    border: 1px solid transparent;
+}
+
+.loginUserInfo{
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    font-size: 12px;
+    color: #F0F8FF;
+    margin-right: 15px; 
+}
+
+.loginAdditional{
+    color:white;
+    text-decoration: none;
+    font-size: 13px;
+    margin: 0px 10px 0px 10px;
+}
+.loginAdditional:hover{
+    color: #FF785A;
+    text-decoration: none;
+}
+body .ui-commandlink, body .ui-link {
+    color:white;
+    text-decoration: none;
+    font-size: 13px;
+    margin: 0px 10px 0px 10px;
+}
+body .ui-commandlink:hover, body .ui-link:hover {
+    color:#FF785A;
+    text-decoration: none;
+}
+
+/* DIO SA W3 SCHOOLS, POPUP PRIJAVA*/
+/* Popup container - can be anything you want */
+.popup {
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+/* The actual popup */
+.popup .popuptext {
+  visibility: hidden;
+  width: 200px;
+  background-color: #555;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 16px 8px;
+  position: absolute;
+  z-index: 1;
+  top: 125%;
+  left: 50%;
+  margin-left: -130px;
+  margin-top:10px;
+}
+
+/* Popup arrow */
+.popup .popuptext::after {
+  content: "";
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: rotate(180deg);
+  margin-left: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: #555 transparent transparent transparent;
+}
+
+/* Toggle this class - hide and show the popup */
+.popup .show {
+  visibility: visible;
+  -webkit-animation: fadeIn 1s;
+  animation: fadeIn 1s;
+}
+.btnLoginInPopup {
+    border-radius:0px;
+    border: none;
+    background: #FF785A;
+    color: #FFFFFF;
+    font-size: 12px;
+    padding: 1px 15px 0px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    box-shadow: inset 0px 0px 0px 0px red;
+    height: 25px;
+    width: 90%
+}
+.btnLoginInPopup:hover{
+    background-color: #ff3333;
+    border: 1px solid transparent;
+}
+
+/* Add animation (fade in the popup) */
+@-webkit-keyframes fadeIn {
+  from {opacity: 0;} 
+  to {opacity: 1;}
+}
+
+@keyframes fadeIn {
+  from {opacity: 0;}
+  to {opacity:1 ;}
+}
+
+
+/*Full page popup div for fogotten pass*/
+
+.divForgotPass {
+    display: none;
+    position: fixed; 
+    z-index: 1; 
+    left: 0;
+    top: 0;
+    width: 100%; 
+    height: 100%; 
+    overflow: auto; 
+    background-color: rgb(0,0,0); 
+    background-color: rgba(0,0,0,0.4); 
+    padding-top: 60px;
+}
+
+.divForgotPass-content {
+    background-color: #f2f3f7;
+    margin: 5% auto 15% auto;
+    border: 1px solid #888;
+    width: 25%;
+    padding: auto 20px auto 20px;
+    border-radius: 5px;
+}
+
+.imgcontainer {
+    text-align: center;
+    margin: 24px 0 12px 0;
+    position: relative;
+}
+
+img.avatar {
+    width: 20%;
+    border-radius: 40%;
+}
+
+.container {
+    padding: 30px;
+}
+.cancelbtn {
+    border:none;
+    width: auto;
+    padding: 5px 10px;
+    background-color: #CC2936;
+    color: white;
+    float: right;
+    margin-bottom: 10px;
+}
+
+.cancelbtn:hover {
+    background-color: #ff3333;
+    cursor: pointer;
+}
+
+.animate {
+    -webkit-animation: animatezoom 0.6s;
+    animation: animatezoom 0.6s
+}
+
+@-webkit-keyframes animatezoom {
+    from {-webkit-transform: scale(0)} 
+    to {-webkit-transform: scale(1)}
+}
+
+@keyframes animatezoom {
+    from {transform: scale(0)} 
+    to {transform: scale(1)}
+}
+
+@media screen and (max-width: 300px) {
+    span.psw {
+        display: block;
+        float: none;
+    }
+    .cancelbtn {
+        width: 100%;
+    }
+}
+
+.btnSendEmail{
+    border-radius:0px;
+    border: none;
+    background: none #FF785A;
+    color: #FFFFFF;
+    font-size: 12px;
+    font-weight: bold;
+    padding: 0px 10px 0px 10px;
+    margin: 10px 0px 2px 0px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    box-shadow: inset 0px 0px 0px 0px red;
+    height: 30px;
+    width: 100%;
+    margin-bottom: 20px;
+}
+.btnSendEmail:hover{
+    background-color: #ff3333;
+    border: gray 1px;
+}
+
+body .ui-button {
+    border-radius:0px;
+    border: none;
+    background: none #FF785A;
+    color: #FFFFFF;
+    font-size: 12px;
+    font-weight: bold;
+    padding: 0px 10px 0px 10px;
+    margin: 10px 0px 2px 0px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    box-shadow: inset 0px 0px 0px 0px red;
+    height: 30px;
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+body .ui-button:hover {
+    background-color: #ff3333;
+    border: gray 1px;
+}
+
+.frgText {
+    background-color: #D9D9D9;
+    color: #333333;
+    border: 1px solid #FFFFFF;;
+    border-radius:0px;
+    box-shadow: inset 0px 0px 0px 0px red;
+    width: 100%;
+    height: 30px;
+    margin-bottom: 10px;
+    padding-left: 5px;
+}
+
+.frgText:hover{
+    border: 1px solid #FF785A;
+    border-radius:0px;
+}
+
+.frgText:focus{
+    outline: none !important;
+    border: 1px solid #FF785A;
+    border-radius:0px;
+}
+
+.frgLabel{
+    color: #FF785A;
+    font-style: italic;
+    font-weight: bold;
+    letter-spacing: 1px;
+}
+
+
+#navigation {
+    background-color: #ece3a5;
+    background-color: transparent;
+    width: 100%;
+    height: 60px;
+    margin: auto;
+    text-align: center;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.navigation-link{
+    text-decoration: none;
+    letter-spacing: 2px;
+    color: #FF785A;
+    font-size: 14px;
+    padding: 0px 10px 5px 10px;
+    border-bottom: 2px solid #FF785A;
+    margin-right: 20px;
+    margin-left: 20px;
+}
+
+.navigation-link:hover{
+    color: #ff3333;
+    border-bottom: 2px solid #333333;
+}
+
+#content {
+    position: relative;
+    background-color: #FFFFFF;
+    margin: auto 15% auto 15%;
+    height: auto;
+    padding: 10px 0px 10px 0px;
+}
+
+
+#bottom {
+    position: relative;
+    color: #FFFFFF;
+    background-color: #333333;
+    margin: 10px 0px 0px 0px;
+    height: 200px;
+}
+#bottom-left{
+    padding: 20px;
+    width: 49%;
+    height: 80%;
+    float:left;
+    
+}
+
+#bottom-splitter{
+    margin-top: 20px;
+    border-right: 1px solid #D9D9D9;
+    width: 1%;
+    height: 60%;
+    float:left;
+}
+#bottom-splitter-down{
+    margin-left: 20px;
+    margin-right: 20px;
+    border-top: 1px solid #D9D9D9;
+    width: 97%;
+    height: 1%;
+    float:left;
+}
+
+.bottom-left-header{
+    display: block;
+    margin-bottom: 10px;
+    color: #D9D9D9;
+}
+
+.bottom-left-label{
+    display: block;
+    padding-left:5px;
+    margin-bottom: 10px;
+    width: 100%;
+    color: #D9D9D9;
+}
+
+#bottom-right{
+    width: 50%;
+    height: 80%;
+    float:right;
+}
+
+.bottom-right-text{
+    color: #D9D9D9;
+    padding: 20px;
+    display: block;
+    width: 60%;
+    letter-spacing: 1px; 
+}
+
+#bottom-down{
+    text-align: center;
+    width: 100%;
+    height: 19%;
+    float: left;      
+}
+
+.bottom-down-label{
+    color:#D9D9D9;
+    display: block;
+    padding-top: 10px;
+}
+

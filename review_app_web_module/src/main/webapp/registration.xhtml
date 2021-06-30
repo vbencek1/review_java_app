@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:a="http://xmlns.jcp.org/jsf/passthrough">
+    <f:view locale="#{localization.language}">
+        <h:head>
+            <title>#{l['userRegistration.title']}</title>
+            <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+            <script type="text/javascript" src="resources/js/BasicFunctions.js"></script>
+            <link rel="stylesheet" href="resources/css/cssPages.css"/>
+        </h:head>
+        <h:body>
+            <div class="page-top-bar" style="justify-content: flex-start">
+                <a href="index.xhtml" class="regButtonBack">&#8249;</a>
+            </div>
+            <h2 align="center" class="page-top-header">#{l['userRegistration.header']}</h2>
+            <div class="page-reg-form">
+                <h:form id="registrationForm">
+                    <br/><br/>
+                    <h:inputText id="firstName" class="input-left" a:placeholder="#{l['userRegistration.firstName']}" value="#{userRegistration.firstName}" validator="#{validations.validateFirstName}"/>
+                    <h:inputText id="lastName" class="input-right" a:placeholder="#{l['userRegistration.lastName']}" value="#{userRegistration.lastName}" validator="#{validations.validateLastName}"/>
+
+                    <h:inputText id="username" class="input-left" a:placeholder="#{l['userRegistration.username']}" value="#{userRegistration.username}" validator="#{validations.validateUsername}"/>
+                    <h:inputText id="email" class="input-right" a:placeholder="#{l['userRegistration.email']}" value="#{userRegistration.email}" validator="#{validations.validateEmail}"/>
+
+                    <h:inputSecret  id="password" class="input-left" a:placeholder="#{l['userRegistration.password']}" value="#{userRegistration.password}" validator="#{validations.validatePassword}"/>
+                    <h:inputSecret  id="confPassword" class="input-right" a:placeholder="#{l['userRegistration.confPassword']}"/><br/>
+
+                    <h:outputLabel id="validationLabel" value="#{validations.validationMessage}"/><br/>
+
+                    <p:commandButton id="btnRegister" value="#{l['userRegistration.register']}" 
+                                     onclick="showConfForm()"
+                                     update="registrationForm:validationLabel codeConfirmationForm"
+                                     action="#{userRegistration.sendRegistrationCode()}"/>
+                </h:form>
+                <br/><br/>
+                <div id="div-confirm" style="display: none">
+                    <h:form id="codeConfirmationForm" >
+                        
+                        <h:outputScript rendered="#{userRegistration.renderScripter}">document.getElementById('div-confirm').style.display = 'block'</h:outputScript>
+                        <p:outputLabel value="#{l['userRegistration.codeMessage']}"/><br/>
+                        <p:inputText id="codeInput" placeholder="#{l['userRegistration.confCode']}" value="#{userRegistration.confirmationCode}"/>
+                        <p:commandButton id="btnConfirm" value="#{l['userRegistration.btnConfCode']}" class="btnConfirmCode"
+                                         action="#{userRegistration.confirmCode()}"
+                                         update="codeConfirmationForm"/>
+                        <p:outputLabel id="codeMessage" value="#{userRegistration.codeMessage}"/>
+                        <h:commandLink id="codeResend" class="commandLinkCustum" value="#{l['userRegistration.sendCodeAgain']}" action="#{userRegistration.sendRegistrationCode()}" rendered="#{userRegistration.showResendLink}"/>
+                        <h:commandLink id="redirectHomePage" class="commandLinkCustum" value="#{l['userRegistration.goToHomePage']}" action="index.xhtml?faces-redirect=true" rendered="#{userRegistration.showHomepageLink}"/>
+                    </h:form></div>
+            </div>
+        </h:body>
+    </f:view>
+</html>

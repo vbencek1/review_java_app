@@ -15,6 +15,7 @@ import javax.annotation.PostConstruct;
 import javax.faces.context.FacesContext;
 import lombok.Getter;
 import lombok.Setter;
+import org.vbencek.properties.PropertiesLoader;
 
 /**
  *
@@ -34,6 +35,10 @@ public class ViewBookDetails implements Serializable {
 
     @Getter
     @Setter
+    boolean bookChecked = false;
+
+    @Getter
+    @Setter
     int offsetComments = 0;
 
     @Getter
@@ -45,6 +50,10 @@ public class ViewBookDetails implements Serializable {
     int pageNum = 0;
     List<TestnaKlasaKomentar> komentari = new ArrayList<>();
 
+    int maksCommentsPerPage;
+
+    //maknuti hardkodirane poslje
+    //mogu dodati rendere za prijavljene korisnike naprimjer
     @PostConstruct
     public void init() {
         Map<String, String> params = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
@@ -63,11 +72,19 @@ public class ViewBookDetails implements Serializable {
         komentari.add(new TestnaKlasaKomentar(1, "Mirko  9", "Volim tu knjigu mmm", 4.1));
         komentari.add(new TestnaKlasaKomentar(1, "Sorko  10", "Dobro je, prosjek, likovi dosadni malo zzz", 3.3));
         komentari.add(new TestnaKlasaKomentar(1, "Sorko  11", "Dobro je, prosjek, likovi dosadni malo zzz", 3.3));
+        PropertiesLoader propLoader = new PropertiesLoader();
+        try {
+            maksCommentsPerPage = Integer.parseInt(propLoader.getProperty("details.maxCommentsPerPage"));
+        } catch (NumberFormatException e) {
+            maksCommentsPerPage = 5;
+        }
     }
 
     public List<TestnaKlasaKomentar> komentari(int page) {
         List<TestnaKlasaKomentar> temp = new ArrayList<>();
-        for (int i = page * 5; i < (page * 5) + 5; i++) {
+        int offset = page * maksCommentsPerPage;
+        int size = offset + maksCommentsPerPage;
+        for (int i = offset; i < size; i++) {
             if (komentari.size() <= i) {
                 break;
             }
@@ -77,7 +94,7 @@ public class ViewBookDetails implements Serializable {
     }
 
     public void loadNextComments() {
-        if (pageNum < komentari.size() / 5) {
+        if (pageNum < komentari.size() / maksCommentsPerPage) {
             pageNum++;
         }
 
@@ -88,6 +105,15 @@ public class ViewBookDetails implements Serializable {
             pageNum--;
         }
 
+    }
+
+    public void addBookToCollection() {
+
+        if (bookChecked) {
+            System.out.println("added");
+        } else {
+            System.out.println("removed");
+        }
     }
 
     public String convertToWidth(Double rating) {

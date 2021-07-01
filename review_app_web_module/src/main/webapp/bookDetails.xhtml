@@ -12,7 +12,7 @@
 
     <ui:define name="content">   
         <div class="div-bookDetails">
-            <div class="div-div-bookDetails-imgGradeContainer">
+            <div class="div-bookDetails-imgGradeContainer">
                 <div class="div-bookDetails-image-container">
                     <img src="resources/images/book_placeholder.jpg" alt="book_placeholder"/>
                 </div>
@@ -49,7 +49,15 @@
 
                 <h:commandButton id="btnToggleComments" class="div-bookDetails-toogleBtn" value="#{l['viewBookDetails.toogleReviews']}" onclick="showComments()"/>
             </div>
-            <h:outputLabel class="div-bookDetails-header" value="DRUŽBA PERE KRVŽICE"/>
+            <div class="div-bookDetails-header">
+                <h:outputLabel class="div-bookDetails-header-text" value="DRUŽBA PERE KRVŽICE"/>
+                <h:form>
+                    <h:selectBooleanCheckbox title="#{l['viewBookDetails.starText']}" id="btnStar" class="star"
+                                             value="#{viewBookDetails.bookChecked}" 
+                                             valueChangeListener="#{viewBookDetails.addBookToCollection()}"
+                                             onclick="submit()"/>
+                </h:form>
+            </div>
             <div class="div-bookDetails-maintxtContainer">
                 <div class="div-bookDetails-text-container">
                     <h:outputLabel class="div-bookDetails-details-orange" value="#{l['viewBookDetails.author']}"/>

@@ -381,19 +381,24 @@ img {
 }
 
 .div-bookDetails-header{
-    color: #FF785A;
-    letter-spacing: 3px;
-    font-size: 18px;
     display: block;
     margin-bottom: 20px;
     border-bottom: 1px solid #333333;
     float:left;
     width: 55%;
+    height: 50px;
     text-align: left;
     margin-left:20px;
 }
+.div-bookDetails-header-text{
+    color: #FF785A;
+    letter-spacing: 2px;
+    font-size: 16px;
+    margin-top: 25px;
+    float: left;
+}
 
-.div-div-bookDetails-imgGradeContainer{
+.div-bookDetails-imgGradeContainer{
     width: 40%;
     height: auto;
     float:left;
@@ -423,7 +428,7 @@ img {
     padding: 10px;
     float:left;
     width: 55%;
-    height: 260px;
+    height: 230px;
     margin-left: 20px;
     margin-bottom: 10px;
 }
@@ -539,6 +544,7 @@ img {
     border-radius: 5px;
     padding: 10px;
     padding-bottom: 0;
+    margin-top: 10px;
     float:left;
 }
 
@@ -607,4 +613,24 @@ img {
   .full-stars{
     color: #ECBE24;
   }
+}
+
+/*Checkbox star -> solution found here:http://jsfiddle.net/qdw1km7y/2/ */
+.star {
+    visibility:hidden;
+    font-size:40px;
+    cursor:pointer;
+    color: #FF9529;
+    float: right;
+    margin-right: 30px;
+}
+.star:before {
+   content: "\2605";
+   visibility:visible;
+   
+}
+.star:checked:before {
+   content: "\2606";
+   color: #333333;
+   
 }

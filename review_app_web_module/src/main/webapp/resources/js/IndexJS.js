@@ -1,5 +1,5 @@
 //W3 schools -> sliders
-
+//
 //Popular books slider
 var slideIndex = 1;
 showSlides(slideIndex);

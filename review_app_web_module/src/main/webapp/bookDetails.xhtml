@@ -53,7 +53,7 @@
                 <h:outputLabel class="div-bookDetails-header-text" value="DRUŽBA PERE KRVŽICE"/>
                 <h:form>
                     <h:selectBooleanCheckbox title="#{l['viewBookDetails.starText']}" id="btnStar" class="star"
-                                             value="#{viewBookDetails.bookChecked}" 
+                                             value="#{viewBookDetails.notFavorite}" 
                                              valueChangeListener="#{viewBookDetails.addBookToCollection()}"
                                              onclick="submit()"/>
                 </h:form>

@@ -15,8 +15,10 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import javax.annotation.PostConstruct;
+import javax.inject.Inject;
 import lombok.Getter;
 import lombok.Setter;
+import org.vbencek.properties.ParamsCaching;
 
 /**
  *
@@ -25,7 +27,10 @@ import lombok.Setter;
 @Named(value = "viewHome")
 @ViewScoped
 public class ViewHome implements Serializable {
-
+    
+    @Inject
+    ParamsCaching paramsCaching;
+    
     @Getter
     @Setter
     List<TestnaKlasaObrisati> testList = new ArrayList<>();
@@ -77,6 +82,7 @@ public class ViewHome implements Serializable {
     }
     
     public String redirectToBookDetails(int bookId){
+        paramsCaching.setBookIdCache(bookId);
         return "bookDetails.xhtml?id="+bookId+"&faces-redirect=true";
     }
 

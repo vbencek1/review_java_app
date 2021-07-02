@@ -13,8 +13,10 @@ import java.util.List;
 import java.util.Map;
 import javax.annotation.PostConstruct;
 import javax.faces.context.FacesContext;
+import javax.inject.Inject;
 import lombok.Getter;
 import lombok.Setter;
+import org.vbencek.properties.ParamsCaching;
 import org.vbencek.properties.PropertiesLoader;
 
 /**
@@ -24,7 +26,10 @@ import org.vbencek.properties.PropertiesLoader;
 @Named(value = "viewBookDetails")
 @ViewScoped
 public class ViewBookDetails implements Serializable {
-
+    
+    @Inject
+    ParamsCaching paramsCaching;
+    
     @Getter
     @Setter
     int bookID = 0;
@@ -35,7 +40,7 @@ public class ViewBookDetails implements Serializable {
 
     @Getter
     @Setter
-    boolean bookChecked = false;
+    boolean notFavorite = true;
 
     @Getter
     @Setter
@@ -54,10 +59,14 @@ public class ViewBookDetails implements Serializable {
 
     //maknuti hardkodirane poslje
     //mogu dodati rendere za prijavljene korisnike naprimjer
+    //staviti u zasebnu metodu mozda
     @PostConstruct
     public void init() {
         Map<String, String> params = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
         String bookid = params.get("id");
+        if(bookid==null){
+            bookid=String.valueOf(paramsCaching.getBookIdCache());
+        }
         System.out.println("ViewBookDetails: Opening view for bookID: " + bookid);
         bookID = Integer.parseInt(bookid);
         bookName = "Druzba pere kvrzice";
@@ -109,10 +118,10 @@ public class ViewBookDetails implements Serializable {
 
     public void addBookToCollection() {
 
-        if (bookChecked) {
-            System.out.println("added");
+        if (notFavorite) {
+            System.out.println("notFavorite");
         } else {
-            System.out.println("removed");
+            System.out.println("Favorite");
         }
     }
 

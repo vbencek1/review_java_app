@@ -1,4 +1,4 @@
-package org.vbencek.beans;
+package org.vbencek.beans.views.template;
 
 import javax.inject.Named;
 import javax.faces.view.ViewScoped;
@@ -11,6 +11,7 @@ import javax.inject.Inject;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.security.crypto.password.Pbkdf2PasswordEncoder;
+import org.vbencek.beans.ActiveUserSession;
 import org.vbencek.email.EmailSender;
 import org.vbencek.facade.UserTFacadeLocal;
 import org.vbencek.localization.Localization;

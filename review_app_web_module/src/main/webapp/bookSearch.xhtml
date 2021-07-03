@@ -1,0 +1,76 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./template.xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:a="http://xmlns.jcp.org/jsf/passthrough">
+
+    <ui:define name="title">#{l['ViewSearchBooks.title']}</ui:define>
+
+    <ui:define name="content">
+
+        <div class="div-bookSearch-search">
+            <form>
+                <div class="div-bookSearch-section">
+                    <h:inputText id="ISBN" class="div-bookSearch-search-input" a:placeholder="ISBN"/>
+                    <h:inputText id="Keyword" class="div-bookSearch-search-input" a:placeholder="Book Title or Author"/>
+                </div>
+                <div class="div-bookSearch-section">
+                    <h:selectOneMenu id="Year" class="div-bookSearch-search-combobox">
+                        <f:selectItem itemLabel="Izaberi godinu" itemValue=""/>
+                        <f:selectItems value="#{comboboxData.publishYears}" var="year" itemLabel="#{year}" itemValue="#{year}"/>
+                    </h:selectOneMenu>
+                    <h:selectOneMenu id="Publisher" class="div-bookSearch-search-combobox">
+                        <f:selectItem itemLabel="Publisher"/>
+                        <f:selectItems value="#{comboboxData.publishers}" var="publisher" itemLabel="#{publisher}" itemValue="#{publisher}"/>
+                    </h:selectOneMenu>
+                    <h:selectOneMenu id="MinRating" class="div-bookSearch-search-combobox">
+                        <f:selectItem itemLabel="Minimum Rating"/>
+                        <f:selectItems value="#{comboboxData.minimumRating}" var="rating" itemLabel="#{rating.name}" itemValue="#{rating.value}"/>
+                    </h:selectOneMenu>
+                </div>
+                <div class="div-bookSearch-section">
+                    <h:selectOneMenu id="SortBy" class="div-bookSearch-search-combobox" style="width: 40%;margin: 0 10px 0 10px">
+                        <f:selectItems value="#{comboboxData.sortOption}" var="sort" itemLabel="#{sort.optionName}" itemValue="#{sort.value}"/>
+                    </h:selectOneMenu>
+
+                    <h:commandButton id="btnSubmitSearch" class="div-bookSearch-search-button" value="SUBMIT TEST" onclick="submit()"/>
+                </div>
+            </form>
+        </div>
+
+        <div class="div-bookSearch-allBooks">
+            <h:form id="form-buttons">
+                <div class="div-bookDetails-divBtnComments">
+                    <p:commandButton id="btnPrevoius" class="div-bookSearch-btnScroll-left" value="&lt;&lt;#{l['viewBookDetails.btnPrevious']}" action="#{viewSearchBooks.previousPage()}" update="form-buttons"/>
+                    <p:commandButton id="btnNext" class="div-bookSearch-btnScroll-right" value="#{l['viewBookDetails.btnNext']}&gt;&gt;" action="#{viewSearchBooks.nextPage()}" update="form-buttons"/>
+                </div>
+                <ui:repeat id="bookRepeater" value="#{viewSearchBooks.testnaLista(viewSearchBooks.pageNum)}" var="row">
+                    <h:commandLink action="#{viewSearchBooks.redirectToBookDetails(row.id)}">
+                        <div class="div-bookSearch-container">
+                            <div class="div-bookDetails-imageContainer">
+                                <img src="resources/images/book_placeholder.jpg" alt="book_placeholder"/>
+                            </div>
+                            <h:outputLabel class="div-book-header" value="#{row.naziv} (#{row.godina})"/>
+
+                            <h:outputLabel class="div-book-details" value="#{row.autor}"/>
+                            <h:outputLabel class="div-book-details" value="#{row.izdavac}"/>
+
+                            <h:outputText class="div-book-description" value="#{l['viewHome.book.description']}: #{row.opis}"/>
+                            <div class="div-book-grade-text">
+                                <h:outputLabel class="div-book-grade-text-gradeText"  value="#{l['viewHome.book.rating']}:"/>
+                                <h:outputLabel class="div-book-grade-text-gradeValue" value=" #{row.ocjena}&#9734; "/>
+                                <h:outputLabel class="div-book-grade-text-NOratings" value="(#{row.brojOcjena})"/>
+                            </div>
+                        </div>
+                    </h:commandLink>
+                </ui:repeat>
+
+            </h:form>
+        </div>
+    </ui:define>
+</ui:composition>
+

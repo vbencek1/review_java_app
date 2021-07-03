@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.vbencek.beans;
+package org.vbencek.beans.views;
 
 import javax.inject.Named;
 import javax.faces.view.ViewScoped;
@@ -16,6 +16,7 @@ import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import lombok.Getter;
 import lombok.Setter;
+import org.vbencek.beans.TestnaKlasaKomentar;
 import org.vbencek.properties.ParamsCaching;
 import org.vbencek.properties.PropertiesLoader;
 
@@ -41,14 +42,6 @@ public class ViewBookDetails implements Serializable {
     @Getter
     @Setter
     boolean notFavorite = true;
-
-    @Getter
-    @Setter
-    int offsetComments = 0;
-
-    @Getter
-    @Setter
-    int sizeComments = 5;
 
     @Getter
     @Setter

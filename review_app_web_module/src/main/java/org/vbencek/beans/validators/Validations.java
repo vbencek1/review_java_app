@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.vbencek.beans;
+package org.vbencek.beans.validators;
 
 import javax.inject.Named;
 import javax.faces.view.ViewScoped;

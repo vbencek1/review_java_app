@@ -634,3 +634,122 @@ img {
    color: #333333;
    
 }
+
+
+/*Book Search Form*/
+
+.div-bookSearch-search{
+    width: 100%;
+    height: auto; /*set to auto*/
+    background: #4d4e48;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    padding-top: 10px;
+    text-align: center;
+}
+
+.div-bookSearch-section{
+    width: 100%;
+    padding-bottom: 10px;
+}
+
+.div-bookSearch-search-input{
+    width: 30%;
+    min-width: 200px;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+.div-bookSearch-search-button{
+    width: 20%;
+    min-width: 200px;
+    margin-left: 10px;
+    margin-right: 10px;
+    border-radius: 0px;
+    border: 1px solid #FFFFFF;
+    background: none;
+    color: #FFFFFF;
+    padding: 3px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    box-shadow: inset 0px 0px 0px 0px red;
+    
+}
+.div-bookSearch-search-button:hover{
+    cursor: pointer;
+    background: #048BA8;
+}
+
+.div-bookSearch-search-combobox{
+    width: 20%;
+    min-width: 200px;
+    background: none;
+    color: white;
+    border: none;
+    border-bottom: 1px solid #048BA8;
+    margin-left:5px;
+    margin-right:5px;
+    padding: 2px;
+    
+}
+
+.div-bookSearch-search-combobox *{
+    background: #4d4e48;
+}
+
+.ui-widget.ui-widget.div-bookSearch-btnScroll-left{
+   width: 120px;
+   border-radius: 5px;
+   margin: 5px 0px 0px 20px;
+   float:none;
+   padding: 0px;
+}
+.ui-widget.ui-widget.div-bookSearch-btnScroll-right{
+   width: 120px;
+   border-radius: 5px;
+   margin: 5px 0px 0px 30px;
+   float:none;
+   padding: 0px;
+}
+
+
+.div-bookSearch-allBooks{
+    margin: 0px 0px 10px 0px;
+    border: none;
+    border-radius: 5px;
+    background: #d2d2d2;
+    width: 100%;
+    height: auto;
+    padding: 10px;
+    padding-right: 20px;
+    overflow: hidden;
+    min-height: 500px;
+    text-align: center;
+}
+
+.div-bookSearch-container{
+    width: 400px;
+    height: 220px;
+    padding: 10px;
+    background: #FFFFFF;
+    margin-left: 20px;
+    margin-bottom: 20px;
+    display: inline-block;
+    border-radius: 10px;
+    border: 2px solid #FF785A;
+}
+
+.div-bookSearch-container:hover{
+    border: 2px solid #FF785A;
+    -webkit-box-shadow: 0 8px 6px -6px black;
+    -moz-box-shadow: 0 8px 6px -6px black;
+    box-shadow: 0 8px 6px -6px black;
+    cursor: pointer;
+}
+
+.div-bookDetails-imageContainer{
+    height: 80%;
+    width: 30%;
+    border: 1px solid #333333;
+    border-radius: 10px;
+    float:left;
+}

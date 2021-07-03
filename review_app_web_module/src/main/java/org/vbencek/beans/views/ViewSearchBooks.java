@@ -86,12 +86,18 @@ public class ViewSearchBooks implements Serializable {
         publisher=params.get("Publisher");
         try{minRating=Double.parseDouble(params.get("MinRating"));}catch(Exception e){minRating=0;}
         sortOption=params.get("SortBy");
-        System.out.println(isbn+" "+keyword+" "+year+" "+publisher+" "+minRating+" "+sortOption);
+        System.out.println("ViewSearchBooks: Opening view with parametars: "+
+                "ISBN: "+isbn+" "+
+                "Keyword: "+keyword+" "+
+                "Year: "+ year+" "+
+                "Publisher: "+publisher+" "+
+                "MinRating: "+minRating+" "+
+                "SortBy: "+sortOption);
         
     }
     
+    
     public List<TestnaKlasaObrisati> testnaLista(int page) {
-
         List<TestnaKlasaObrisati> temp = new ArrayList<>();
         int offset = page * maksBooksPerPage;
         int size = offset + maksBooksPerPage;

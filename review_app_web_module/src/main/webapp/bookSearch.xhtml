@@ -8,36 +8,42 @@
                 xmlns:f="http://xmlns.jcp.org/jsf/core"
                 xmlns:a="http://xmlns.jcp.org/jsf/passthrough">
 
-    <ui:define name="title">#{l['ViewSearchBooks.title']}</ui:define>
+    <ui:define name="title">#{l['viewSearchBooks.title']}</ui:define>
 
     <ui:define name="content">
 
         <div class="div-bookSearch-search">
             <form>
                 <div class="div-bookSearch-section">
-                    <h:inputText id="ISBN" class="div-bookSearch-search-input" a:placeholder="ISBN"/>
-                    <h:inputText id="Keyword" class="div-bookSearch-search-input" a:placeholder="Book Title or Author"/>
+                    <h:inputText id="ISBN" class="div-bookSearch-search-input" a:placeholder="ISBN" value="#{viewSearchBooks.isbn}"/>
+                    <h:inputText id="Keyword" class="div-bookSearch-search-input" a:placeholder="#{l['viewSearchBooks.keyword']}" value="#{viewSearchBooks.keyword}"/>
                 </div>
                 <div class="div-bookSearch-section">
-                    <h:selectOneMenu id="Year" class="div-bookSearch-search-combobox">
-                        <f:selectItem itemLabel="Izaberi godinu" itemValue=""/>
+                    <h:selectOneMenu id="Year" class="div-bookSearch-search-combobox" value="#{viewSearchBooks.year}">
+                        <f:selectItem itemLabel="#{l['viewSearchBooks.combo.year']}" itemValue=""/>
                         <f:selectItems value="#{comboboxData.publishYears}" var="year" itemLabel="#{year}" itemValue="#{year}"/>
                     </h:selectOneMenu>
-                    <h:selectOneMenu id="Publisher" class="div-bookSearch-search-combobox">
-                        <f:selectItem itemLabel="Publisher"/>
+                    <h:selectOneMenu id="Publisher" class="div-bookSearch-search-combobox" value="#{viewSearchBooks.publisher}">
+                        <f:selectItem itemLabel="#{l['viewSearchBooks.combo.publisher']}"/>
                         <f:selectItems value="#{comboboxData.publishers}" var="publisher" itemLabel="#{publisher}" itemValue="#{publisher}"/>
                     </h:selectOneMenu>
-                    <h:selectOneMenu id="MinRating" class="div-bookSearch-search-combobox">
-                        <f:selectItem itemLabel="Minimum Rating"/>
-                        <f:selectItems value="#{comboboxData.minimumRating}" var="rating" itemLabel="#{rating.name}" itemValue="#{rating.value}"/>
+                    <h:selectOneMenu id="MinRating" class="div-bookSearch-search-combobox" value="#{viewSearchBooks.minRating}">
+                        <f:selectItem itemLabel="#{l['viewSearchBooks.combo.minRating']}"/>
+                        <f:selectItem itemLabel="#{l['combobox.rating.one']}" itemValue="1"/>
+                        <f:selectItem itemLabel="#{l['combobox.rating.two']}" itemValue="2"/>
+                        <f:selectItem itemLabel="#{l['combobox.rating.three']}" itemValue="3"/>
+                        <f:selectItem itemLabel="#{l['combobox.rating.four']}" itemValue="4"/>
+                        <f:selectItem itemLabel="#{l['combobox.rating.five']}" itemValue="5"/>
                     </h:selectOneMenu>
                 </div>
                 <div class="div-bookSearch-section">
-                    <h:selectOneMenu id="SortBy" class="div-bookSearch-search-combobox" style="width: 40%;margin: 0 10px 0 10px">
-                        <f:selectItems value="#{comboboxData.sortOption}" var="sort" itemLabel="#{sort.optionName}" itemValue="#{sort.value}"/>
+                    <h:selectOneMenu id="SortBy" class="div-bookSearch-search-combobox" value="#{viewSearchBooks.sortOption}" style="width: 40%;margin: 0 10px 0 10px">
+                        <f:selectItem itemLabel="#{l['combobox.sort.name']}" itemValue="1"/>
+                        <f:selectItem itemLabel="#{l['combobox.sort.rating']}" itemValue="2"/>
+                        <f:selectItem itemLabel="#{l['combobox.sort.reviews']}" itemValue="3"/>
                     </h:selectOneMenu>
 
-                    <h:commandButton id="btnSubmitSearch" class="div-bookSearch-search-button" value="SUBMIT TEST" onclick="submit()"/>
+                    <h:commandButton id="btnSubmitSearch" class="div-bookSearch-search-button" value="#{l['viewSearchBooks.btnSearch']}" onclick="submit()"/>
                 </div>
             </form>
         </div>

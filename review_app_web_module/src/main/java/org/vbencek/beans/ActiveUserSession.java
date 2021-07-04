@@ -122,7 +122,7 @@ public class ActiveUserSession implements Serializable {
             //login
             activeUser = userTFacade.findUserByUsername(username);
             Pbkdf2PasswordEncoder encoder = new Pbkdf2PasswordEncoder();
-            if (activeUser != null && encoder.matches(password, activeUser.getPassword())) { 
+            if (activeUser != null && encoder.matches(password, activeUser.getPassword())) {
                 renderLogin();
             }
         } else {
@@ -135,6 +135,30 @@ public class ActiveUserSession implements Serializable {
     private String switchButtonDisplay(String mode) {
         String fja = "document.getElementById('loginPopup').style.display = '" + mode + "'";
         return fja;
+    }
+
+    public String redirectToMyCollecion() {
+        if (activeUser != null) {
+            return "bookCollection.xhmtl?faces-redirect=true";
+        } else {
+            return "";
+        }
+    }
+
+    public String redirectToMyReviews() {
+        if (activeUser != null) {
+            return "myReviews.xhmtl?faces-redirect=true";
+        } else {
+            return "";
+        }
+    }
+
+    public String redirectToAddBookRequest() {
+        if (activeUser != null) {
+            return "addBookRequest.xhmtl?faces-redirect=true";
+        } else {
+            return "";
+        }
     }
 
 }

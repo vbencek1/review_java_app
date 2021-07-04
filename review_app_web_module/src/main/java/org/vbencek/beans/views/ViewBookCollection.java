@@ -5,6 +5,8 @@
  */
 package org.vbencek.beans.views;
 
+import javax.inject.Named;
+import javax.faces.view.ViewScoped;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
@@ -12,11 +14,10 @@ import java.util.List;
 import java.util.Map;
 import javax.annotation.PostConstruct;
 import javax.faces.context.FacesContext;
-import javax.inject.Named;
-import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import lombok.Getter;
 import lombok.Setter;
+import org.vbencek.beans.ActiveUserSession;
 import org.vbencek.beans.TestnaKlasaObrisati;
 import org.vbencek.properties.ParamsCaching;
 import org.vbencek.properties.PropertiesLoader;
@@ -25,9 +26,12 @@ import org.vbencek.properties.PropertiesLoader;
  *
  * @author Tino
  */
-@Named(value = "viewSearchBooks")
+@Named(value = "viewBookCollection")
 @ViewScoped
-public class ViewSearchBooks implements Serializable {
+public class ViewBookCollection implements Serializable {
+
+    @Inject
+    ActiveUserSession activeUserSession;
 
     @Inject
     ParamsCaching paramsCaching;
@@ -66,22 +70,30 @@ public class ViewSearchBooks implements Serializable {
 
     int maksBooksPerPage;
 
+    @Getter
+    @Setter
+    boolean renderRedirect = false;
+
+    @Getter
+    @Setter
+    String redirectFunction = "";
+
     @PostConstruct
-    public void test() {
-        setSearchParams();
-        testList.add(new TestnaKlasaObrisati(1, "Garry Lotter: part one", 2002, "Tino Tinek", "Izdavac _45", "Knjiga o seksu i drogi", 4.56, 20, new Date()));
-        testList.add(new TestnaKlasaObrisati(2, "Larry Lotter: part two three", 2302, "Tino Vinek", "Izdavac _45", "Knjiga o seksu i molitvi", 3.56, 21, new Date()));
-        testList.add(new TestnaKlasaObrisati(3, "Osman Lotter", 2012, "Tino Tinek", "Izdavac _45", "Knjiga o seksu i drogi", 2.56, 200, new Date(1234124)));
-        testList.add(new TestnaKlasaObrisati(4, "Biblija", 1111, "Sveti Covjek", "Neki tam izdavac", "Knjiga o necemu i svemu", 1.56, 24, new Date(123522344)));
-        testList.add(new TestnaKlasaObrisati(5, "Garry Lotter: part two", 2002, "Tino Tinek", "Izdavac _45", "Knjiga o seksu i drogi", 1.52, 14, new Date(3456576)));
-        testList.add(new TestnaKlasaObrisati(6, "Sveta knjiga o svetome", 1002, "Tino Tinek", "Nekaj trece", "Svetlo na kraju tunela za mnoge ljudei", 5.00, 11, new Date(1234576)));
-        testList.add(new TestnaKlasaObrisati(7, "Sveta knjiga o svetome", 1002, "Tino Tinek", "Nekaj trece", "Svetlo na kraju tunela za mnoge ljudei", 5.00, 11, new Date(1234576)));
-        testList.add(new TestnaKlasaObrisati(8, "Skupljanje kurvi: Zavjet o Penisu", 1002, "Tino Tinek", "Nekaj trece", "Svetlo na kraju tunela za mnoge ljudei", 5.00, 11, new Date(1234576)));
-        PropertiesLoader propLoader = new PropertiesLoader();
-        try {
-            maksBooksPerPage = Integer.parseInt(propLoader.getProperty("books.maxBooksPerPage"));
-        } catch (NumberFormatException e) {
-            maksBooksPerPage = 10;
+    void init() {
+        if (activeUserSession.getActiveUser() == null) {
+            redirectFunction = "location.href = 'index.xhtml';";
+            renderRedirect = true;
+        } else {
+            setSearchParams();
+            testList.add(new TestnaKlasaObrisati(6, "Sveta knjiga o svetome", 1002, "Tino Tinek", "Nekaj trece", "Svetlo na kraju tunela za mnoge ljudei", 5.00, 11, new Date(1234576)));
+            testList.add(new TestnaKlasaObrisati(7, "Sveta knjiga o svetome", 1002, "Tino Tinek", "Nekaj trece", "Svetlo na kraju tunela za mnoge ljudei", 5.00, 11, new Date(1234576)));
+            testList.add(new TestnaKlasaObrisati(8, "Skupljanje kurvi: Zavjet o Penisu", 1002, "Tino Tinek", "Nekaj trece", "Svetlo na kraju tunela za mnoge ljudei", 5.00, 11, new Date(1234576)));
+            PropertiesLoader propLoader = new PropertiesLoader();
+            try {
+                maksBooksPerPage = Integer.parseInt(propLoader.getProperty("books.maxBooksPerPage"));
+            } catch (NumberFormatException e) {
+                maksBooksPerPage = 10;
+            }
         }
     }
 
@@ -101,7 +113,7 @@ public class ViewSearchBooks implements Serializable {
             minRating = 0;
         }
         sortOption = params.get("SortBy");
-        System.out.println("ViewSearchBooks: Opening view with parametars: "
+        System.out.println("ViewBookCollection: Opening view with parametars: "
                 + "ISBN: " + isbn + " "
                 + "Keyword: " + keyword + " "
                 + "Year: " + year + " "
@@ -119,7 +131,9 @@ public class ViewSearchBooks implements Serializable {
             if (testList.size() <= i) {
                 break;
             }
-            temp.add(testList.get(i));
+            if (keyword != null && testList.get(i).getNaziv().contains(keyword)) {
+                temp.add(testList.get(i));
+            }
 
         }
         return temp;

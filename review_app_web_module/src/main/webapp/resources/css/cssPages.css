@@ -716,7 +716,8 @@ img {
     margin: 0px 0px 10px 0px;
     border: none;
     border-radius: 5px;
-    background: #d2d2d2;
+    border:2px solid #333333;
+    background: transparent;
     width: 100%;
     height: auto;
     padding: 10px;
@@ -735,7 +736,7 @@ img {
     margin-bottom: 20px;
     display: inline-block;
     border-radius: 10px;
-    border: 2px solid #FF785A;
+    border: 1px solid #FF785A;
 }
 
 .div-bookSearch-container:hover{

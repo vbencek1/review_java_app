@@ -12,7 +12,61 @@
 
     <ui:define name="content">
         <h:outputScript rendered="#{viewMyReviews.renderRedirect}">#{viewMyReviews.redirectFunction}</h:outputScript>
-        my reviews
+        <div class="div-bookSearch-search">
+            <form>
+                <div class="div-bookSearch-section">
+                    <h:inputText id="Keyword" class="div-bookSearch-search-input" a:placeholder="#{l['viewSearchBooks.keyword']}" value="#{viewMyReviews.keyword}"/>
+                    <h:selectOneMenu id="MinRating" class="div-bookSearch-search-combobox" value="#{viewMyReviews.minRating}">
+                        <f:selectItem itemLabel="#{l['viewSearchBooks.combo.minRating']}"/>
+                        <f:selectItem itemLabel="#{l['combobox.rating.one']}" itemValue="1"/>
+                        <f:selectItem itemLabel="#{l['combobox.rating.two']}" itemValue="2"/>
+                        <f:selectItem itemLabel="#{l['combobox.rating.three']}" itemValue="3"/>
+                        <f:selectItem itemLabel="#{l['combobox.rating.four']}" itemValue="4"/>
+                        <f:selectItem itemLabel="#{l['combobox.rating.five']}" itemValue="5"/>
+                    </h:selectOneMenu>
+                    <h:selectOneMenu id="SortBy" class="div-bookSearch-search-combobox" value="#{viewSearchBooks.sortOption}" style="width: 10%;margin: 0 10px 0 10px;">
+                        <f:selectItem itemLabel="#{l['combobox.sort.name']}" itemValue="1"/>
+                        <f:selectItem itemLabel="#{l['combobox.sort.rating']}" itemValue="2"/>
+                        <f:selectItem itemLabel="#{l['combobox.sort.date']}" itemValue="4"/>
+                    </h:selectOneMenu>
+                    <h:commandButton id="btnSubmitSearch" class="div-bookSearch-search-button" value="#{l['viewMyReviews.btnSearch']}" onclick="submit()"/>
+                </div>
+            </form>
+        </div>
+        <div class="div-myReviews-allReviews">
+            <h:form id="form-reviews">
+                <div class="div-bookDetails-divBtnComments">
+                    <p:commandButton id="btnNext" class="div-bookDetails-review-btnScroll" value="#{l['viewBookDetails.btnNext']}&gt;&gt;" action="#{viewBookDetails.loadNextComments()}" update="form-reviews"/>
+                    <p:commandButton id="btnPrevoius" class="div-bookDetails-review-btnScroll" value="&lt;&lt;#{l['viewBookDetails.btnPrevious']}" action="#{viewBookDetails.loadPreviousComments()}" update="form-reviews"/>
+                </div>
+                <ui:repeat id="repeater" value="#{viewMyReviews.komentari(viewBookDetails.pageNum)}" var="row">
+                    <div class="div-myReviews-SingleReview">
+                        <div class="div-myReviews-SingleReview-header">
+                            <h:commandLink class="div-myReviews-SingleReview-title" action="#{viewSearchBooks.redirectToBookDetails(row.id)}">
+                                <h:outputLabel class="div-myReviews-SingleReview-title" value="#{row.korisnik}"/>
+                            </h:commandLink>
+                            <h:selectOneMenu id="MinRating" class="div-myReviews-SingleReview-combobox" value="#{row.ocjena}" disabled="true">
+                                <f:selectItem itemLabel="#{l['combobox.rating.one']}" itemValue="1"/>
+                                <f:selectItem itemLabel="#{l['combobox.rating.two']}" itemValue="2"/>
+                                <f:selectItem itemLabel="#{l['combobox.rating.three']}" itemValue="3"/>
+                                <f:selectItem itemLabel="#{l['combobox.rating.four']}" itemValue="4"/>
+                                <f:selectItem itemLabel="#{l['combobox.rating.five']}" itemValue="5"/>
+                            </h:selectOneMenu>
+                            <h:outputLabel class="div-myReviews-SingleReview-date" value="12.04 2019. 13:33"/>
+                        </div>
+                        <div class="div-myReviews-SingleReview-body">
+                            <h:inputText value="#{row.komentar}" disabled="true"/>
+                        </div>
+                    </div>
+                    <div class="div-myReviews-SingleReview-buttons">
+                        <h:commandButton class="div-myReviews-SingleReview-buttonEdit" style="border-bottom-left-radius: 5px;" value="Edit"/>
+                        <h:commandButton class="div-myReviews-SingleReview-buttonEdit" value="Save"/>
+                        <h:commandButton class="div-myReviews-SingleReview-buttonEdit" style="border-bottom-right-radius: 5px;" value="Cancel"/>
+                        <h:commandButton class="div-myReviews-SingleReview-buttonDelete" value="Delete"/>
+                    </div>
+                </ui:repeat>
+            </h:form>
+        </div>
     </ui:define>
 </ui:composition>
 

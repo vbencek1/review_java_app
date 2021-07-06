@@ -13,9 +13,9 @@ public class TestnaKlasaKomentar {
     private int id;
     private String korisnik;
     private String komentar;
-    private double ocjena;
+    private int ocjena;
 
-    public TestnaKlasaKomentar(int id, String korisnik, String komentar, double ocjena) {
+    public TestnaKlasaKomentar(int id, String korisnik, String komentar, int ocjena) {
         this.id = id;
         this.korisnik = korisnik;
         this.komentar = komentar;
@@ -46,11 +46,11 @@ public class TestnaKlasaKomentar {
         this.komentar = komentar;
     }
 
-    public double getOcjena() {
+    public int getOcjena() {
         return ocjena;
     }
 
-    public void setOcjena(double ocjena) {
+    public void setOcjena(int ocjena) {
         this.ocjena = ocjena;
     }
     

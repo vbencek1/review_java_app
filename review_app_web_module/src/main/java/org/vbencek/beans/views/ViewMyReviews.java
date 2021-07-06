@@ -42,6 +42,10 @@ public class ViewMyReviews implements Serializable {
     @Getter
     @Setter
     double minRating;
+    
+    @Getter
+    @Setter
+    String sortOption;
 
     @Getter
     @Setter
@@ -60,10 +64,11 @@ public class ViewMyReviews implements Serializable {
 
     @PostConstruct
     void init() {
-        if (activeUserSession.getActiveUser() == null) {
+        if (false) { //activeUserSession.getActiveUser() == null
             redirectFunction = "location.href = 'index.xhtml';";
             renderRedirect = true;
         } else {
+            System.out.println("Opening view: ViewMyReviews");
             setSearchParams();
             PropertiesLoader propLoader = new PropertiesLoader();
             try {
@@ -72,17 +77,17 @@ public class ViewMyReviews implements Serializable {
                 maksReviewsPerPage = 10;
             }
 
-            komentari.add(new TestnaKlasaKomentar(1, "Knjiga 1", "Smece obicno ne valja nista", 1));
-            komentari.add(new TestnaKlasaKomentar(2, "Knjiga 2", "Smece obicno ne valja nista", 1));
-            komentari.add(new TestnaKlasaKomentar(2, "Knjiga 3", "Smece obicno ne valja nista", 1));
-            komentari.add(new TestnaKlasaKomentar(3, "Knjiga 4", "Smece obicno ne valja nista", 1));
-            komentari.add(new TestnaKlasaKomentar(4, "Knjiga 5", "Smece obicno ne valja nista", 1));
-            komentari.add(new TestnaKlasaKomentar(5, "Knjiga 6", "Smece obicno ne valja nista", 1));
-            komentari.add(new TestnaKlasaKomentar(5, "Knjiga 7", "Smece obicno ne valja nista", 1));
-            komentari.add(new TestnaKlasaKomentar(6, "Knjiga K 8", "Mnogo dobra knjiga preporučila bih svima", 5));
-            komentari.add(new TestnaKlasaKomentar(6, "Knjiga  9", "Volim tu knjigu mmm", 4));
-            komentari.add(new TestnaKlasaKomentar(6, "Knjiga  10", "Dobro je, prosjek, likovi dosadni malo zzz", 3));
-            komentari.add(new TestnaKlasaKomentar(6, "Knjiga  11", "Dobro je, prosjek, likovi dosadni malo zzz", 3));
+            komentari.add(new TestnaKlasaKomentar(1, "Knjiga 1", "Neki komentar na knjigu 1", 1));
+            komentari.add(new TestnaKlasaKomentar(2, "Knjiga 2", "Neki komentar na knjigu 2", 3));
+            komentari.add(new TestnaKlasaKomentar(3, "Knjiga 3", "Neki komentar na knjigu 3", 2));
+            komentari.add(new TestnaKlasaKomentar(4, "Knjiga 4", "Neki komentar na knjigu 4", 1));
+            komentari.add(new TestnaKlasaKomentar(5, "Knjiga 5", "Neki komentar na knjigu 5", 5));
+            komentari.add(new TestnaKlasaKomentar(6, "Knjiga 6", "Neki komentar na knjigu 6", 2));
+            komentari.add(new TestnaKlasaKomentar(7, "Knjiga 7", "Neki komentar na knjigu 7", 1));
+            komentari.add(new TestnaKlasaKomentar(8, "Knjiga 8", "Neki komentar na knjigu 8", 5));
+            komentari.add(new TestnaKlasaKomentar(9, "Knjiga 9", "Neki komentar na knjigu 9", 4));
+            komentari.add(new TestnaKlasaKomentar(10, "Knjiga 10", "Neki komentar na knjigu 10", 3));
+            komentari.add(new TestnaKlasaKomentar(11, "Knjiga 11", "Neki komentar na knjigu 11", 3));
         }
 
     }
@@ -90,6 +95,7 @@ public class ViewMyReviews implements Serializable {
     private void setSearchParams() {
         Map<String, String> params = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
         keyword = params.get("Keyword");
+        sortOption = params.get("SortBy");
         try {
             minRating = Double.parseDouble(params.get("MinRating"));
         } catch (Exception e) {
@@ -97,7 +103,8 @@ public class ViewMyReviews implements Serializable {
         }
         System.out.println("ViewSearchBooks: Opening view with parametars: "
                 + "Keyword: " + keyword + " "
-                + "MinRating: " + minRating);
+                + "MinRating: " + minRating
+                + "SortBy: "+sortOption);
 
     }
 
@@ -129,6 +136,10 @@ public class ViewMyReviews implements Serializable {
     public String redirectToBookDetails(int bookId) {
         paramsCaching.setBookIdCache(bookId);
         return "bookDetails.xhtml?id=" + bookId + "&faces-redirect=true";
+    }
+    
+    public void saveData(TestnaKlasaKomentar komentar){
+        System.out.println("Saving: "+komentar.getKomentar()+" "+komentar.getKorisnik()+" "+komentar.getOcjena());
     }
 
 }

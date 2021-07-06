@@ -5,6 +5,7 @@ function showConfForm() {
     //  }
 
 }
+
 $(document).ready(function () {
     document.getElementById("registrationForm:email").addEventListener("input", checkEmail);
     var email = false;

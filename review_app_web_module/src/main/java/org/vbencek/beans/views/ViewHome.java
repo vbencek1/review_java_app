@@ -38,12 +38,12 @@ public class ViewHome implements Serializable {
 
     @PostConstruct
     public void test() {
-        testList.add(new TestnaKlasaObrisati(1, "Garry Lotter: part one", 2002, "Tino Tinek", "Izdavac _45", "Knjiga o seksu i drogi", 4.56, 20, new Date()));
-        testList.add(new TestnaKlasaObrisati(2, "Larry Lotter: part two three", 2302, "Tino Vinek", "Izdavac _45", "Knjiga o seksu i molitvi", 3.56, 21, new Date()));
-        testList.add(new TestnaKlasaObrisati(3, "Osman Lotter", 2012, "Tino Tinek", "Izdavac _45", "Knjiga o seksu i drogi", 2.56, 200, new Date(1234124)));
-        testList.add(new TestnaKlasaObrisati(4, "Biblija", 1111, "Sveti Covjek", "Neki tam izdavac", "Knjiga o necemu i svemu", 1.56, 24, new Date(123522344)));
-        testList.add(new TestnaKlasaObrisati(5, "Garry Lotter: part two", 2002, "Tino Tinek", "Izdavac _45", "Knjiga o seksu i drogi", 1.52, 14, new Date(3456576)));
-        testList.add(new TestnaKlasaObrisati(6, "Sveta knjiga o svetome", 1002, "Tino Tinek", "Nekaj trece", "Svetlo na kraju tunela za mnoge ljudei", 5.00, 11, new Date(1234576)));
+        testList.add(new TestnaKlasaObrisati(1, "Garry Lotter: part one", 2002, "Tino Rinek", "Izdavac _45", "Knjiga koja je dobra", 4.56, 20, new Date()));
+        testList.add(new TestnaKlasaObrisati(2, "Larry Lotter: part two three", 2302, "Tino Vinek", "Izdavac _45", "Knjiga govori o covjeku", 3.56, 21, new Date()));
+        testList.add(new TestnaKlasaObrisati(3, "Osman Lotter", 2012, "Tino Vinek", "Izdavac _45", "Knjiga o seksu i drogi", 2.56, 200, new Date(1234124)));
+        testList.add(new TestnaKlasaObrisati(4, "Lome tro kl", 1111, "Maki Daki", "Neki tam izdavac", "Knjiga o necemu i svemu", 1.56, 24, new Date(123522344)));
+        testList.add(new TestnaKlasaObrisati(5, "Garry Lotter: part two", 2002, "Tino Tinek", "Izdavac _45", "Knjiga o svemu i govori sve", 1.52, 14, new Date(3456576)));
+        testList.add(new TestnaKlasaObrisati(6, "Neka tamo knjiga test", 1002, "Tino Test", "Nekaj trece", "Svetlo na kraju tunela za mnoge ljudei", 5.00, 11, new Date(1234576)));
     }
 
     public List<TestnaKlasaObrisati> getSixRecomendedbooks(int startingFrom, int totalNumber) {

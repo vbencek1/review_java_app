@@ -35,7 +35,7 @@ public class ViewAddBookRequest implements Serializable {
     
     @PostConstruct
     void init(){
-        if (activeUserSession.getActiveUser() == null) {
+        if (false) { //activeUserSession.getActiveUser() == null
             redirectFunction = "location.href = 'index.xhtml';";
             renderRedirect = true;
         }

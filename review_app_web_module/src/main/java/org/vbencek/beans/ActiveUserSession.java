@@ -146,7 +146,7 @@ public class ActiveUserSession implements Serializable {
     }
 
     public String redirectToMyReviews() {
-        if (activeUser != null) {
+        if (true) {
             return "myReviews.xhmtl?faces-redirect=true";
         } else {
             return "";
@@ -154,7 +154,7 @@ public class ActiveUserSession implements Serializable {
     }
 
     public String redirectToAddBookRequest() {
-        if (activeUser != null) {
+        if (true) {
             return "addBookRequest.xhmtl?faces-redirect=true";
         } else {
             return "";

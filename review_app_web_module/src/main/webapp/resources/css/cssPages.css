@@ -357,7 +357,7 @@ img {
 }
 
 .div-book-grade-text-gradeText{
-    
+
 }
 
 .div-book-grade-text-gradeValue{
@@ -531,11 +531,11 @@ img {
 }
 
 .ui-widget.ui-widget.div-bookDetails-review-btnScroll{
-   width: 120px;
-   border-radius: 5px;
-   margin: 5px 5px 0px 0px;
-   float:right;
-   padding: 0px;
+    width: 120px;
+    border-radius: 5px;
+    margin: 5px 5px 0px 0px;
+    float:right;
+    padding: 0px;
 }
 .div-bookDetails-comments{
     background: #333333;
@@ -568,8 +568,8 @@ img {
 }
 
 .div-bookDetails-SingleComment-date{
-   float:right;
-   font-size: 12px;
+    float:right;
+    font-size: 12px;
 }
 .div-bookDetails-SingleComment-body{
     padding-left: 20px;
@@ -578,41 +578,41 @@ img {
 
 /*Fill stars  solution from: https://stackoverflow.com/questions/33858426/only-fill-60-percent-star-using-css-width/33858727*/ 
 .ratings {
-  position: relative;
-  vertical-align: middle;
-  display: inline-block;
-  color: #b1b1b1;
-  overflow: hidden;
+    position: relative;
+    vertical-align: middle;
+    display: inline-block;
+    color: #b1b1b1;
+    overflow: hidden;
 }
 
 .full-stars{
-  position: absolute;
-  left: 0;
-  top: 0;
-  white-space: nowrap;
-  overflow: hidden;
-  color: #FF785A;
+    position: absolute;
+    left: 0;
+    top: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    color: #FF785A;
 }
 
 .empty-stars:before,
 .full-stars:before {
-  content: "\2605\2605\2605\2605\2605";
+    content: "\2605\2605\2605\2605\2605";
 }
 
 .empty-stars:before {
-  -webkit-text-stroke: 1px #848484;
+    -webkit-text-stroke: 1px #848484;
 }
 
 .full-stars:before {
-  -webkit-text-stroke: 1px orange;
+    -webkit-text-stroke: 1px orange;
 }
 
 /* Webkit-text-stroke is not supported on firefox or IE */
 /* Firefox */
 @-moz-document url-prefix() {
-  .full-stars{
-    color: #ECBE24;
-  }
+    .full-stars{
+        color: #ECBE24;
+    }
 }
 
 /*Checkbox star -> solution found here:http://jsfiddle.net/qdw1km7y/2/ */
@@ -625,14 +625,14 @@ img {
     margin-right: 30px;
 }
 .star:before {
-   content: "\2605";
-   visibility:visible;
-   
+    content: "\2605";
+    visibility:visible;
+
 }
 .star:checked:before {
-   content: "\2606";
-   color: #333333;
-   
+    content: "\2606";
+    color: #333333;
+
 }
 
 
@@ -672,7 +672,7 @@ img {
     letter-spacing: 1px;
     text-transform: uppercase;
     box-shadow: inset 0px 0px 0px 0px red;
-    
+
 }
 .div-bookSearch-search-button:hover{
     cursor: pointer;
@@ -689,7 +689,7 @@ img {
     margin-left:5px;
     margin-right:5px;
     padding: 2px;
-    
+
 }
 
 .div-bookSearch-search-combobox *{
@@ -697,18 +697,18 @@ img {
 }
 
 .ui-widget.ui-widget.div-bookSearch-btnScroll-left{
-   width: 120px;
-   border-radius: 5px;
-   margin: 5px 0px 0px 20px;
-   float:none;
-   padding: 0px;
+    width: 120px;
+    border-radius: 5px;
+    margin: 5px 0px 0px 20px;
+    float:none;
+    padding: 0px;
 }
 .ui-widget.ui-widget.div-bookSearch-btnScroll-right{
-   width: 120px;
-   border-radius: 5px;
-   margin: 5px 0px 0px 30px;
-   float:none;
-   padding: 0px;
+    width: 120px;
+    border-radius: 5px;
+    margin: 5px 0px 0px 30px;
+    float:none;
+    padding: 0px;
 }
 
 
@@ -774,24 +774,54 @@ img {
     border-bottom-right-radius: 0px;
     border: 1px solid #333333;
     width: 100%;
-    height: 80px;
+    height: 180px;
     margin-top: 10px;
+    padding: 5px;
 }
+.div-myReviews-SingleReview:hover{
+    border: 2px solid #FF785A;
+    cursor: pointer;
+}
+
 .div-myReviews-SingleReview-header{
     padding: 5px 10px 5px 10px;
     font-size: 14px;
     color:#333333;
     display: block;
+    width: 100%;
+    height: 60px;
+}
+
+.div-myReviews-SingleReview-imgContainer{
+    height: 50px;
+    width: 50px;
+    border: 1px solid #048BA8;
+    border-radius: 50%;
+    float:left;
+}
+
+.img-smallRounded{
+    border-radius: 50%;
 }
 
 .div-myReviews-SingleReview-date{
-   float:right;
-   font-size: 12px;
+    font-size: 11px;
+    font-style: italic;
+    color: #4d4e48;
+    display: block;
+    margin-top: 8px;
+    padding-left: 60px;
 }
 .div-myReviews-SingleReview-body{
-    padding-left: 35px;
-    text-align: justify;
+    margin-left: 70px;
+    padding-left: 10px;
     color:#333333;
+    background: transparent;
+    width: 90%;
+    height: 100px;
+    border: 1px solid #048BA8;
+    border-radius:5px;
+    text-align: justify;
 }
 .div-myReviews-SingleReview-combobox{
     width: 150px;
@@ -802,6 +832,7 @@ img {
     margin-left:5px;
     margin-right:5px;
     padding: 2px;
+    float:right;
 }
 
 .div-myReviews-SingleReview-combobox *{
@@ -814,7 +845,6 @@ img {
     text-decoration: none;
     letter-spacing: 2px;
     padding: 3px;
-    margin: 0px 10px 0px 10px;
 }
 
 .div-myReviews-SingleReview-title:hover{
@@ -827,7 +857,7 @@ img {
 }
 
 .div-myReviews-SingleReview-buttonEdit{
-    width: 60px;
+    width: 70px;
     color: #ffffff;
     background: #333333;
     border: 1px solid #333333;
@@ -837,6 +867,10 @@ img {
     background: #048BA8;
     cursor: pointer;
 }
+.div-myReviews-SingleReview-buttonEdit:disabled{
+    background: gray;
+    cursor: auto;
+}
 
 .div-myReviews-SingleReview-buttonDelete{
     width: 80px;
@@ -844,6 +878,7 @@ img {
     color:#FFFFFF;
     border: 1px solid #333333;
     border-bottom-right-radius: 5px;
+    border-bottom-left-radius: 5px;
     margin-left: 10px;
 }
 

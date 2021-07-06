@@ -63,17 +63,17 @@ public class ViewBookDetails implements Serializable {
         System.out.println("ViewBookDetails: Opening view for bookID: " + bookid);
         bookID = Integer.parseInt(bookid);
         bookName = "Druzba pere kvrzice";
-        komentari.add(new TestnaKlasaKomentar(1, "Hejter 1", "Smece obicno ne valja nista", 1));
-        komentari.add(new TestnaKlasaKomentar(1, "Hejter 2", "Smece obicno ne valja nista", 1));
-        komentari.add(new TestnaKlasaKomentar(1, "Hejter 3", "Smece obicno ne valja nista", 1));
-        komentari.add(new TestnaKlasaKomentar(1, "Hejter 4", "Smece obicno ne valja nista", 1));
-        komentari.add(new TestnaKlasaKomentar(1, "Hejter 5", "Smece obicno ne valja nista", 1));
-        komentari.add(new TestnaKlasaKomentar(1, "Hejter 6", "Smece obicno ne valja nista", 1));
-        komentari.add(new TestnaKlasaKomentar(1, "Hejter 7", "Smece obicno ne valja nista", 1));
+        komentari.add(new TestnaKlasaKomentar(1, "Hejter 1", "Los Komentar 1", 1));
+        komentari.add(new TestnaKlasaKomentar(1, "Hejter 2", "Los Komentar 2", 1));
+        komentari.add(new TestnaKlasaKomentar(1, "Hejter 3", "Los Komentar 3", 1));
+        komentari.add(new TestnaKlasaKomentar(1, "Hejter 4", "SLos Komentar 4", 1));
+        komentari.add(new TestnaKlasaKomentar(1, "Hejter 5", "Los Komentar 5", 1));
+        komentari.add(new TestnaKlasaKomentar(1, "Hejter 6", "SmLos Komentar 6", 1));
+        komentari.add(new TestnaKlasaKomentar(1, "Hejter 7", "Los Komentar 11", 1));
         komentari.add(new TestnaKlasaKomentar(1, "Sara K 8", "Mnogo dobra knjiga preporučila bih svima", 5));
-        komentari.add(new TestnaKlasaKomentar(1, "Mirko  9", "Volim tu knjigu mmm", 4.1));
-        komentari.add(new TestnaKlasaKomentar(1, "Sorko  10", "Dobro je, prosjek, likovi dosadni malo zzz", 3.3));
-        komentari.add(new TestnaKlasaKomentar(1, "Sorko  11", "Dobro je, prosjek, likovi dosadni malo zzz", 3.3));
+        komentari.add(new TestnaKlasaKomentar(1, "Mirko  9", "Volim tu knjigu", 4));
+        komentari.add(new TestnaKlasaKomentar(1, "Sorko  10", "Dobro je, prosjek, likovi dosadni malo", 3));
+        komentari.add(new TestnaKlasaKomentar(1, "Sorko  11", "Dobro je, prosjek", 3));
         PropertiesLoader propLoader = new PropertiesLoader();
         try {
             maksCommentsPerPage = Integer.parseInt(propLoader.getProperty("details.maxCommentsPerPage"));

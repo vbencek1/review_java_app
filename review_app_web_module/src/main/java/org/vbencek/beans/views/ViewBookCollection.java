@@ -85,9 +85,9 @@ public class ViewBookCollection implements Serializable {
             renderRedirect = true;
         } else {
             setSearchParams();
-            testList.add(new TestnaKlasaObrisati(6, "Sveta knjiga o svetome", 1002, "Tino Tinek", "Nekaj trece", "Svetlo na kraju tunela za mnoge ljudei", 5.00, 11, new Date(1234576)));
-            testList.add(new TestnaKlasaObrisati(7, "Sveta knjiga o svetome", 1002, "Tino Tinek", "Nekaj trece", "Svetlo na kraju tunela za mnoge ljudei", 5.00, 11, new Date(1234576)));
-            testList.add(new TestnaKlasaObrisati(8, "Skupljanje kurvi: Zavjet o Penisu", 1002, "Tino Tinek", "Nekaj trece", "Svetlo na kraju tunela za mnoge ljudei", 5.00, 11, new Date(1234576)));
+            testList.add(new TestnaKlasaObrisati(6, "Knjiga o psima", 1002, "Tino Dr", "Nekaj trece", "Svetlo na kraju tunela za mnoge ljudei", 5.00, 11, new Date(1234576)));
+            testList.add(new TestnaKlasaObrisati(7, "Knjiga o svemu 2", 1002, "Tino Ed", "Nekaj trece", "Svetlo na kraju tunela za mnoge ljudei", 5.00, 11, new Date(1234576)));
+            testList.add(new TestnaKlasaObrisati(8, "Skupljanje pokemona", 1002, "Tino Tinek", "Nekaj trece", "Svetlo na kraju tunela za mnoge ljudei", 5.00, 11, new Date(1234576)));
             PropertiesLoader propLoader = new PropertiesLoader();
             try {
                 maksBooksPerPage = Integer.parseInt(propLoader.getProperty("books.maxBooksPerPage"));

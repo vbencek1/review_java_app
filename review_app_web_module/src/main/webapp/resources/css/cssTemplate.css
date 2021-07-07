@@ -94,6 +94,7 @@ html, body {
 .loginButton:hover{
     background-color: #FF785A;
     border: 1px solid transparent;
+    cursor: pointer;
 }
 
 .loginUserInfo{

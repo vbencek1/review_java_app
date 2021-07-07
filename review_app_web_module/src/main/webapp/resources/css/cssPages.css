@@ -886,3 +886,117 @@ img {
     background: #ff3333;
     cursor: pointer;
 }
+
+/* ADD BOOK REQUEST */
+
+.div-addBook{
+    width: 50%;
+    min-width: 300px;
+    margin-left: 25%;
+    border:1px solid #333333;
+    border-radius: 5px;
+    padding: 30px;
+    background: #f2f3f7;
+}
+
+.div-addBook-section{
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+.div-addBook-textInfo{
+    color: #FF785A;
+    letter-spacing: 1px;
+    font-style: italic;
+    display: block;
+}
+
+.div-addBook-inputISBN{
+    margin-top:10px;
+    margin-right: 10px;
+    margin-bottom: 10px;
+    width: 55%;
+    padding: 7px;
+    min-width: 200px;
+    border-radius: 0px;
+    border: 1px solid #717171;
+}
+
+.div-addBook-buttonISBN{
+    margin-bottom: 10px;
+    width: 40%;
+    min-width: 200px;
+    padding: 6.5px;
+    border:1px solid #333333;
+    color:#333333;
+    background: transparent;
+}
+
+.div-addBook-buttonISBN:hover{
+    border:1px solid #333333;
+    color: #FFFFFF;
+    background: #048BA8;
+    cursor: pointer;
+}
+
+.div-addBook-inputTitle{
+    margin-top:10px;
+    margin-right: 10px;
+    margin-bottom: 10px;
+    width: 97%;
+    padding: 7px;
+    min-width: 200px;
+    border-radius: 0px;
+    border: 1px solid #717171;
+}
+
+.div-addBook-textArea{
+    width: 97%;
+    height: 300px;
+    padding: 10px;
+    margin-bottom: 5px;
+    border: 1px solid #333333;
+    border-radius:5px;
+    text-align: justify;
+}
+
+.div-addBook-buttonInfo{
+    margin-bottom: 10px;
+    width: 97%;
+    min-width: 200px;
+    padding: 6.5px;
+    border:1px solid #333333;
+    color:#333333;
+    background: transparent;
+}
+
+.div-addBook-buttonInfo:hover{
+    border:1px solid #333333;
+    color: #FFFFFF;
+    background: #048BA8;
+    cursor: pointer;
+}
+
+.div-addBook-msgReply{
+    color: #CC2936;
+    letter-spacing: 1px;
+    font-weight: bold;
+    display: block;
+    
+}
+
+.div-addBook-buttonReset{
+    margin-bottom: 10px;
+    margin-right: 3%;
+    width: 100px;
+    float: right;
+    padding: 5px;
+    border: none;
+    color: #FFFFFF;
+    background: #CC2936;
+}
+
+.div-addBook-buttonReset:hover{
+    background: #ff3333;
+    cursor: pointer;
+}

@@ -12,7 +12,28 @@
 
     <ui:define name="content">
         <h:outputScript rendered="#{viewAddBookRequest.renderRedirect}">#{viewAddBookRequest.redirectFunction}</h:outputScript>
-        add book request
+        <div class="div-addBook">
+            <div class="div-addBook-section">
+                <h:outputLabel class="div-addBook-textInfo" value="#{l['viewAddBookRequest.infoISBN']}" />
+                <form>
+                    <h:inputText id="ISBN" class="div-addBook-inputISBN" a:placeholder="ISBN" value="#{viewAddBookRequest.isbn}"  onkeypress="if (event.which &lt; 48 || event.which &gt; 57) return false;"/>
+                    <h:commandButton id="ActionIsbn" class="div-addBook-buttonISBN" value="#{l['viewAddBookRequest.btnSendISBN']}" action="#{viewAddBookRequest.sendISBNBookRequest()}"/>               
+                </form>
+                <h:outputLabel class="div-addBook-msgReply" value="#{viewAddBookRequest.messageIsbn}" rendered="#{viewAddBookRequest.renderReplyIsbn}"/>
+            </div>
+            <div class="div-addBook-section" style="margin-top: 40px;">
+                <h:outputLabel class="div-addBook-textInfo" value="#{l['viewAddBookRequest.infoInfo']}" />
+                <form>
+                    <h:inputText id="BookTitle" class="div-addBook-inputTitle" a:placeholder="#{l['viewAddBookRequest.bookTitle']}" value="#{viewAddBookRequest.bookTitle}"/>
+                    <h:inputTextarea id="BookDescription" class="div-addBook-textArea" a:placeholder="#{l['viewAddBookRequest.bookDescription']}" value="#{viewAddBookRequest.bookDescription}"/>
+                    <h:commandButton id="ActionInfo" class="div-addBook-buttonInfo" value="#{l['viewAddBookRequest.btnSendInfo']}"/>
+                </form>
+                <h:outputLabel class="div-addBook-msgReply" value="#{viewAddBookRequest.messageInfo}" rendered="#{viewAddBookRequest.renderReplyInfo}"/>
+                <h:form>
+                    <h:commandButton class="div-addBook-buttonReset" value="#{l['viewAddBookRequest.btnReset']}" action="addBookRequest.xhtml?faces-redirect=true"/>
+                </h:form>
+            </div>
+        </div>
     </ui:define>
 </ui:composition>
 

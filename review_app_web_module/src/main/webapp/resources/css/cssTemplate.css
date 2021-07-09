@@ -45,6 +45,14 @@ html, body {
     
 }
 
+.pleaseLogInMsg{
+    color: #ff3333;
+    letter-spacing: 1px;
+    padding-right: 5px;
+    font-style: italic;
+    display: inline-block;
+}
+
 .languageSelect{
     background: transparent;
     border: none;
@@ -57,7 +65,7 @@ html, body {
 }
 
 .loginText {
-    background-color: #D9D9D9;
+    background-color: #FFFFFF;
     color: #333333;
     border: 1px solid #FFFFFF;;
     border-radius:0px;
@@ -190,6 +198,7 @@ body .ui-commandlink:hover, body .ui-link:hover {
 .btnLoginInPopup:hover{
     background-color: #ff3333;
     border: 1px solid transparent;
+    cursor: pointer;
 }
 
 /* Add animation (fade in the popup) */

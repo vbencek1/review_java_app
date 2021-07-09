@@ -81,7 +81,7 @@ public class ViewBookCollection implements Serializable {
     @PostConstruct
     void init() {
         if (activeUserSession.getActiveUser() == null) {
-            redirectFunction = "location.href = 'index.xhtml';";
+            redirectFunction = "location.href = 'index.xhtml?action=openLogin';";
             renderRedirect = true;
         } else {
             setSearchParams();

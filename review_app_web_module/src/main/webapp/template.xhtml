@@ -21,6 +21,7 @@
         <h:body onload="#{localizationForcer.init()};currentSlide(1);currentSlideLatest(1)">
             <div id="top">
                 <div id="top-content-right">
+                    <h:outputLabel class="pleaseLogInMsg" value="#{activeUserSession.pleaseLoginMsg}"/>
                     <div id="top-content-login">
                         <h:commandButton id="btnShowLogin" value="#{l['template.login']}"
                                          class="loginButton" 

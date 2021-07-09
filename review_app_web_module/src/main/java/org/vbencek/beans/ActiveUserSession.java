@@ -9,6 +9,7 @@ import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
 import java.io.Serializable;
 import java.util.Locale;
+import java.util.Map;
 import java.util.ResourceBundle;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -79,12 +80,22 @@ public class ActiveUserSession implements Serializable {
     boolean renderScripter = false;
     @Getter
     @Setter
+    String pleaseLoginMsg="";
+    @Getter
+    @Setter
     UserT activeUser = null;
 
     @PostConstruct
     public void init() {
         //prijevodi
         res = ResourceBundle.getBundle("org.vbencek.localization.Translations", new Locale(localization.getLanguage()));
+        Map<String, String> params = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
+        String action = params.get("action");
+        pleaseLoginMsg="";
+        if("openLogin".equals(action)) {
+            pleaseLoginMsg=res.getString("template.login.redirectMsg");
+        }
+
     }
 
     public void setActiveAppUser(UserT user) {
@@ -141,23 +152,23 @@ public class ActiveUserSession implements Serializable {
         if (activeUser != null) {
             return "bookCollection.xhmtl?faces-redirect=true";
         } else {
-            return "";
+            return "index.xhtml?action=openLogin&faces-redirect=true";
         }
     }
 
     public String redirectToMyReviews() {
-        if (true) {
+        if (activeUser != null) {
             return "myReviews.xhmtl?faces-redirect=true";
         } else {
-            return "";
+            return "index.xhtml?action=openLogin&faces-redirect=true";
         }
     }
 
     public String redirectToAddBookRequest() {
-        if (true) {
+        if (activeUser != null) {
             return "addBookRequest.xhmtl?faces-redirect=true";
         } else {
-            return "";
+            return "index.xhtml?action=openLogin&faces-redirect=true";
         }
     }
 

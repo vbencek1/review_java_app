@@ -64,8 +64,8 @@ public class ViewMyReviews implements Serializable {
 
     @PostConstruct
     void init() {
-        if (false) { //activeUserSession.getActiveUser() == null
-            redirectFunction = "location.href = 'index.xhtml';";
+        if (activeUserSession.getActiveUser() == null) {
+            redirectFunction = "index.xhtml?action=openLogin';";
             renderRedirect = true;
         } else {
             System.out.println("Opening view: ViewMyReviews");

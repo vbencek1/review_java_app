@@ -69,14 +69,14 @@ public class ViewSearchBooks implements Serializable {
     @PostConstruct
     public void test() {
         setSearchParams();
-        testList.add(new TestnaKlasaObrisati(1, "Garry Lotter: part one", 2002, "Tino Tinek", "Izdavac _45", "Knjiga o seksu i drogi", 4.56, 20, new Date()));
-        testList.add(new TestnaKlasaObrisati(2, "Larry Lotter: part two three", 2302, "Tino Vinek", "Izdavac _45", "Knjiga o seksu i molitvi", 3.56, 21, new Date()));
-        testList.add(new TestnaKlasaObrisati(3, "Osman Lotter", 2012, "Tino Tinek", "Izdavac _45", "Knjiga o seksu i drogi", 2.56, 200, new Date(1234124)));
-        testList.add(new TestnaKlasaObrisati(4, "Biblija", 1111, "Sveti Covjek", "Neki tam izdavac", "Knjiga o necemu i svemu", 1.56, 24, new Date(123522344)));
-        testList.add(new TestnaKlasaObrisati(5, "Garry Lotter: part two", 2002, "Tino Tinek", "Izdavac _45", "Knjiga o seksu i drogi", 1.52, 14, new Date(3456576)));
-        testList.add(new TestnaKlasaObrisati(6, "Sveta knjiga o svetome", 1002, "Tino Tinek", "Nekaj trece", "Svetlo na kraju tunela za mnoge ljudei", 5.00, 11, new Date(1234576)));
-        testList.add(new TestnaKlasaObrisati(7, "Sveta knjiga o svetome", 1002, "Tino Tinek", "Nekaj trece", "Svetlo na kraju tunela za mnoge ljudei", 5.00, 11, new Date(1234576)));
-        testList.add(new TestnaKlasaObrisati(8, "Skupljanje kurvi: Zavjet o Penisu", 1002, "Tino Tinek", "Nekaj trece", "Svetlo na kraju tunela za mnoge ljudei", 5.00, 11, new Date(1234576)));
+        testList.add(new TestnaKlasaObrisati(1, "Garry Lotter: part one", 2002, "Tino Tinek", "Izdavac _45", "Opis neki tamo random", 4.56, 20, new Date()));
+        testList.add(new TestnaKlasaObrisati(2, "Larry Lotter: part two three", 2302, "Tino Vinek", "Izdavac _45", "TEst", 3.56, 21, new Date()));
+        testList.add(new TestnaKlasaObrisati(3, "Osman Lotter", 2012, "Tino Tinek", "Izdavac _45", "Knjiga opisuje dosta toga", 2.56, 200, new Date(1234124)));
+        testList.add(new TestnaKlasaObrisati(4, "Knjiga TEST", 1111, "Test Covjek", "Neki tam izdavac", "Knjiga o necemu i svemu", 1.56, 24, new Date(123522344)));
+        testList.add(new TestnaKlasaObrisati(5, "Garry Lotter: part two", 2002, "Tino Tinek", "Izdavac _45", "Knjiga o Etstu", 1.52, 14, new Date(3456576)));
+        testList.add(new TestnaKlasaObrisati(6, "Knjiga o psima", 1002, "Tino Tinek", "Nekaj trece", "Svetlo na kraju tunela za mnoge ljudei", 5.00, 11, new Date(1234576)));
+        testList.add(new TestnaKlasaObrisati(7, "Knjiga o mackama", 1002, "Tino Tinek", "Nekaj trece", "Svetlo na kraju tunela za mnoge ljudei", 5.00, 11, new Date(1234576)));
+        testList.add(new TestnaKlasaObrisati(8, "Knjiga TEst Test", 1002, "Tino Tinek", "Nekaj trece", "Test Test", 5.00, 11, new Date(1234576)));
         PropertiesLoader propLoader = new PropertiesLoader();
         try {
             maksBooksPerPage = Integer.parseInt(propLoader.getProperty("books.maxBooksPerPage"));

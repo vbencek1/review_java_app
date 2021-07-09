@@ -1,0 +1,11 @@
+1. Kreirati lokalnu bazu podataka: 
+	naziv: book_review_db
+	username: app_user
+	password: app_user
+
+2. Kreirati connection pool na glassfishu kako bi perzistentna jedinica bila valjana
+	create-jdbc-connection-pool --datasourceclassname org.apache.derby.jdbc.ClientDataSource40 --restype javax.sql.DataSource --property  portNumber=1527:password=app_user:user=app_user:serverName=localhost:databaseName=book_review_db:url="jdbc\:derby\://localhost\:1527/book_review_db" book_review_db_Pool
+
+	create-jdbc-resource --connectionpoolid book_review_db_Pool jdbc/book_review_db
+
+3. Izvršiti skripte za kreiranje tablica

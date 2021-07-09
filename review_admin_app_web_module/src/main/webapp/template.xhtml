@@ -1,0 +1,54 @@
+<?xml version='1.0' encoding='UTF-8' ?> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:a="http://xmlns.jcp.org/jsf/passthrough">
+
+    <f:view>
+        <h:head>
+            <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+            <h:outputStylesheet library="css" name="cssTemplate.css"/>
+            <title><ui:insert name="title">Title</ui:insert></title>
+        </h:head>
+
+        <h:body>
+            <div id="top">
+
+            </div>
+            <div id="navigation">
+                <h:form>
+                    <h:commandLink value="#{l['template.link.home']}" class="navigation-link" action="index.xhmtl?faces-redirect=true"/>
+                    <h:commandLink value="#{l['template.link.search']}" class="navigation-link" action="bookSearch.xhmtl?faces-redirect=true"/>
+                    <h:commandLink value="#{l['template.link.collection']}" class="navigation-link" />
+                    <h:commandLink value="#{l['template.link.reviews']}" class="navigation-link"/>
+                    <h:commandLink value="#{l['template.link.sendBookRequest']}" class="navigation-link"/>
+                </h:form>
+
+            </div>
+            <div id="content">
+                <ui:insert name="content">Content</ui:insert>
+            </div>
+            <div id="bottom">
+                <div id="bottom-left">
+                    <h:outputLabel class="bottom-left-header" value="#{l['template.footer.contact']}"/>
+                    <h:outputLabel class="bottom-left-label" value="#{footerInformation.creator}"/>
+                    <h:outputLabel class="bottom-left-label" value="#{l['template.footer.email']}#{footerInformation.email}"/>
+                    <h:outputLabel class="bottom-left-label" value="#{l['template.footer.telephone']}#{footerInformation.telephone}"/>
+                    <h:outputLabel class="bottom-left-label" value="#{l['template.footer.adress']}#{footerInformation.adress}, #{footerInformation.city} #{footerInformation.postalCode}"/>
+
+                </div>
+                <div id="bottom-splitter"/>
+                <div id="bottom-right">
+                    <h:outputText class="bottom-right-text" value="#{l['template.footer.opensourceInfromation']}"/>
+                </div>
+                <div id="bottom-splitter-down"/>
+                <div id="bottom-down">
+                    <h:outputLabel class="bottom-down-label" value="#{l['template.footer.information']}"/>
+                </div>
+            </div>
+        </h:body>
+    </f:view>
+</html>

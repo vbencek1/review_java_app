@@ -43,8 +43,15 @@
                             </div>
                         </div>
                         <h:form>
-                            <h:outputLabel id="lgnActiveUser" class="loginUserInfo" value="#{l['template.loginMessage']} #{activeUserSession.activeUser.username}" 
+                            <h:outputLabel id="lgnActiveUser" class="loginUserInfo" 
+                                           value="#{l['template.loginMessage']}" 
                                            rendered="#{activeUserSession.showLblInfo}"/>
+                           
+                            <h:commandLink id="lgnActiveUser_info" class="loginUserInfo-user" 
+                                           value="#{activeUserSession.activeUser.firstname} #{activeUserSession.activeUser.lastname} (#{activeUserSession.activeUser.username})" 
+                                           title="Your profile"
+                                           rendered="#{activeUserSession.showLblInfo}"
+                                           action="#{activeUserSession.redirectToUserProfile()}"/>
                             <h:commandButton id="btnLogout" value="#{l['template.logout']}"
                                              rendered="#{activeUserSession.showBtnLogout}"
                                              class="loginButton"

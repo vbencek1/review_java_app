@@ -147,7 +147,11 @@ public class ActiveUserSession implements Serializable {
         String fja = "document.getElementById('loginPopup').style.display = '" + mode + "'";
         return fja;
     }
-
+    
+    public String redirectToUserProfile(){
+        return "userProfile.xhmtl?id="+activeUser.getUserId()+"&faces-redirect=true";
+    }
+    
     public String redirectToMyCollecion() {
         if (activeUser != null) {
             return "bookCollection.xhmtl?faces-redirect=true";

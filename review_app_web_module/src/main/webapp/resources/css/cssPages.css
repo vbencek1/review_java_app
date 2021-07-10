@@ -64,7 +64,8 @@ html, body {
 .page-reg-form{
     margin: auto;
     width: 500px;
-    height: 600px;
+    height: auto;
+    min-height: 400px;
     border: 3px solid #333333;
     padding: 50px 50px 50px 50px;
     border-radius: 1%;
@@ -982,7 +983,7 @@ img {
     letter-spacing: 1px;
     font-weight: bold;
     display: block;
-    
+
 }
 
 .div-addBook-buttonReset{
@@ -999,4 +1000,128 @@ img {
 .div-addBook-buttonReset:hover{
     background: #ff3333;
     cursor: pointer;
+}
+
+/* USER PROFILE */
+.div-userProfile{
+    margin: auto;
+    width: 60%;
+    min-width: 300px;
+    height: auto;
+    min-height: 400px;
+    border: 3px solid #333333;
+    padding: 10px 20px 10px 20px;
+    border-radius: 5px;
+    background: #ffffff;
+}
+
+.div-userProfile-mainHeader{
+    display: block;
+    width: 100%;
+    border-bottom: 2px solid #048BA8;
+    padding: 10px;
+}
+.div-userProfile-mainHeader label{
+    font-size: 16px;
+    letter-spacing: 1px;
+    font-weight: bold;
+    color: #333333;
+
+}
+
+.div-userProfile-section{
+    width: 100%;
+    height: auto;
+    padding: 20px;
+    border-bottom: 1px solid #048BA8;
+}
+
+.div-userProfile-section-header{
+    font-size: 14px;
+    letter-spacing: 1px;
+    font-style: italic;
+}
+
+.div-userProfile-section-group{
+    padding-top: 20px;
+    display: block;
+}
+
+.div-userProfile-section-group label{
+    display: block;
+    padding-left: 40px;
+    padding-bottom: 2px;
+    color:#048BA8;
+    font-style: italic;
+}
+
+.div-userProfile-section-group input{
+    height: 30px;
+    width: 200px;
+    border-radius: 10px;
+    border: 1px solid #048BA8;
+    padding-left: 10px;
+    color: #333333;
+}
+.div-userProfile-section-group input:focus{
+    border-radius: 0px;
+}
+
+.div-userProfile-section-confirm{
+    padding-top: 20px;
+    width: 100%;
+    height: auto;
+}
+.div-userProfile-section-confirm label{
+    display: block;
+    padding-bottom: 2px;
+    color:#333333;
+}
+
+.div-userProfile-section-confirm form{
+    display: inline-block;
+}
+.div-userProfile-section-confirm-input{
+    border-radius: 0px;
+    border: 1px solid #333333;
+    height: 30px;
+    width: 190px;
+    background: #FFFFFF;
+    margin-left: 10px;
+    margin-right: 10px;
+    margin-bottom: 4px;
+    border-radius: 10px;
+}
+
+.div-userProfile-section-confirm-input:focus{
+    border-radius: 0px;
+
+}
+
+.div-userProfile-section-confirmButton{
+    background: #FFFFFF;
+    margin-left: 10px;
+    margin-right: 10px;
+    color: #333333;
+    border-radius: 0px;
+    border: 1px solid #333333;
+    height: 30px;
+    width: 150px;
+    margin-bottom: 4px;
+    border-radius: 10px;
+}
+.div-userProfile-section-confirmButton:hover{
+    background: #048BA8;
+    color: #FFFFFF;
+    cursor: pointer;
+}
+
+.div-userProfile-section-message-OK{
+    font-style: italic;
+    color:#228b22;
+}
+
+.div-userProfile-section-message-NotOK{
+    font-style: italic;
+    color:#ff3333;
 }

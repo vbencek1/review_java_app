@@ -15,6 +15,7 @@ import lombok.Getter;
 import lombok.Setter;
 import org.springframework.security.crypto.password.Pbkdf2PasswordEncoder;
 import org.vbencek.beans.ActiveUserSession;
+import org.vbencek.email.EmailSender;
 import org.vbencek.facade.UserTFacadeLocal;
 import org.vbencek.model.UserT;
 
@@ -54,11 +55,17 @@ public class ViewUserProfile implements Serializable {
 
     @Getter
     @Setter
-    String confPassword;
+    String newPassword = "";
+
+    @Getter
+    @Setter
+    String confNewPassword = "";
 
     @Getter
     @Setter
     String confCode;
+
+    private int generatedCode;
 
     @Getter
     @Setter
@@ -78,6 +85,14 @@ public class ViewUserProfile implements Serializable {
 
     @Getter
     @Setter
+    String messageCode = "";
+
+    @Getter
+    @Setter
+    String messagePass = "";
+
+    @Getter
+    @Setter
     boolean rendermessageInfoOK = false;
 
     @Getter
@@ -91,6 +106,22 @@ public class ViewUserProfile implements Serializable {
     @Getter
     @Setter
     boolean rendermessageEmailNotOK = false;
+
+    @Getter
+    @Setter
+    boolean rendermessageCodeOK = false;
+
+    @Getter
+    @Setter
+    boolean rendermessageCodeNotOK = false;
+
+    @Getter
+    @Setter
+    boolean rendermessagePassOK = false;
+
+    @Getter
+    @Setter
+    boolean rendermessagePassNotOK = false;
 
     UserT thisUser;
 
@@ -118,10 +149,16 @@ public class ViewUserProfile implements Serializable {
     private void resetMessages() {
         messageInfo = "";
         messageEmail = "";
+        messageCode = "";
+        messagePass = "";
         rendermessageInfoNotOK = false;
         rendermessageInfoOK = false;
         rendermessageEmailOK = false;
         rendermessageEmailNotOK = false;
+        rendermessageCodeNotOK = false;
+        rendermessageCodeOK = false;
+        rendermessagePassNotOK = false;
+        rendermessagePassOK = false;
     }
 
     public void updateUserInfo() {
@@ -145,6 +182,13 @@ public class ViewUserProfile implements Serializable {
         resetMessages();
         Pbkdf2PasswordEncoder encoder = new Pbkdf2PasswordEncoder();
         if (encoder.matches(password, thisUser.getPassword())) {
+            EmailSender emailSender = new EmailSender();
+            String emailTo = email;
+            String subject = "New email conf code";
+            generatedCode = emailSender.generateConfirmationCode();
+            String text = "Code:" + generatedCode;
+            emailSender.sendMessage(emailTo, subject, text);
+            System.out.println("ViewUserProfile: Sending: " + text);
             rendermessageEmailOK = true;
             messageEmail = "Konfirmacijski kod poslan je na vašu email adresu. Unesite ga kako biste potvrdili promjenu.";
         } else {
@@ -153,8 +197,54 @@ public class ViewUserProfile implements Serializable {
         }
     }
 
-    public void updateUserEmail() {
+    private void updateEmail() {
+        UserT updatedUser = thisUser;
+        updatedUser.setEmail(email);
+        userTFacade.edit(updatedUser);
+    }
 
+    public void updateUserEmail() {
+        resetMessages();
+        int integerCode = convertToInt(confCode);
+        if (generatedCode == integerCode && integerCode != 0) {
+            updateEmail();
+            rendermessageCodeOK = true;
+            messageCode = "EMAIL AŽURIRAN";
+        } else {
+            rendermessageCodeNotOK = true;
+            messageCode = "Neispravan kod. Pokusajte ponovo.";
+        }
+    }
+
+    private void updatepassword() {
+        Pbkdf2PasswordEncoder encoder = new Pbkdf2PasswordEncoder();
+        UserT updatedUser = thisUser;
+        updatedUser.setPassword(encoder.encode(newPassword));
+        userTFacade.edit(updatedUser);
+    }
+
+    public void updateUserPassword() {
+        resetMessages();
+        Pbkdf2PasswordEncoder encoder = new Pbkdf2PasswordEncoder();
+        if (encoder.matches(password, thisUser.getPassword()) && newPassword.equals(confNewPassword)) {
+            updatepassword();
+            rendermessagePassOK = true;
+            messagePass = "Podaci su ažurirani.";
+        } else if(!encoder.matches(password, thisUser.getPassword())) {
+            rendermessagePassNotOK = true;
+            messagePass = "Unesena lozinka je neispravna";
+        } else if(!newPassword.equals(confNewPassword)){
+            rendermessagePassNotOK = true;
+            messagePass = "Nove lozinke nisu identične";
+        }
+    }
+
+    private int convertToInt(String broj) {
+        try {
+            return Integer.parseInt(broj);
+        } catch (Exception e) {
+            return 0;
+        }
     }
 
 }

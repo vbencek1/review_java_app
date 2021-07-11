@@ -1090,6 +1090,7 @@ img {
     margin-left: 10px;
     margin-right: 10px;
     margin-bottom: 4px;
+    padding-left: 10px;
     border-radius: 10px;
 }
 
@@ -1103,7 +1104,6 @@ img {
     margin-left: 10px;
     margin-right: 10px;
     color: #333333;
-    border-radius: 0px;
     border: 1px solid #333333;
     height: 30px;
     width: 150px;
@@ -1124,4 +1124,29 @@ img {
 .div-userProfile-section-message-NotOK{
     font-style: italic;
     color:#ff3333;
+}
+
+.div-userProfile-section-newPassBtn{
+    background: #FFFFFF;
+    color: #333333;
+    border: 1px solid #333333;
+    height: 30px;
+    width: 200px;
+    margin-top: 20px;
+    margin-bottom: 4px;
+    border-radius: 10px;
+    display: block;
+}
+
+.div-userProfile-section-newPassBtn:hover{
+    background: #048BA8;
+    color: #FFFFFF;
+    cursor: pointer;
+}
+
+.div-userProfile-section-errorMsg{
+    color: #CC2936;
+    letter-spacing: 0.8px;
+    font-style: italic;
+    white-space: pre-wrap;
 }

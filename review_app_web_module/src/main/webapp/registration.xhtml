@@ -34,7 +34,7 @@ and open the template in the editor.
                     <h:inputSecret  id="password" class="input-left" a:placeholder="#{l['userRegistration.password']}" value="#{userRegistration.password}" validator="#{validations.validatePassword}"/>
                     <h:inputSecret  id="confPassword" class="input-right" a:placeholder="#{l['userRegistration.confPassword']}"/><br/>
 
-                    <h:outputLabel id="validationLabel" value="#{validations.validationMessage}"/><br/>
+                    <h:outputLabel id="validationLabel" value="#{validations.printValidationMessage()}"/><br/>
 
                     <p:commandButton id="btnRegister" value="#{l['userRegistration.register']}" 
                                      onclick="showConfForm()"

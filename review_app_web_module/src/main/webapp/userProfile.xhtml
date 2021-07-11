@@ -8,7 +8,7 @@
                 xmlns:f="http://xmlns.jcp.org/jsf/core"
                 xmlns:a="http://xmlns.jcp.org/jsf/passthrough">
 
-    <ui:define name="title">#{viewUserProfile.firstname} #{viewUserProfile.lastname}</ui:define>
+    <ui:define name="title">#{activeUserSession.activeUser.firstname} #{activeUserSession.activeUser.lastname}</ui:define>
 
     <ui:define name="content">
         <h:outputScript rendered="#{viewUserProfile.renderRedirect}">#{viewUserProfile.redirectFunction}</h:outputScript>
@@ -25,33 +25,35 @@
                     </div>
                     <div class="div-userProfile-section-group">
                         <h:outputLabel value="#{l['userRegistration.firstName']}"/>
-                        <h:inputText value="#{viewUserProfile.firstname}"/>
+                        <h:inputText value="#{viewUserProfile.firstname}" validator="#{validations.validateFirstName}"/>
                     </div>
                     <div class="div-userProfile-section-group">
                         <h:outputLabel value="#{l['userRegistration.lastName']}"/>
-                        <h:inputText value="#{viewUserProfile.lastname}"/>
+                        <h:inputText value="#{viewUserProfile.lastname}" validator="#{validations.validateLastName}"/>
                     </div>
                     <div class="div-userProfile-section-confirm">
                         <h:outputLabel value="#{l['userRegistration.password']}:"/>
                         <h:inputSecret class="div-userProfile-section-confirm-input" value="#{viewUserProfile.password}"/>
                         <h:commandButton class="div-userProfile-section-confirmButton" value="AŽURIRAJ PODATKE" action="#{viewUserProfile.updateUserInfo()}"/>
                     </div>
+                    <h:outputLabel id="validationLabel" class="div-userProfile-section-errorMsg" value="#{validations.printValidationMessageInfo()}"/><br/>
                     <h:outputLabel class="div-userProfile-section-message-OK" value="#{viewUserProfile.messageInfo}" rendered="#{viewUserProfile.rendermessageInfoOK}"/>
                     <h:outputLabel class="div-userProfile-section-message-NotOK" value="#{viewUserProfile.messageInfo}" rendered="#{viewUserProfile.rendermessageInfoNotOK}"/>
                 </h:form>
             </div>
             <div class="div-userProfile-section">
                 <h:outputLabel class="div-userProfile-section-header" value="Promjena emaila"/>
-                <h:form>
+                <h:form id="emailForm">
                     <div class="div-userProfile-section-group">
                         <h:outputLabel value="#{l['userRegistration.email']}"/>
-                        <h:inputText value="#{viewUserProfile.email}"/>
+                        <h:inputText id="email" value="#{viewUserProfile.email}" validator="#{validations.validateEmail}"/>
                     </div>
                     <div class="div-userProfile-section-confirm">
                         <h:outputLabel value="#{l['userRegistration.password']}:"/>
                         <h:inputSecret class="div-userProfile-section-confirm-input" value="#{viewUserProfile.password}"/>
                         <h:commandButton class="div-userProfile-section-confirmButton" value="Pošalji KOD" action="#{viewUserProfile.sendConfCode()}"/>
                     </div>
+                    <h:outputLabel id="validationLabel" class="div-userProfile-section-errorMsg" value="#{validations.printValidationMessageEmail()}"/><br/>
                     <h:outputLabel class="div-userProfile-section-message-OK" value="#{viewUserProfile.messageEmail}" rendered="#{viewUserProfile.rendermessageEmailOK}"/>
                     <h:outputLabel class="div-userProfile-section-message-NotOK" value="#{viewUserProfile.messageEmail}" rendered="#{viewUserProfile.rendermessageEmailNotOK}"/>
                 </h:form>
@@ -61,10 +63,30 @@
                         <h:inputText class="div-userProfile-section-confirm-input" value="#{viewUserProfile.confCode}"/>
                         <h:commandButton class="div-userProfile-section-confirmButton" value="Ažuriraj EMAIL" action="#{viewUserProfile.updateUserEmail()}"/>
                     </div>
+                    <h:outputLabel class="div-userProfile-section-message-OK" value="#{viewUserProfile.messageCode}" rendered="#{viewUserProfile.rendermessageCodeOK}"/>
+                    <h:outputLabel class="div-userProfile-section-message-NotOK" value="#{viewUserProfile.messageCode}" rendered="#{viewUserProfile.rendermessageCodeNotOK}"/>
                 </h:form>
             </div>
             <div class="div-userProfile-section">
                 <h:outputLabel class="div-userProfile-section-header" value="Promjena lozinke"/>
+                <h:form>
+                    <div class="div-userProfile-section-group">
+                        <h:outputLabel value="Trenutna Lozinka"/>
+                        <h:inputSecret value="#{viewUserProfile.password}"/>
+                    </div>
+                    <div class="div-userProfile-section-group">
+                        <h:outputLabel value="Nova Lozinka"/>
+                        <h:inputSecret value="#{viewUserProfile.newPassword}" validator="#{validations.validatePassword}"/>
+                    </div>
+                    <div class="div-userProfile-section-group">
+                        <h:outputLabel value="Potvrdi novu lozinku"/>
+                        <h:inputSecret value="#{viewUserProfile.confNewPassword}"/>
+                    </div>
+                    <h:commandButton class="div-userProfile-section-newPassBtn" value="AŽURIRAJ LOZINKU" action="#{viewUserProfile.updateUserPassword()}"/>
+                    <h:outputLabel id="validationLabel" class="div-userProfile-section-errorMsg" value="#{validations.printValidationMessagePassword()}"/><br/>
+                    <h:outputLabel class="div-userProfile-section-message-OK" value="#{viewUserProfile.messagePass}" rendered="#{viewUserProfile.rendermessagePassOK}"/>
+                    <h:outputLabel class="div-userProfile-section-message-NotOK" value="#{viewUserProfile.messagePass}" rendered="#{viewUserProfile.rendermessagePassNotOK}"/>
+                </h:form>
             </div>
         </div>
     </ui:define>

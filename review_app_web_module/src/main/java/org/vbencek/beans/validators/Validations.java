@@ -41,6 +41,12 @@ public class Validations implements Serializable {
     @Getter
     @Setter
     String validationMessage = "";
+    
+    String msgFirstName="";
+    String msgLastName="";
+    String msgUsername="";
+    String msgPassword="";
+    String msgEmail="";
 
     @PostConstruct
     public void init() {
@@ -48,52 +54,56 @@ public class Validations implements Serializable {
     }
 
     public void validateFirstName(FacesContext context, UIComponent comp, Object value) {
-        setValidationMessage("");
+        msgFirstName="";
         String validString = (String) value;
         if (validString.length() < 1) {
             System.out.println("validations: invalid first name");
             ((UIInput) comp).setValid(false);
-            validationMessage += "*" + res.getString("validations.validateFirstName") + "\n";
+            msgFirstName = "*" + res.getString("validations.validateFirstName") + "\n";
         }
     }
 
     public void validateLastName(FacesContext context, UIComponent comp, Object value) {
+        msgLastName="";
         String validString = (String) value;
         if (validString.length() < 1) {
             System.out.println("validations: invalid last name");
             ((UIInput) comp).setValid(false);
-            validationMessage += "*" + res.getString("validations.validateLastName") + "\n";
+            msgLastName = "*" + res.getString("validations.validateLastName") + "\n";
         }
     }
 
     public void validateUsername(FacesContext context, UIComponent comp, Object value) {
+        msgUsername="";
         String validString = (String) value;
         if (validString.length() < 4 || validString.length() > 16) {
             System.out.println("validations: invalid username");
             ((UIInput) comp).setValid(false);
-            validationMessage += "*" + res.getString("validations.validateUsername") + "\n";
+            msgUsername += "*" + res.getString("validations.validateUsername") + "\n";
         }else if(userTFacade.findUserByUsername(validString)!=null){
             System.out.println("validations: username already exists");
             ((UIInput) comp).setValid(false);
-            validationMessage += "*" + res.getString("validations.validateUsernameExists") + "\n";
+            msgUsername = "*" + res.getString("validations.validateUsernameExists") + "\n";
         }
     }
 
     public void validatePassword(FacesContext context, UIComponent comp, Object value) {
+        msgPassword="";
         String validString = (String) value;
         String confPassword = context.getExternalContext().getRequestParameterMap().get("registrationForm:confPassword");
         if (validString.length() < 4 || validString.length() > 20) {
             System.out.println("validations: invalid password");
             ((UIInput) comp).setValid(false);
-            validationMessage += "*" + res.getString("validations.validatePassword") + "\n";
+            msgPassword = "*" + res.getString("validations.validatePassword") + "\n";
         } else if (!validString.equals(confPassword)) {
             System.out.println("validations: password aren't matching");
             ((UIInput) comp).setValid(false);
-            validationMessage += "*" + res.getString("validations.validateConfPassword") + "\n";
+            msgPassword = "*" + res.getString("validations.validateConfPassword") + "\n";
         }
     }
 
     public void validateEmail(FacesContext context, UIComponent comp, Object value) {
+        msgEmail="";
         String validString = (String) value;
         Pattern pattern = Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE);
         Matcher match = pattern.matcher(validString);
@@ -101,12 +111,33 @@ public class Validations implements Serializable {
         if (!checkValid) {
             System.out.println("validations: invalid Email");
             ((UIInput) comp).setValid(false);
-            validationMessage += "*" + res.getString("validations.validateEmail") + "\n";
+            msgEmail = "*" + res.getString("validations.validateEmail") + "\n";
         }else if(userTFacade.checkIfEmailExist(validString)){
             System.out.println("validations: email already exists");
             ((UIInput) comp).setValid(false);
-            validationMessage += "*" + res.getString("validations.validateEmailExists") + "\n";
+            msgEmail = "*" + res.getString("validations.validateEmailExists") + "\n";
         }
+    }
+    
+    public String printValidationMessage(){
+        setValidationMessage("");
+        validationMessage=msgFirstName+msgLastName+msgUsername+msgPassword+msgEmail;
+        return validationMessage;
+    }
+    public String printValidationMessageInfo(){
+        setValidationMessage("");
+        validationMessage=msgFirstName+msgLastName;
+        return validationMessage;
+    }
+    public String printValidationMessageEmail(){
+        setValidationMessage("");
+        validationMessage=msgEmail;
+        return validationMessage;
+    }
+    public String printValidationMessagePassword(){
+        setValidationMessage("");
+        validationMessage=msgPassword;
+        return validationMessage;
     }
 
 }

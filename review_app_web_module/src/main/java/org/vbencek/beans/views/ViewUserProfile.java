@@ -8,6 +8,8 @@ package org.vbencek.beans.views;
 import javax.inject.Named;
 import javax.faces.view.ViewScoped;
 import java.io.Serializable;
+import java.util.Locale;
+import java.util.ResourceBundle;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.inject.Inject;
@@ -17,6 +19,7 @@ import org.springframework.security.crypto.password.Pbkdf2PasswordEncoder;
 import org.vbencek.beans.ActiveUserSession;
 import org.vbencek.email.EmailSender;
 import org.vbencek.facade.UserTFacadeLocal;
+import org.vbencek.localization.Localization;
 import org.vbencek.model.UserT;
 
 /**
@@ -32,7 +35,11 @@ public class ViewUserProfile implements Serializable {
 
     @EJB(beanName = "UserTFacade")
     UserTFacadeLocal userTFacade;
-
+    
+    @Inject 
+    Localization localization;
+    ResourceBundle res;
+    
     @Getter
     @Setter
     String username;
@@ -127,6 +134,7 @@ public class ViewUserProfile implements Serializable {
 
     @PostConstruct
     public void init() {
+        res = ResourceBundle.getBundle("org.vbencek.localization.Translations", new Locale(localization.getLanguage()));
         thisUser = activeUserSession.getActiveUser();
         if (thisUser == null) {
             redirectFunction = "location.href = 'index.xhtml?action=openLogin';";
@@ -170,10 +178,10 @@ public class ViewUserProfile implements Serializable {
             updatedUser.setLastname(lastname);
             userTFacade.edit(updatedUser);
             rendermessageInfoOK = true;
-            messageInfo = "Podaci su ažurirani.";
+            messageInfo = res.getString("viewUserProfile.msg.updateData");
         } else {
             rendermessageInfoNotOK = true;
-            messageInfo = "Unesena lozinka je neispravna.";
+            messageInfo = res.getString("viewUserProfile.msg.invalidPass");
         }
 
     }
@@ -184,16 +192,16 @@ public class ViewUserProfile implements Serializable {
         if (encoder.matches(password, thisUser.getPassword())) {
             EmailSender emailSender = new EmailSender();
             String emailTo = email;
-            String subject = "New email conf code";
+            String subject = res.getString("viewUserProfile.msg.emailSubject");
             generatedCode = emailSender.generateConfirmationCode();
-            String text = "Code:" + generatedCode;
+            String text = res.getString("viewUserProfile.msg.emailBody") + generatedCode;
             emailSender.sendMessage(emailTo, subject, text);
             System.out.println("ViewUserProfile: Sending: " + text);
             rendermessageEmailOK = true;
-            messageEmail = "Konfirmacijski kod poslan je na vašu email adresu. Unesite ga kako biste potvrdili promjenu.";
+            messageEmail = res.getString("viewUserProfile.msg.codeSend");
         } else {
             rendermessageEmailNotOK = true;
-            messageEmail = "Unesena lozinka je neispravna.";
+            messageEmail = res.getString("viewUserProfile.msg.invalidPass");
         }
     }
 
@@ -209,10 +217,10 @@ public class ViewUserProfile implements Serializable {
         if (generatedCode == integerCode && integerCode != 0) {
             updateEmail();
             rendermessageCodeOK = true;
-            messageCode = "EMAIL AŽURIRAN";
+            messageCode = res.getString("viewUserProfile.msg.updateEmail");
         } else {
             rendermessageCodeNotOK = true;
-            messageCode = "Neispravan kod. Pokusajte ponovo.";
+            messageCode = res.getString("viewUserProfile.msg.invalidCode");
         }
     }
 
@@ -229,13 +237,13 @@ public class ViewUserProfile implements Serializable {
         if (encoder.matches(password, thisUser.getPassword()) && newPassword.equals(confNewPassword)) {
             updatepassword();
             rendermessagePassOK = true;
-            messagePass = "Podaci su ažurirani.";
+            messagePass = res.getString("viewUserProfile.msg.updatePass");
         } else if(!encoder.matches(password, thisUser.getPassword())) {
             rendermessagePassNotOK = true;
-            messagePass = "Unesena lozinka je neispravna";
+            messagePass = res.getString("viewUserProfile.msg.invalidPass");
         } else if(!newPassword.equals(confNewPassword)){
             rendermessagePassNotOK = true;
-            messagePass = "Nove lozinke nisu identične";
+            messagePass = res.getString("viewUserProfile.msg.invalidConfPass");
         }
     }
 

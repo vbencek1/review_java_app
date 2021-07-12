@@ -1008,7 +1008,7 @@ img {
     width: 60%;
     min-width: 300px;
     height: auto;
-    min-height: 400px;
+    min-height: 600px;
     border: 3px solid #333333;
     padding: 10px 20px 10px 20px;
     border-radius: 5px;
@@ -1149,4 +1149,26 @@ img {
     letter-spacing: 0.8px;
     font-style: italic;
     white-space: pre-wrap;
+}
+
+.arrow {
+  border: solid black;
+  background:white;
+  border-width: 0 3px 3px 0;
+  display: inline-block;
+  padding: 3px;
+  background: transparent;
+  transform: rotate(45deg);
+  -webkit-transform: rotate(45deg);
+}
+.div-userProfile-section-toogle{
+    background: #FFFFFF;
+    border: 1px solid #048BA8;
+    border-radius: 5px;
+    margin-left: 10px;
+}
+
+.div-userProfile-section-toogle:hover{
+    cursor: pointer;
+    background-color: #ccffff;
 }

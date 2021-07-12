@@ -82,16 +82,39 @@ function showReviewForm() {
     }
 }
 
-function enableReviewsEdit(rowStatus){
-    var maindiv=document.getElementById("div-myReviews-SingleReview-"+rowStatus);
-    maindiv.style.border="2px solid #CC2936";
-    
-    var btnSave=document.getElementById("form-reviews:repeater:"+rowStatus+":myReviews-btnSave");
-    var btnCancel=document.getElementById("form-reviews:repeater:"+rowStatus+":myReviews-btnCancel");
-    var comboRating=document.getElementById("form-reviews:repeater:"+rowStatus+":MinRating");
-    var fieldReview=document.getElementById("form-reviews:repeater:"+rowStatus+":reviewsText");
-    btnSave.disabled=false;
-    btnCancel.disabled=false;
-    comboRating.disabled=false;
-    fieldReview.disabled=false;
+function enableReviewsEdit(rowStatus) {
+    var maindiv = document.getElementById("div-myReviews-SingleReview-" + rowStatus);
+    maindiv.style.border = "2px solid #CC2936";
+
+    var btnSave = document.getElementById("form-reviews:repeater:" + rowStatus + ":myReviews-btnSave");
+    var btnCancel = document.getElementById("form-reviews:repeater:" + rowStatus + ":myReviews-btnCancel");
+    var comboRating = document.getElementById("form-reviews:repeater:" + rowStatus + ":MinRating");
+    var fieldReview = document.getElementById("form-reviews:repeater:" + rowStatus + ":reviewsText");
+    btnSave.disabled = false;
+    btnCancel.disabled = false;
+    comboRating.disabled = false;
+    fieldReview.disabled = false;
 }
+
+function toogleEmailChange() {
+    var emailDiv = document.getElementById('divEmail');
+    if (emailDiv.style.display === 'none') {
+        emailDiv.style.display = 'block';
+        sessionStorage.setItem('toogleEmail', 'block');
+    } else {
+        emailDiv.style.display = 'none';
+        sessionStorage.setItem('toogleEmail', 'none');
+    }
+}
+
+function tooglePassChange() {
+    var emailDiv = document.getElementById('divPassword');
+    if (emailDiv.style.display === 'none') {
+        emailDiv.style.display = 'block';
+        sessionStorage.setItem('tooglePass', 'block');
+    } else {
+        emailDiv.style.display = 'none';
+        sessionStorage.setItem('tooglePass', 'none');
+    }
+}
+

@@ -80,7 +80,10 @@ public class ActiveUserSession implements Serializable {
     boolean renderScripter = false;
     @Getter
     @Setter
-    String pleaseLoginMsg="";
+    String pleaseLoginMsg = "";
+    @Getter
+    @Setter
+    String failedLoginMsg = "";
     @Getter
     @Setter
     UserT activeUser = null;
@@ -91,9 +94,9 @@ public class ActiveUserSession implements Serializable {
         res = ResourceBundle.getBundle("org.vbencek.localization.Translations", new Locale(localization.getLanguage()));
         Map<String, String> params = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
         String action = params.get("action");
-        pleaseLoginMsg="";
-        if("openLogin".equals(action)) {
-            pleaseLoginMsg=res.getString("template.login.redirectMsg");
+        pleaseLoginMsg = "";
+        if ("openLogin".equals(action)) {
+            pleaseLoginMsg = res.getString("template.login.redirectMsg");
         }
 
     }
@@ -113,6 +116,7 @@ public class ActiveUserSession implements Serializable {
         showForgottenPassLink = false;
         showRegistrationLink = false;
         renderScripter = true;
+        failedLoginMsg = "";
         script = switchButtonDisplay("none");
     }
 
@@ -131,10 +135,23 @@ public class ActiveUserSession implements Serializable {
     public void authenticate() {
         if (activeUser == null) {
             //login
-            activeUser = userTFacade.findUserByUsername(username);
-            Pbkdf2PasswordEncoder encoder = new Pbkdf2PasswordEncoder();
-            if (activeUser != null && encoder.matches(password, activeUser.getPassword())) {
-                renderLogin();
+            UserT tempUser = userTFacade.findUserByUsername(username);
+            if (tempUser != null) {
+                Pbkdf2PasswordEncoder encoder = new Pbkdf2PasswordEncoder();
+                boolean passMatch = encoder.matches(password, tempUser.getPassword());
+                boolean isBlocked = tempUser.getIsblocked();
+                if (passMatch && !isBlocked) {
+                    activeUser = tempUser;
+                    renderLogin();
+                } else if (!passMatch) {
+                    System.out.println("2");
+                    failedLoginMsg = res.getString("template.login.wrongPass");
+                } else if (isBlocked) {
+                    System.out.println("1");
+                    failedLoginMsg = res.getString("template.login.blockedUser");
+                }
+            } else {
+                failedLoginMsg = res.getString("template.login.wrongUsername");
             }
         } else {
             //logout
@@ -147,12 +164,23 @@ public class ActiveUserSession implements Serializable {
         String fja = "document.getElementById('loginPopup').style.display = '" + mode + "'";
         return fja;
     }
-    
-    public String redirectToUserProfile(){
-        return "userProfile.xhmtl?id="+activeUser.getUserId()+"&faces-redirect=true";
+
+    public String redirectToUserProfile() {
+        return "userProfile.xhmtl?id=" + activeUser.getUserId() + "&faces-redirect=true";
     }
-    
+
+    public String redirectToIndex() {
+        setFailedLoginMsg("");
+        return "index.xhmtl?faces-redirect=true";
+    }
+
+    public String redirectToBookSearch() {
+        setFailedLoginMsg("");
+        return "bookSearch.xhmtl?faces-redirect=true";
+    }
+
     public String redirectToMyCollecion() {
+        setFailedLoginMsg("");
         if (activeUser != null) {
             return "bookCollection.xhmtl?faces-redirect=true";
         } else {
@@ -161,6 +189,7 @@ public class ActiveUserSession implements Serializable {
     }
 
     public String redirectToMyReviews() {
+        setFailedLoginMsg("");
         if (activeUser != null) {
             return "myReviews.xhmtl?faces-redirect=true";
         } else {
@@ -169,6 +198,7 @@ public class ActiveUserSession implements Serializable {
     }
 
     public String redirectToAddBookRequest() {
+        setFailedLoginMsg("");
         if (activeUser != null) {
             return "addBookRequest.xhmtl?faces-redirect=true";
         } else {

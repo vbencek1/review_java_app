@@ -37,12 +37,16 @@
                 <h:commandButton id="btnAddReview" class="div-bookDetails-addReviewBtn" value="#{l['viewBookDetails.addReview']}" onclick="showReviewForm()"/>
                 <div id="divReviewForm" class="div-bookDetails-gradeContainer" style="display:none;">
                     <h:inputTextarea class="div-bookDetails-review-textbox" a:placeholder="#{l['viewBookDetails.writeReview']}"/>
-                    <h:selectOneMenu class="div-bookDetails-review-gradeSelect">
+                    <h:selectOneMenu class="div-bookDetails-review-gradeSelect" style="margin-right: 10px;">
                         <f:selectItem itemLabel="5 &#9734;&#9734;&#9734;&#9734;&#9734;" itemValue="5"/>
                         <f:selectItem itemLabel="4 &#9734;&#9734;&#9734;&#9734;" itemValue="4"/>
                         <f:selectItem itemLabel="3 &#9734;&#9734;&#9734;" itemValue="3"/>
                         <f:selectItem itemLabel="2 &#9734;&#9734;" itemValue="2"/>
                         <f:selectItem itemLabel="1 &#9734;" itemValue="1"/>
+                    </h:selectOneMenu>
+                    <h:selectOneMenu class="div-bookDetails-review-gradeSelect">
+                        <f:selectItem itemLabel="#{l["combobox.comment.private"]}" itemValue="0"/>
+                        <f:selectItem itemLabel="#{l["combobox.comment.public"]}" itemValue="1"/>
                     </h:selectOneMenu>
                     <h:commandButton class="div-bookDetails-addReviewBtn" style="float:right;" value="#{l['viewBookDetails.rate']}"/>
                 </div>
@@ -59,6 +63,10 @@
                 </h:form>
             </div>
             <div class="div-bookDetails-maintxtContainer">
+                <div class="div-bookDetails-text-container">
+                    <h:outputLabel class="div-bookDetails-details-orange" value="ISBN: "/>
+                    <h:outputLabel class="div-bookDetails-details" value="234123412311"/>
+                </div>
                 <div class="div-bookDetails-text-container">
                     <h:outputLabel class="div-bookDetails-details-orange" value="#{l['viewBookDetails.author']}"/>
                     <h:outputLabel class="div-bookDetails-details" value="Tino Autor Tinek"/>

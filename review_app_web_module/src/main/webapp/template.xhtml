@@ -22,6 +22,7 @@
             <div id="top">
                 <div id="top-content-right">
                     <h:outputLabel class="pleaseLogInMsg" value="#{activeUserSession.pleaseLoginMsg}"/>
+                    <h:outputLabel class="pleaseLogInMsg" value="#{activeUserSession.failedLoginMsg}"/>
                     <div id="top-content-login">
                         <h:commandButton id="btnShowLogin" value="#{l['template.login']}"
                                          class="loginButton" 
@@ -96,8 +97,8 @@
             <div>
                 <div id="navigation">
                     <h:form>
-                        <h:commandLink value="#{l['template.link.home']}" class="navigation-link" action="index.xhmtl?faces-redirect=true"/>
-                        <h:commandLink value="#{l['template.link.search']}" class="navigation-link" action="bookSearch.xhmtl?faces-redirect=true"/>
+                        <h:commandLink value="#{l['template.link.home']}" class="navigation-link" action="#{activeUserSession.redirectToIndex()}"/>
+                        <h:commandLink value="#{l['template.link.search']}" class="navigation-link" action="#{activeUserSession.redirectToBookSearch()}"/>
                         <h:commandLink value="#{l['template.link.collection']}" class="navigation-link" action="#{activeUserSession.redirectToMyCollecion()}"/>
                         <h:commandLink value="#{l['template.link.reviews']}" class="navigation-link" action="#{activeUserSession.redirectToMyReviews()}"/>
                         <h:commandLink value="#{l['template.link.sendBookRequest']}" class="navigation-link" action="#{activeUserSession.redirectToAddBookRequest()}"/>

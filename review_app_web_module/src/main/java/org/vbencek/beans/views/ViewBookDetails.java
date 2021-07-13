@@ -12,11 +12,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import javax.annotation.PostConstruct;
+import javax.ejb.EJB;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import lombok.Getter;
 import lombok.Setter;
 import org.vbencek.beans.TestnaKlasaKomentar;
+import org.vbencek.facade.BookFacadeLocal;
+import org.vbencek.model.Book;
 import org.vbencek.properties.ParamsCaching;
 import org.vbencek.properties.PropertiesLoader;
 
@@ -28,12 +31,19 @@ import org.vbencek.properties.PropertiesLoader;
 @ViewScoped
 public class ViewBookDetails implements Serializable {
     
+    @EJB(beanName = "BookFacade")
+    BookFacadeLocal bookFacade;
+    
     @Inject
     ParamsCaching paramsCaching;
     
     @Getter
     @Setter
     int bookID = 0;
+    
+    @Getter
+    @Setter
+    Book thisBook;
 
     @Getter
     @Setter
@@ -62,7 +72,8 @@ public class ViewBookDetails implements Serializable {
         }
         System.out.println("ViewBookDetails: Opening view for bookID: " + bookid);
         bookID = Integer.parseInt(bookid);
-        bookName = "Druzba pere kvrzice";
+        thisBook= bookFacade.find(bookID);
+        bookName = thisBook.getTitle();
         komentari.add(new TestnaKlasaKomentar(1, "Hejter 1", "Los Komentar 1", 1));
         komentari.add(new TestnaKlasaKomentar(1, "Hejter 2", "Los Komentar 2", 1));
         komentari.add(new TestnaKlasaKomentar(1, "Hejter 3", "Los Komentar 3", 1));
@@ -79,6 +90,16 @@ public class ViewBookDetails implements Serializable {
             maksCommentsPerPage = Integer.parseInt(propLoader.getProperty("details.maxCommentsPerPage"));
         } catch (NumberFormatException e) {
             maksCommentsPerPage = 5;
+        }
+    }
+    
+    public String setIMG(){
+        System.out.println(thisBook.getImgPath());
+        if(thisBook.getImgPath()!=null){
+            System.out.println(thisBook.getImgPath());
+            return thisBook.getImgPath();
+        }else{
+            return "resources/images/book_placeholder.jpg";
         }
     }
 

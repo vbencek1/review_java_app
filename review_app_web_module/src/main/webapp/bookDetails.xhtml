@@ -14,7 +14,7 @@
         <div class="div-bookDetails">
             <div class="div-bookDetails-imgGradeContainer">
                 <div class="div-bookDetails-image-container">
-                    <img src="resources/images/book_placeholder.jpg" alt="book_placeholder"/>
+                    <img src="#{viewBookDetails.setIMG()}" alt="book_placeholder"/>
                 </div>
                 <div class="div-bookDetails-gradeContainer">
                     <div class="div-bookDetails-text-container">
@@ -23,15 +23,15 @@
                     </div>
                     <div class="div-bookDetails-text-container">
                         <h:outputLabel class="div-bookDetails-details-orange" value="#{l['viewBookDetails.avgRating']}"/>
-                        <h:outputLabel class="div-bookDetails-details" style="color: #048BA8" value="(4.4)"/>
+                        <h:outputLabel class="div-bookDetails-details" style="color: #048BA8" value="(#{viewBookDetails.thisBook.averageRating})"/>
                         <div class="ratings">
                             <div class="empty-stars"></div>
-                            <div class="full-stars" style="width:75%"></div>
+                            <div class="full-stars" style="width:#{viewBookDetails.convertToWidth(viewBookDetails.thisBook.averageRating)}"></div>
                         </div>
                     </div>
                     <div class="div-bookDetails-text-container">
                         <h:outputLabel class="div-bookDetails-details-orange" value="#{l['viewBookDetails.NOReviews']}"/>
-                        <h:outputLabel class="div-bookDetails-details" value="36"/>
+                        <h:outputLabel class="div-bookDetails-details" value="#{viewBookDetails.thisBook.ratingsCount}"/>
                     </div>
                 </div>
                 <h:commandButton id="btnAddReview" class="div-bookDetails-addReviewBtn" value="#{l['viewBookDetails.addReview']}" onclick="showReviewForm()"/>
@@ -45,8 +45,8 @@
                         <f:selectItem itemLabel="1 &#9734;" itemValue="1"/>
                     </h:selectOneMenu>
                     <h:selectOneMenu class="div-bookDetails-review-gradeSelect">
-                        <f:selectItem itemLabel="#{l["combobox.comment.private"]}" itemValue="0"/>
-                        <f:selectItem itemLabel="#{l["combobox.comment.public"]}" itemValue="1"/>
+                        <f:selectItem itemLabel="#{l['combobox.comment.private']}" itemValue="0"/>
+                        <f:selectItem itemLabel="#{l['combobox.comment.public']}" itemValue="1"/>
                     </h:selectOneMenu>
                     <h:commandButton class="div-bookDetails-addReviewBtn" style="float:right;" value="#{l['viewBookDetails.rate']}"/>
                 </div>
@@ -54,7 +54,7 @@
                 <h:commandButton id="btnToggleComments" class="div-bookDetails-toogleBtn" value="#{l['viewBookDetails.toogleReviews']}" onclick="showComments()"/>
             </div>
             <div class="div-bookDetails-header">
-                <h:outputLabel class="div-bookDetails-header-text" value="DRUŽBA PERE KRVŽICE"/>
+                <h:outputLabel class="div-bookDetails-header-text" value="#{viewBookDetails.thisBook.title}"/>
                 <h:form>
                     <h:selectBooleanCheckbox title="#{l['viewBookDetails.starText']}" id="btnStar" class="star"
                                              value="#{viewBookDetails.notFavorite}" 
@@ -65,33 +65,33 @@
             <div class="div-bookDetails-maintxtContainer">
                 <div class="div-bookDetails-text-container">
                     <h:outputLabel class="div-bookDetails-details-orange" value="ISBN: "/>
-                    <h:outputLabel class="div-bookDetails-details" value="234123412311"/>
+                    <h:outputLabel class="div-bookDetails-details" value="#{viewBookDetails.thisBook.isbn}"/>
                 </div>
                 <div class="div-bookDetails-text-container">
                     <h:outputLabel class="div-bookDetails-details-orange" value="#{l['viewBookDetails.author']}"/>
-                    <h:outputLabel class="div-bookDetails-details" value="Tino Autor Tinek"/>
+                    <h:outputLabel class="div-bookDetails-details" value="#{viewBookDetails.thisBook.authors}"/>
                 </div>
                 <div class="div-bookDetails-text-container">
                     <h:outputLabel class="div-bookDetails-details-orange" value="#{l['viewBookDetails.publisher']}"/>
-                    <h:outputLabel class="div-bookDetails-details" value="Petrijanec Print"/>
+                    <h:outputLabel class="div-bookDetails-details" value="#{viewBookDetails.thisBook.publisher}"/>
                 </div>
                 <div class="div-bookDetails-text-container">
                     <h:outputLabel class="div-bookDetails-details-orange" value="#{l['viewBookDetails.publishYear']}"/>
-                    <h:outputLabel class="div-bookDetails-details" value="1973."/>
+                    <h:outputLabel class="div-bookDetails-details" value="#{viewBookDetails.thisBook.publicationDate}"/>
                 </div> 
             </div>
             <div class="div-bookDetails-subtxtContainer">
                 <div class="div-bookDetails-text-container">
                     <div class="div-bookDetails-text-container">
                         <h:outputLabel class="div-bookDetails-details-orange" value="#{l['viewBookDetails.description']}"/>
-                        <h:outputLabel class="div-bookDetails-details" value="tekst tekst tekst tekst tekst tekst tekst tekst tekst tekst tekst tekst tekst tekst tekst tekst tekst tekst tekst tekst tekst tekst tekst tekst tekst tekst tekst tekst tekst tekst"/>
+                        <h:outputLabel class="div-bookDetails-details" value="#{viewBookDetails.thisBook.description}"/>
                     </div>
                     <h:outputLabel class="div-bookDetails-details-orange" value="#{l['viewBookDetails.NOPages']}"/>
-                    <h:outputLabel class="div-bookDetails-details" value="323"/>
+                    <h:outputLabel class="div-bookDetails-details" value="#{viewBookDetails.thisBook.numPages}"/>
                 </div>
                 <div class="div-bookDetails-text-container">
                     <h:outputLabel class="div-bookDetails-details-orange" value="#{l['viewBookDetails.Language']}"/>
-                    <h:outputLabel class="div-bookDetails-details" value="ENG"/>
+                    <h:outputLabel class="div-bookDetails-details" value="#{viewBookDetails.thisBook.languageCode}"/>
                 </div>
             </div>           
             <div id="divComments" class="div-bookDetails-comments">

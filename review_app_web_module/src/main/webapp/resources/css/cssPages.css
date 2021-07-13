@@ -382,21 +382,19 @@ img {
 }
 
 .div-bookDetails-header{
-    display: block;
+    display: inline-flex;
     margin-bottom: 20px;
+    padding-bottom: 20px;
     border-bottom: 1px solid #333333;
-    float:left;
     width: 55%;
-    height: 50px;
     text-align: left;
     margin-left:20px;
 }
 .div-bookDetails-header-text{
     color: #FF785A;
     letter-spacing: 2px;
-    font-size: 16px;
+    font-size: 14px;
     margin-top: 25px;
-    float: left;
 }
 
 .div-bookDetails-imgGradeContainer{
@@ -406,7 +404,7 @@ img {
 }
 
 .div-bookDetails-image-container{
-    height: 57%;
+    height: 300px;
     width: 100%;
     border: 2px solid #333333;
     border-radius: 10px;
@@ -622,7 +620,6 @@ img {
     font-size:40px;
     cursor:pointer;
     color: #FF9529;
-    float: right;
     margin-right: 30px;
 }
 .star:before {

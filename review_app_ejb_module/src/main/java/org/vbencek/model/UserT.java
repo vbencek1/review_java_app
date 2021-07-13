@@ -58,6 +58,10 @@ public class UserT implements Serializable {
     @Size(min = 1, max = 255)
     @Column(nullable = false, length = 255)
     private String email;
+    @Basic(optional = false)
+    @NotNull
+    @Column(nullable = false)
+    private Boolean isblocked;
 
     public UserT() {
     }
@@ -120,6 +124,14 @@ public class UserT implements Serializable {
     public void setEmail(String email) {
         this.email = email;
     }
+    
+    public Boolean getIsblocked() {
+        return isblocked;
+    }
+
+    public void setIsblocked(Boolean isblocked) {
+        this.isblocked = isblocked;
+    }
 
     @Override
     public int hashCode() {
@@ -145,5 +157,8 @@ public class UserT implements Serializable {
     public String toString() {
         return "org.vbencek.model.UserT[ userId=" + userId + " ]";
     }
+
+
+    
     
 }

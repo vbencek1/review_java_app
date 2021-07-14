@@ -30,4 +30,6 @@ public interface BookFacadeLocal {
 
     int count();
     
+    List<Book> findBooksByCriteria(String isbn, String keyword, int publishYear, String publisher, double minimumAvgRating,String sortOption,int offset,int limit);
+    
 }

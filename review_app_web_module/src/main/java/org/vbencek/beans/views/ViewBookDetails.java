@@ -52,7 +52,7 @@ public class ViewBookDetails implements Serializable {
     @Getter
     @Setter
     boolean notFavorite = true;
-
+    
     @Getter
     @Setter
     int pageNum = 0;
@@ -94,12 +94,10 @@ public class ViewBookDetails implements Serializable {
     }
     
     public String setIMG(){
-        System.out.println(thisBook.getImgPath());
         if(thisBook.getImgPath()!=null){
-            System.out.println(thisBook.getImgPath());
             return thisBook.getImgPath();
         }else{
-            return "resources/images/book_placeholder.jpg";
+            return "http://covers.openlibrary.org/b/isbn/"+thisBook.getIsbn()+"-L.jpg";
         }
     }
 

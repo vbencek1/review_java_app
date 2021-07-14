@@ -11,6 +11,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import javax.annotation.PostConstruct;
+import javax.ejb.EJB;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
 import javax.faces.view.ViewScoped;
@@ -18,6 +19,7 @@ import javax.inject.Inject;
 import lombok.Getter;
 import lombok.Setter;
 import org.vbencek.beans.TestnaKlasaObrisati;
+import org.vbencek.facade.BookFacadeLocal;
 import org.vbencek.properties.ParamsCaching;
 import org.vbencek.properties.PropertiesLoader;
 
@@ -28,7 +30,9 @@ import org.vbencek.properties.PropertiesLoader;
 @Named(value = "viewSearchBooks")
 @ViewScoped
 public class ViewSearchBooks implements Serializable {
-
+    @EJB(beanName = "BookFacade")
+    BookFacadeLocal bookFacade;
+    
     @Inject
     ParamsCaching paramsCaching;
 
@@ -69,6 +73,7 @@ public class ViewSearchBooks implements Serializable {
     @PostConstruct
     public void test() {
         setSearchParams();
+        System.out.println(bookFacade.findBooksByCriteria("", "", 0, "", 4, "rating",0,10));
         testList.add(new TestnaKlasaObrisati(1, "Garry Lotter: part one", 2002, "Tino Tinek", "Izdavac _45", "Opis neki tamo random", 4.56, 20, new Date()));
         testList.add(new TestnaKlasaObrisati(2, "Larry Lotter: part two three", 2302, "Tino Vinek", "Izdavac _45", "TEst", 3.56, 21, new Date()));
         testList.add(new TestnaKlasaObrisati(3, "Osman Lotter", 2012, "Tino Tinek", "Izdavac _45", "Knjiga opisuje dosta toga", 2.56, 200, new Date(1234124)));

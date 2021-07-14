@@ -310,6 +310,21 @@ img {
     border-radius: 10px;
 }
 
+.loading {
+  /*background: transparent url(../images/Spinner-200px.gif) center no-repeat;*/
+  background-image: url(../images/book_placeholder.jpg);
+}
+
+.top {
+  position: absolute;
+  left: 12%;
+  top: 40px;
+  height: 300px;
+  width: 30.17%;
+  border: 1px solid black;
+  z-index: 1;
+ }
+
 .div-book-header{
     color: #FF785A;
     letter-spacing: 1px;

@@ -8,7 +8,9 @@ package org.vbencek.beans.views;
 import javax.inject.Named;
 import javax.faces.view.ViewScoped;
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import javax.annotation.PostConstruct;
@@ -30,17 +32,17 @@ import org.vbencek.properties.PropertiesLoader;
 @Named(value = "viewBookDetails")
 @ViewScoped
 public class ViewBookDetails implements Serializable {
-    
+
     @EJB(beanName = "BookFacade")
     BookFacadeLocal bookFacade;
-    
+
     @Inject
     ParamsCaching paramsCaching;
-    
+
     @Getter
     @Setter
     int bookID = 0;
-    
+
     @Getter
     @Setter
     Book thisBook;
@@ -52,7 +54,7 @@ public class ViewBookDetails implements Serializable {
     @Getter
     @Setter
     boolean notFavorite = true;
-    
+
     @Getter
     @Setter
     int pageNum = 0;
@@ -67,12 +69,12 @@ public class ViewBookDetails implements Serializable {
     public void init() {
         Map<String, String> params = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
         String bookid = params.get("id");
-        if(bookid==null){
-            bookid=String.valueOf(paramsCaching.getBookIdCache());
+        if (bookid == null) {
+            bookid = String.valueOf(paramsCaching.getBookIdCache());
         }
         System.out.println("ViewBookDetails: Opening view for bookID: " + bookid);
         bookID = Integer.parseInt(bookid);
-        thisBook= bookFacade.find(bookID);
+        thisBook = bookFacade.find(bookID);
         bookName = thisBook.getTitle();
         komentari.add(new TestnaKlasaKomentar(1, "Hejter 1", "Los Komentar 1", 1));
         komentari.add(new TestnaKlasaKomentar(1, "Hejter 2", "Los Komentar 2", 1));
@@ -92,13 +94,19 @@ public class ViewBookDetails implements Serializable {
             maksCommentsPerPage = 5;
         }
     }
-    
-    public String setIMG(){
-        if(thisBook.getImgPath()!=null){
+
+    public String setIMG() {
+        if (thisBook.getImgPath() != null) {
             return thisBook.getImgPath();
-        }else{
-            return "http://covers.openlibrary.org/b/isbn/"+thisBook.getIsbn()+"-L.jpg";
+        } else {
+            return "http://covers.openlibrary.org/b/isbn/" + thisBook.getIsbn() + "-L.jpg";
         }
+    }
+
+    public String convertDateToYear(Date date) {
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("EEEE");
+        simpleDateFormat = new SimpleDateFormat("YYYY");
+        return simpleDateFormat.format(date).toUpperCase();
     }
 
     public List<TestnaKlasaKomentar> komentari(int page) {

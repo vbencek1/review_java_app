@@ -15,7 +15,7 @@
             <div class="div-bookDetails-imgGradeContainer">
                 <div class="div-bookDetails-image-container">
                     <img id="spinner" class="loading" src="resources/images/Spinner-200px.gif"/>
-                    <img class="top" src="#{viewBookDetails.setIMG()}" alt="book_placeholder"/>
+                    <img class="top" src="#{viewBookDetails.setIMG()}" alt="#{viewBookDetails.thisBook.title}"/>
                 </div>
                 <div class="div-bookDetails-gradeContainer">
                     <div class="div-bookDetails-text-container">
@@ -78,7 +78,7 @@
                 </div>
                 <div class="div-bookDetails-text-container">
                     <h:outputLabel class="div-bookDetails-details-orange" value="#{l['viewBookDetails.publishYear']}"/>
-                    <h:outputLabel class="div-bookDetails-details" value="#{viewBookDetails.thisBook.publicationDate}"/>
+                    <h:outputLabel class="div-bookDetails-details" value="#{viewBookDetails.convertDateToYear(viewBookDetails.thisBook.publicationDate)}."/>
                 </div> 
             </div>
             <div class="div-bookDetails-subtxtContainer">

@@ -6,7 +6,7 @@
 package org.vbencek.beans.views;
 
 import java.io.Serializable;
-import java.util.ArrayList;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -18,10 +18,11 @@ import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import lombok.Getter;
 import lombok.Setter;
-import org.vbencek.beans.TestnaKlasaObrisati;
 import org.vbencek.facade.BookFacadeLocal;
+import org.vbencek.model.Book;
 import org.vbencek.properties.ParamsCaching;
 import org.vbencek.properties.PropertiesLoader;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  *
@@ -51,6 +52,7 @@ public class ViewSearchBooks implements Serializable {
     @Getter
     @Setter
     String publisher;
+    String defaultPublisher=null;
 
     @Getter
     @Setter
@@ -59,35 +61,28 @@ public class ViewSearchBooks implements Serializable {
     @Getter
     @Setter
     String sortOption;
-
-    @Getter
-    @Setter
-    List<TestnaKlasaObrisati> testList = new ArrayList<>();
+    String defaultSort="title";
 
     @Getter
     @Setter
     int pageNum = 0;
-
+    
+    long numberOfBooks=0;
     int maksBooksPerPage;
 
     @PostConstruct
-    public void test() {
+    public void init() {
+        //Set search parametars
         setSearchParams();
-        System.out.println(bookFacade.findBooksByCriteria("", "", 0, "", 4, "rating",0,10));
-        testList.add(new TestnaKlasaObrisati(1, "Garry Lotter: part one", 2002, "Tino Tinek", "Izdavac _45", "Opis neki tamo random", 4.56, 20, new Date()));
-        testList.add(new TestnaKlasaObrisati(2, "Larry Lotter: part two three", 2302, "Tino Vinek", "Izdavac _45", "TEst", 3.56, 21, new Date()));
-        testList.add(new TestnaKlasaObrisati(3, "Osman Lotter", 2012, "Tino Tinek", "Izdavac _45", "Knjiga opisuje dosta toga", 2.56, 200, new Date(1234124)));
-        testList.add(new TestnaKlasaObrisati(4, "Knjiga TEST", 1111, "Test Covjek", "Neki tam izdavac", "Knjiga o necemu i svemu", 1.56, 24, new Date(123522344)));
-        testList.add(new TestnaKlasaObrisati(5, "Garry Lotter: part two", 2002, "Tino Tinek", "Izdavac _45", "Knjiga o Etstu", 1.52, 14, new Date(3456576)));
-        testList.add(new TestnaKlasaObrisati(6, "Knjiga o psima", 1002, "Tino Tinek", "Nekaj trece", "Svetlo na kraju tunela za mnoge ljudei", 5.00, 11, new Date(1234576)));
-        testList.add(new TestnaKlasaObrisati(7, "Knjiga o mackama", 1002, "Tino Tinek", "Nekaj trece", "Svetlo na kraju tunela za mnoge ljudei", 5.00, 11, new Date(1234576)));
-        testList.add(new TestnaKlasaObrisati(8, "Knjiga TEst Test", 1002, "Tino Tinek", "Nekaj trece", "Test Test", 5.00, 11, new Date(1234576)));
+        //Set maximum number of books to desplay per page. This defines offset and limit in server pagination
         PropertiesLoader propLoader = new PropertiesLoader();
         try {
             maksBooksPerPage = Integer.parseInt(propLoader.getProperty("books.maxBooksPerPage"));
         } catch (NumberFormatException e) {
             maksBooksPerPage = 10;
         }
+        //get maks number of books
+        numberOfBooks=bookFacade.countBooksByCriteria(isbn, keyword, year, publisher, minRating);
     }
 
     private void setSearchParams() {
@@ -100,12 +95,17 @@ public class ViewSearchBooks implements Serializable {
             year = 0;
         }
         publisher = params.get("Publisher");
+        defaultPublisher=publisher;
         try {
             minRating = Double.parseDouble(params.get("MinRating"));
         } catch (Exception e) {
             minRating = 0;
         }
         sortOption = params.get("SortBy");
+        defaultSort=sortOption;
+        if(sortOption==null){
+            sortOption="title";
+        }
         System.out.println("ViewSearchBooks: Opening view with parametars: "
                 + "ISBN: " + isbn + " "
                 + "Keyword: " + keyword + " "
@@ -116,22 +116,32 @@ public class ViewSearchBooks implements Serializable {
 
     }
 
-    public List<TestnaKlasaObrisati> testnaLista(int page) {
-        List<TestnaKlasaObrisati> temp = new ArrayList<>();
+    public String convertDateToYear(Date date) {
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("EEEE");
+        simpleDateFormat = new SimpleDateFormat("YYYY");
+        return simpleDateFormat.format(date).toUpperCase();
+    }
+    
+    public String setIMG(Book book) {
+        if (book.getImgPath() != null) {
+            return book.getImgPath();
+        } else {
+            return "http://covers.openlibrary.org/b/isbn/" + book.getIsbn() + "-M.jpg";
+        }
+    }
+    
+    public String makeTextShorter(String text, int maxChars){
+        return StringUtils.abbreviate(text, maxChars);
+    }
+    
+    public List<Book> getListOfBooks(int page) {
         int offset = page * maksBooksPerPage;
         int size = offset + maksBooksPerPage;
-        for (int i = offset; i < size; i++) {
-            if (testList.size() <= i) {
-                break;
-            }
-            temp.add(testList.get(i));
-
-        }
-        return temp;
+        return bookFacade.findBooksByCriteria(isbn, keyword, year, defaultPublisher, minRating, defaultSort, offset, size);
     }
 
-    public void nextPage() {
-        if (pageNum < testList.size() / maksBooksPerPage) {
+    public void nextPage() {      
+        if (pageNum < numberOfBooks / maksBooksPerPage) {
             pageNum++;
         }
     }

@@ -38,9 +38,9 @@
                 </div>
                 <div class="div-bookSearch-section">
                     <h:selectOneMenu id="SortBy" class="div-bookSearch-search-combobox" value="#{viewSearchBooks.sortOption}" style="width: 40%;margin: 0 10px 0 10px">
-                        <f:selectItem itemLabel="#{l['combobox.sort.name']}" itemValue="1"/>
-                        <f:selectItem itemLabel="#{l['combobox.sort.rating']}" itemValue="2"/>
-                        <f:selectItem itemLabel="#{l['combobox.sort.reviews']}" itemValue="3"/>
+                        <f:selectItem itemLabel="#{l['combobox.sort.name']}" itemValue="title"/>
+                        <f:selectItem itemLabel="#{l['combobox.sort.rating']}" itemValue="rating"/>
+                        <f:selectItem itemLabel="#{l['combobox.sort.reviews']}" itemValue="reviews"/>
                     </h:selectOneMenu>
 
                     <h:commandButton id="btnSubmitSearch" class="div-bookSearch-search-button" value="#{l['viewSearchBooks.btnSearch']}" onclick="submit()"/>
@@ -54,25 +54,25 @@
                     <p:commandButton id="btnPrevoius" class="div-bookSearch-btnScroll-left" value="&lt;&lt;#{l['viewBookDetails.btnPrevious']}" action="#{viewSearchBooks.previousPage()}" update="form-buttons"/>
                     <p:commandButton id="btnNext" class="div-bookSearch-btnScroll-right" value="#{l['viewBookDetails.btnNext']}&gt;&gt;" action="#{viewSearchBooks.nextPage()}" update="form-buttons"/>
                 </div>
-                <ui:repeat id="bookRepeater" value="#{viewSearchBooks.testnaLista(viewSearchBooks.pageNum)}" var="row">
-                    <h:commandLink action="#{viewSearchBooks.redirectToBookDetails(row.id)}">
+                <ui:repeat id="bookRepeater" value="#{viewSearchBooks.getListOfBooks(viewSearchBooks.pageNum)}" var="row">
+                    <h:outputLink value="#{viewSearchBooks.redirectToBookDetails(row.bookId)}">
                         <div class="div-bookSearch-container">
-                            <div class="div-bookDetails-imageContainer">
-                                <img src="resources/images/book_placeholder.jpg" alt="book_placeholder"/>
+                            <div class="div-bookSearch-image-container">
+                                <img id="spinner" class="loading" src="resources/images/Spinner-200px.gif"/>
+                                <img class="top-small" src="#{viewSearchBooks.setIMG(row)}" alt="#{row.title}"/>
                             </div>
-                            <h:outputLabel class="div-book-header" value="#{row.naziv} (#{row.godina})"/>
+                            <h:outputLabel class="div-book-header" value="#{viewSearchBooks.makeTextShorter(row.title,100)} (#{viewSearchBooks.convertDateToYear(row.publicationDate)}.)"/>
 
-                            <h:outputLabel class="div-book-details" value="#{row.autor}"/>
-                            <h:outputLabel class="div-book-details" value="#{row.izdavac}"/>
+                            <h:outputLabel class="div-book-details" value="#{row.authors}"/>
 
-                            <h:outputText class="div-book-description" value="#{l['viewHome.book.description']}: #{row.opis}"/>
+                            <h:outputText class="div-book-description" value="#{l['viewHome.book.description']}: #{row.description}"/>
                             <div class="div-book-grade-text">
                                 <h:outputLabel class="div-book-grade-text-gradeText"  value="#{l['viewHome.book.rating']}:"/>
-                                <h:outputLabel class="div-book-grade-text-gradeValue" value=" #{row.ocjena}&#9734; "/>
-                                <h:outputLabel class="div-book-grade-text-NOratings" value="(#{row.brojOcjena})"/>
+                                <h:outputLabel class="div-book-grade-text-gradeValue" value=" #{row.averageRating}&#9734; "/>
+                                <h:outputLabel class="div-book-grade-text-NOratings" value="(#{row.ratingsCount})"/>
                             </div>
                         </div>
-                    </h:commandLink>
+                    </h:outputLink>
                 </ui:repeat>
 
             </h:form>

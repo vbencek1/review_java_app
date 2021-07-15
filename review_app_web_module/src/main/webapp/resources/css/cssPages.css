@@ -321,18 +321,30 @@ img {
   top: 40px;
   height: 300px;
   width: 30.17%;
+  min-width: 200px;
   border: 1px solid black;
   z-index: 1;
  }
 
+ .top-small {
+  position: absolute;
+  left: 0%;
+  top: 0px;
+  height: 160px;
+  width: 110px;
+  border: 1px solid black;
+  z-index: 1;
+ }
+
+ 
 .div-book-header{
     color: #FF785A;
     letter-spacing: 1px;
     font-size: 16px;
     display: block;
-    margin-bottom: 20px;
+    margin-bottom: 10px;
     float:left;
-    width: 60%;
+    width: 70%;
     text-align: left;
     padding-left:20px;
 }
@@ -388,8 +400,9 @@ img {
 
 .div-bookDetails{
     width: 80%;
+    min-width: 500px;
     margin-left:10%;
-    height: auto; /* set on auto later*/
+    height: auto;
     overflow:auto;
     background: #f2f3f7;
     border-radius: 10px;
@@ -410,6 +423,7 @@ img {
     letter-spacing: 2px;
     font-size: 14px;
     margin-top: 25px;
+    margin-left: 20px;
 }
 
 .div-bookDetails-imgGradeContainer{
@@ -421,6 +435,7 @@ img {
 .div-bookDetails-image-container{
     height: 300px;
     width: 100%;
+    min-width: 200px;
     border: 2px solid #333333;
     border-radius: 10px;
     float: left;
@@ -732,6 +747,7 @@ img {
     border:2px solid #333333;
     background: transparent;
     width: 100%;
+    min-width: 460px;
     height: auto;
     padding: 10px;
     padding-right: 20px;
@@ -760,9 +776,10 @@ img {
     cursor: pointer;
 }
 
-.div-bookDetails-imageContainer{
-    height: 80%;
-    width: 30%;
+.div-bookSearch-image-container{
+    position: relative;
+    height: 160px;
+    width: 110px;
     border: 1px solid #333333;
     border-radius: 10px;
     float:left;

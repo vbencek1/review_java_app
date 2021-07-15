@@ -295,8 +295,9 @@ html, body {
 }
 
 .div-book-image-container{
-    height: 90%;
-    width: 30%;
+    position: relative;
+    height: 160px;
+    width: 110px;
     border: 1px solid #333333;
     border-radius: 10px;
     float:left;

@@ -6,7 +6,9 @@
 package org.vbencek.model;
 
 import java.io.Serializable;
+import java.util.List;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -14,10 +16,12 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -62,6 +66,8 @@ public class UserT implements Serializable {
     @NotNull
     @Column(nullable = false)
     private Boolean isblocked;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "userT")
+    private List<Review> reviewList;
 
     public UserT() {
     }
@@ -70,11 +76,12 @@ public class UserT implements Serializable {
         this.userId = userId;
     }
 
-    public UserT(Integer userId, String username, String password, String email) {
+    public UserT(Integer userId, String username, String password, String email, Boolean isblocked) {
         this.userId = userId;
         this.username = username;
         this.password = password;
         this.email = email;
+        this.isblocked = isblocked;
     }
 
     public Integer getUserId() {
@@ -124,13 +131,22 @@ public class UserT implements Serializable {
     public void setEmail(String email) {
         this.email = email;
     }
-    
+
     public Boolean getIsblocked() {
         return isblocked;
     }
 
     public void setIsblocked(Boolean isblocked) {
         this.isblocked = isblocked;
+    }
+
+    @XmlTransient
+    public List<Review> getReviewList() {
+        return reviewList;
+    }
+
+    public void setReviewList(List<Review> reviewList) {
+        this.reviewList = reviewList;
     }
 
     @Override
@@ -157,8 +173,5 @@ public class UserT implements Serializable {
     public String toString() {
         return "org.vbencek.model.UserT[ userId=" + userId + " ]";
     }
-
-
-    
     
 }

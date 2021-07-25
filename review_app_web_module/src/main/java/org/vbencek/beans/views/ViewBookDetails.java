@@ -9,7 +9,6 @@ import javax.inject.Named;
 import javax.faces.view.ViewScoped;
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -19,7 +18,6 @@ import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import lombok.Getter;
 import lombok.Setter;
-import org.vbencek.beans.TestnaKlasaKomentar;
 import org.vbencek.facade.BookFacadeLocal;
 import org.vbencek.facade.ReviewFacadeLocal;
 import org.vbencek.model.Book;
@@ -134,7 +132,7 @@ public class ViewBookDetails implements Serializable {
     
     public String convertToFriendlyDate(Date date) {
         if (thisBook != null) {
-            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy hh:mm");
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
             return simpleDateFormat.format(date).toUpperCase();
         }
         return "";

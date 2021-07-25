@@ -104,4 +104,70 @@ public class ReviewFacade extends AbstractFacade<Review> implements ReviewFacade
         return count;
     }
 
+    @Override
+    public List<Review> findMyReviewsByCriteria(UserT userT, String keyword, double minimumAvgRating, String sortOption, int offset, int limit) {
+        CriteriaBuilder cb = em.getCriteriaBuilder();
+        CriteriaQuery<Review> cq = cb.createQuery(Review.class);
+        Root<Review> review = cq.from(Review.class);
+        List<Predicate> predicates = new ArrayList<Predicate>();
+        if(userT !=null){
+            predicates.add(cb.equal(review.get("userT"), userT));
+        }
+        if(keyword !=null && !"".equals(keyword)){
+            Predicate title=cb.like(cb.upper(review.get("book").get("title")), "%"+keyword.toUpperCase()+"%");
+            Predicate authors=cb.like(cb.upper(review.get("book").get("authors")), "%"+keyword.toUpperCase()+"%");
+            predicates.add(cb.or(title,authors));
+        } 
+        
+        if(minimumAvgRating!=0){
+            predicates.add(cb.greaterThanOrEqualTo(review.get("rating"), minimumAvgRating));
+        }
+        //sort options
+        if(sortOption!=null && !"".equals(sortOption)){    
+            if("title".equals(sortOption)){
+               cq.orderBy(cb.asc(review.get("book").get("title"))); 
+            }
+            if("rating".equals(sortOption)){
+               cq.orderBy(cb.desc(review.get("rating"))); 
+            }
+            if("date".equals(sortOption)){
+               cq.orderBy(cb.desc(review.get("ratingDate"))); 
+            }
+        }
+        
+        //Query
+        cq.select(review).where(predicates.toArray(new Predicate[]{}));
+        //execute query and do something with result
+        List<Review>results=em.createQuery(cq)
+                            .setFirstResult(offset)
+                            .setMaxResults(limit)
+                            .getResultList();
+        
+        return results;
+    }
+
+    @Override
+    public long countMyReviewsByCriteria(UserT userT, String keyword, double minimumAvgRating) {
+        CriteriaBuilder cb = em.getCriteriaBuilder();
+        CriteriaQuery<Long> cq = cb.createQuery(Long.class);
+        Root<Review> review = cq.from(Review.class);
+        List<Predicate> predicates = new ArrayList<Predicate>();
+        if(userT !=null){
+            predicates.add(cb.equal(review.get("userT"), userT));
+        }
+        if(keyword !=null && !"".equals(keyword)){
+            Predicate title=cb.like(cb.upper(review.get("book").get("title")), "%"+keyword.toUpperCase()+"%");
+            Predicate authors=cb.like(cb.upper(review.get("book").get("authors")), "%"+keyword.toUpperCase()+"%");
+            predicates.add(cb.or(title,authors));
+        } 
+        if(minimumAvgRating!=0){
+            predicates.add(cb.greaterThanOrEqualTo(review.get("rating"), minimumAvgRating));
+        }
+        //Query
+        cq.select(cb.count(review)).where(predicates.toArray(new Predicate[]{}));
+        long count=em.createQuery(cq).getSingleResult();
+        
+        return count;
+    }
+
 }

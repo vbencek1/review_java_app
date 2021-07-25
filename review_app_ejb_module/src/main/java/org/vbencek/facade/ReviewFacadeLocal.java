@@ -7,7 +7,9 @@ package org.vbencek.facade;
 
 import java.util.List;
 import javax.ejb.Local;
+import org.vbencek.model.Book;
 import org.vbencek.model.Review;
+import org.vbencek.model.UserT;
 
 /**
  *  
@@ -29,4 +31,8 @@ public interface ReviewFacadeLocal {
     List<Review> findRange(int[] range);
 
     int count();
+    
+    List<Review> findReviewsByCriteria(Book book, UserT userT, double minimumAvgRating, String sortOption, boolean hasDescription, boolean isPublic, int offset, int limit);
+    
+    long countReviewsByCriteria(Book book, UserT userT, double minimumAvgRating, boolean hasDescription, boolean isPublic);
 }

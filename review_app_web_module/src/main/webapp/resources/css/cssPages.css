@@ -176,7 +176,8 @@ html, body {
     border-radius: 5px;
     background: #f2f3f7;
     width: 100%;
-    height: 300px;
+    min-width: 500px;
+    padding-bottom: 20px;
 }
 
 .div-home-popular{
@@ -210,18 +211,15 @@ html, body {
 /* Slides */
 .div-home-slide{
     display: none;
-    height: 220px;
     text-align: center;
 }
 
 .div-home-slide-latest{
     display: none;
-    height: 220px;
     text-align: center;
 }
 
 .div-home-noSlide{
-    height: 220px;
     text-align: center;
 }
 
@@ -278,16 +276,18 @@ html, body {
 
 .div-book-container{
     width: 40%;
+    min-width: 400px;
     height: 220px;
     padding: 10px;
     background: #FFFFFF;
-    float: left;
+    display: inline-block;
     margin-left: 5%;
+    margin-bottom: 10px;
     border-radius: 10px;
 }
 
 .div-book-container:hover{
-    border: 1.5px solid #FF785A;
+    border: 1.5px solid #333333;
     -webkit-box-shadow: 0 8px 6px -6px black;
     -moz-box-shadow: 0 8px 6px -6px black;
     box-shadow: 0 8px 6px -6px black;
@@ -312,34 +312,45 @@ img {
 }
 
 .loading {
-  /*background: transparent url(../images/Spinner-200px.gif) center no-repeat;*/
-  background-image: url(../images/book_placeholder.jpg);
+    /*background: transparent url(../images/Spinner-200px.gif) center no-repeat;*/
+    background-image: url(../images/book_placeholder.jpg);
 }
 
 .top {
-  position: absolute;
-  left: 12%;
-  top: 40px;
-  height: 300px;
-  width: 30.17%;
-  min-width: 200px;
-  border: 1px solid black;
-  z-index: 1;
- }
+    position: absolute;
+    left: 23.4%;
+    top: 158px;
+    height: 300px;
+    width: 21.25%;
+    min-width: 200px;
+    border: 1px solid black;
+    z-index: 1;
+}
+@media only screen and (min-width: 0px) and (max-width: 572px){
+    .top{
+        top: 230px;
+    }
+}
+@media only screen and (min-width: 573px) and (max-width: 1010px){
+    .top{
+        top: 193px;
+    }
+}
 
- .top-small {
-  position: absolute;
-  left: 0%;
-  top: 0px;
-  height: 160px;
-  width: 110px;
-  border: 1px solid black;
-  z-index: 1;
- }
 
- 
+.top-small {
+    position: absolute;
+    left: 0%;
+    top: 0px;
+    height: 160px;
+    width: 110px;
+    border: 1px solid black;
+    z-index: 1;
+}
+
+
 .div-book-header{
-    color: #FF785A;
+    color: #333333;
     letter-spacing: 1px;
     font-size: 16px;
     display: block;
@@ -420,7 +431,7 @@ img {
     margin-left:20px;
 }
 .div-bookDetails-header-text{
-    color: #FF785A;
+    color: #333333;
     letter-spacing: 2px;
     font-size: 14px;
     margin-top: 25px;
@@ -581,6 +592,16 @@ img {
 .div-bookDetails-divBtnComments{
     width: 100%;
     height: 50px;
+}
+
+.div-bookDetails-noCommentLabel{
+    display: block;
+    width: 100%;
+    text-align: center;
+    color: #FFFFFF;
+    letter-spacing: 1px;
+    margin-top: 10px;
+    margin-bottom: 40px;
 }
 
 .div-bookDetails-SingleComment{
@@ -766,11 +787,11 @@ img {
     margin-bottom: 20px;
     display: inline-block;
     border-radius: 10px;
-    border: 1px solid #FF785A;
+    border: 1px solid #333333;
 }
 
 .div-bookSearch-container:hover{
-    border: 2px solid #FF785A;
+    border: 2px solid #333333;
     -webkit-box-shadow: 0 8px 6px -6px black;
     -moz-box-shadow: 0 8px 6px -6px black;
     box-shadow: 0 8px 6px -6px black;
@@ -1182,14 +1203,14 @@ img {
 }
 
 .arrow {
-  border: solid black;
-  background:white;
-  border-width: 0 3px 3px 0;
-  display: inline-block;
-  padding: 3px;
-  background: transparent;
-  transform: rotate(45deg);
-  -webkit-transform: rotate(45deg);
+    border: solid black;
+    background:white;
+    border-width: 0 3px 3px 0;
+    display: inline-block;
+    padding: 3px;
+    background: transparent;
+    transform: rotate(45deg);
+    -webkit-transform: rotate(45deg);
 }
 .div-userProfile-section-toogle{
     background: #FFFFFF;

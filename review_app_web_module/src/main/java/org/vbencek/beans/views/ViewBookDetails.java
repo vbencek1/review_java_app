@@ -21,7 +21,9 @@ import lombok.Getter;
 import lombok.Setter;
 import org.vbencek.beans.TestnaKlasaKomentar;
 import org.vbencek.facade.BookFacadeLocal;
+import org.vbencek.facade.ReviewFacadeLocal;
 import org.vbencek.model.Book;
+import org.vbencek.model.Review;
 import org.vbencek.properties.ParamsCaching;
 import org.vbencek.properties.PropertiesLoader;
 
@@ -35,6 +37,9 @@ public class ViewBookDetails implements Serializable {
 
     @EJB(beanName = "BookFacade")
     BookFacadeLocal bookFacade;
+
+    @EJB(beanName = "ReviewFacade")
+    ReviewFacadeLocal reviewFacade;
 
     @Inject
     ParamsCaching paramsCaching;
@@ -58,13 +63,23 @@ public class ViewBookDetails implements Serializable {
     @Getter
     @Setter
     int pageNum = 0;
-    List<TestnaKlasaKomentar> komentari = new ArrayList<>();
 
     int maksCommentsPerPage;
 
-    //maknuti hardkodirane poslje
-    //mogu dodati rendere za prijavljene korisnike naprimjer
-    //staviti u zasebnu metodu mozda
+    @Getter
+    @Setter
+    boolean renderRedirect = false;
+
+    @Getter
+    @Setter
+    String redirectFunction = "";
+    
+    @Getter
+    @Setter
+    boolean renderNoCommentMsg = false;
+
+    long numberOfComments;
+
     @PostConstruct
     public void init() {
         Map<String, String> params = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
@@ -73,20 +88,22 @@ public class ViewBookDetails implements Serializable {
             bookid = String.valueOf(paramsCaching.getBookIdCache());
         }
         System.out.println("ViewBookDetails: Opening view for bookID: " + bookid);
-        bookID = Integer.parseInt(bookid);
-        thisBook = bookFacade.find(bookID);
-        bookName = thisBook.getTitle();
-        komentari.add(new TestnaKlasaKomentar(1, "Hejter 1", "Los Komentar 1", 1));
-        komentari.add(new TestnaKlasaKomentar(1, "Hejter 2", "Los Komentar 2", 1));
-        komentari.add(new TestnaKlasaKomentar(1, "Hejter 3", "Los Komentar 3", 1));
-        komentari.add(new TestnaKlasaKomentar(1, "Hejter 4", "SLos Komentar 4", 1));
-        komentari.add(new TestnaKlasaKomentar(1, "Hejter 5", "Los Komentar 5", 1));
-        komentari.add(new TestnaKlasaKomentar(1, "Hejter 6", "SmLos Komentar 6", 1));
-        komentari.add(new TestnaKlasaKomentar(1, "Hejter 7", "Los Komentar 11", 1));
-        komentari.add(new TestnaKlasaKomentar(1, "Sara K 8", "Mnogo dobra knjiga preporučila bih svima", 5));
-        komentari.add(new TestnaKlasaKomentar(1, "Mirko  9", "Volim tu knjigu", 4));
-        komentari.add(new TestnaKlasaKomentar(1, "Sorko  10", "Dobro je, prosjek, likovi dosadni malo", 3));
-        komentari.add(new TestnaKlasaKomentar(1, "Sorko  11", "Dobro je, prosjek", 3));
+        try {
+            bookID = Integer.parseInt(bookid);
+            thisBook = bookFacade.find(bookID);
+        } catch (NumberFormatException e) {
+            redirectFunction = "location.href = 'index.xhtml';";
+            renderRedirect = true;
+        }
+        if (thisBook == null) {
+            redirectFunction = "location.href = 'index.xhtml';";
+            renderRedirect = true;
+        } else {
+            bookName = thisBook.getTitle();
+            //get maks number of comments
+            numberOfComments = reviewFacade.countReviewsByCriteria(thisBook, null, 0,true,true);
+            renderNoCommentMsg = numberOfComments==0;
+        }
         PropertiesLoader propLoader = new PropertiesLoader();
         try {
             maksCommentsPerPage = Integer.parseInt(propLoader.getProperty("details.maxCommentsPerPage"));
@@ -96,34 +113,41 @@ public class ViewBookDetails implements Serializable {
     }
 
     public String setIMG() {
-        if (thisBook.getImgPath() != null) {
-            return thisBook.getImgPath();
-        } else {
-            return "http://covers.openlibrary.org/b/isbn/" + thisBook.getIsbn() + "-L.jpg";
+        if (thisBook != null) {
+            if (thisBook.getImgPath() != null) {
+                return thisBook.getImgPath();
+            } else {
+                return "http://covers.openlibrary.org/b/isbn/" + thisBook.getIsbn() + "-L.jpg";
+            }
         }
+        return "";
     }
 
     public String convertDateToYear(Date date) {
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("EEEE");
-        simpleDateFormat = new SimpleDateFormat("YYYY");
-        return simpleDateFormat.format(date).toUpperCase();
+        if (thisBook != null) {
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("EEEE");
+            simpleDateFormat = new SimpleDateFormat("YYYY");
+            return simpleDateFormat.format(date).toUpperCase();
+        }
+        return "";
+    }
+    
+    public String convertToFriendlyDate(Date date) {
+        if (thisBook != null) {
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy hh:mm");
+            return simpleDateFormat.format(date).toUpperCase();
+        }
+        return "";
     }
 
-    public List<TestnaKlasaKomentar> komentari(int page) {
-        List<TestnaKlasaKomentar> temp = new ArrayList<>();
+    public List<Review> getListOfComments(int page) {
         int offset = page * maksCommentsPerPage;
         int size = offset + maksCommentsPerPage;
-        for (int i = offset; i < size; i++) {
-            if (komentari.size() <= i) {
-                break;
-            }
-            temp.add(komentari.get(i));
-        }
-        return temp;
+        return reviewFacade.findReviewsByCriteria(thisBook, null, 0, "",true,true, offset, size);
     }
 
     public void loadNextComments() {
-        if (pageNum < komentari.size() / maksCommentsPerPage) {
+        if (pageNum < numberOfComments / maksCommentsPerPage) {
             pageNum++;
         }
 
@@ -146,11 +170,14 @@ public class ViewBookDetails implements Serializable {
     }
 
     public String convertToWidth(Double rating) {
-        String width = "0%";
-        Double convert = (rating / 5) * 100;
-        int roundNum = (int) Math.round(convert);
-        width = String.valueOf(roundNum) + "%";
-        return width;
+        if (thisBook != null) {
+            String width = "0%";
+            Double convert = (rating / 5) * 100;
+            int roundNum = (int) Math.round(convert);
+            width = String.valueOf(roundNum) + "%";
+            return width;
+        }
+        return "0";
     }
 
 }

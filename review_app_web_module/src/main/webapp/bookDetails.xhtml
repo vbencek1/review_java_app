@@ -11,6 +11,7 @@
     <ui:define name="title">#{viewBookDetails.bookName}</ui:define>
 
     <ui:define name="content">   
+        <h:outputScript rendered="#{viewBookDetails.renderRedirect}">#{viewBookDetails.redirectFunction}</h:outputScript>
         <div class="div-bookDetails">
             <div class="div-bookDetails-imgGradeContainer">
                 <div class="div-bookDetails-image-container">
@@ -101,21 +102,22 @@
                         <p:commandButton id="btnNext" class="div-bookDetails-review-btnScroll" value="#{l['viewBookDetails.btnNext']}&gt;&gt;" action="#{viewBookDetails.loadNextComments()}" update="form-comments"/>
                         <p:commandButton id="btnPrevoius" class="div-bookDetails-review-btnScroll" value="&lt;&lt;#{l['viewBookDetails.btnPrevious']}" action="#{viewBookDetails.loadPreviousComments()}" update="form-comments"/>
                     </div>
-                    <ui:repeat id="repeater" value="#{viewBookDetails.komentari(viewBookDetails.pageNum)}" var="row">
+                    <ui:repeat id="repeater" value="#{viewBookDetails.getListOfComments(viewBookDetails.pageNum)}" var="row">
                         <div class="div-bookDetails-SingleComment">
                             <div class="div-bookDetails-SingleComment-header">
-                                <h:outputLabel value="#{row.korisnik}"/>
+                                <h:outputLabel value="#{row.userT.username}"/>
                                 <div class="ratings">
                                     <div class="empty-stars"></div>
-                                    <div class="full-stars" style="width:#{viewBookDetails.convertToWidth(row.ocjena)}"></div>
+                                    <div class="full-stars" style="width:#{viewBookDetails.convertToWidth(row.rating)}"></div>
                                 </div>
-                                <h:outputLabel class="div-bookDetails-SingleComment-date" value="12.04 2019. 13:33"/>
+                                <h:outputLabel class="div-bookDetails-SingleComment-date" value="#{viewBookDetails.convertToFriendlyDate(row.ratingDate)}"/>
                             </div>
                             <div class="div-bookDetails-SingleComment-body">
-                                <h:outputText value="#{row.komentar}"/>
+                                <h:outputText value="#{row.description}"/>
                             </div>
                         </div>
                     </ui:repeat>
+                    <h:outputLabel class="div-bookDetails-noCommentLabel" value="#{l['viewBookDetails.noComment']}" rendered="#{viewBookDetails.renderNoCommentMsg}"/>
                 </h:form>
             </div>
         </div>

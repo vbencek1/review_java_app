@@ -537,6 +537,7 @@ img {
     height: 25px;
     width: 200px;
     display: block;
+    margin-bottom: 5px;
 }
 
 .div-bookDetails-toogleBtn:hover{

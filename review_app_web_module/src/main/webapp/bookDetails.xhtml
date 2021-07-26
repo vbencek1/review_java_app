@@ -38,21 +38,24 @@
                 </div>
                 <h:commandButton id="btnAddReview" class="div-bookDetails-addReviewBtn" value="#{l['viewBookDetails.addReview']}" onclick="showReviewForm()"/>
                 <div id="divReviewForm" class="div-bookDetails-gradeContainer" style="display:none;">
-                    <h:inputTextarea class="div-bookDetails-review-textbox" a:placeholder="#{l['viewBookDetails.writeReview']}"/>
-                    <h:selectOneMenu class="div-bookDetails-review-gradeSelect" style="margin-right: 10px;">
-                        <f:selectItem itemLabel="5 &#9734;&#9734;&#9734;&#9734;&#9734;" itemValue="5"/>
-                        <f:selectItem itemLabel="4 &#9734;&#9734;&#9734;&#9734;" itemValue="4"/>
-                        <f:selectItem itemLabel="3 &#9734;&#9734;&#9734;" itemValue="3"/>
-                        <f:selectItem itemLabel="2 &#9734;&#9734;" itemValue="2"/>
-                        <f:selectItem itemLabel="1 &#9734;" itemValue="1"/>
-                    </h:selectOneMenu>
-                    <h:selectOneMenu class="div-bookDetails-review-gradeSelect">
-                        <f:selectItem itemLabel="#{l['combobox.comment.private']}" itemValue="0"/>
-                        <f:selectItem itemLabel="#{l['combobox.comment.public']}" itemValue="1"/>
-                    </h:selectOneMenu>
-                    <h:commandButton class="div-bookDetails-addReviewBtn" style="float:right;" value="#{l['viewBookDetails.rate']}"/>
+                    <h:form>
+                        <h:inputTextarea class="div-bookDetails-review-textbox" a:placeholder="#{l['viewBookDetails.writeReview']}" value="#{viewBookDetails.addReviewText}"/>
+                        <h:selectOneMenu class="div-bookDetails-review-gradeSelect" converter="javax.faces.Double" value="#{viewBookDetails.addReviewRating}" style="margin-right: 10px;" >
+                            <f:selectItem itemLabel="5 &#9734;&#9734;&#9734;&#9734;&#9734;" itemValue="5"/>
+                            <f:selectItem itemLabel="4 &#9734;&#9734;&#9734;&#9734;" itemValue="4"/>
+                            <f:selectItem itemLabel="3 &#9734;&#9734;&#9734;" itemValue="3"/>
+                            <f:selectItem itemLabel="2 &#9734;&#9734;" itemValue="2"/>
+                            <f:selectItem itemLabel="1 &#9734;" itemValue="1"/>
+                        </h:selectOneMenu>
+                        <h:selectOneMenu class="div-bookDetails-review-gradeSelect" converter="javax.faces.Boolean" value="#{viewBookDetails.addReviewIsPublic}">
+                            <f:selectItem itemLabel="#{l['combobox.comment.public']}" itemValue="true"/>
+                            <f:selectItem itemLabel="#{l['combobox.comment.private']}" itemValue="false"/>
+                        </h:selectOneMenu>
+                        <h:commandButton class="div-bookDetails-addReviewBtn" style="float:right;" value="#{l['viewBookDetails.rate']}" action="#{viewBookDetails.addReview()}"/>
+                    </h:form>
                 </div>
-
+                <h:outputLabel class="div-userProfile-section-message-OK" value="#{viewBookDetails.reviewOkMsg}" rendered="#{viewBookDetails.renderReviewOkMsg}"/>
+                <h:outputLabel class="div-userProfile-section-message-NotOK" value="#{viewBookDetails.reviewNotOkMsg}" rendered="#{viewBookDetails.renderReviewNotOkMsg}"/>
                 <h:commandButton id="btnToggleComments" class="div-bookDetails-toogleBtn" value="#{l['viewBookDetails.toogleReviews']}" onclick="showComments()"/>
             </div>
             <div class="div-bookDetails-header">

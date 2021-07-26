@@ -11,17 +11,23 @@ import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
+import java.util.ResourceBundle;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import lombok.Getter;
 import lombok.Setter;
+import org.vbencek.beans.ActiveUserSession;
 import org.vbencek.facade.BookFacadeLocal;
 import org.vbencek.facade.ReviewFacadeLocal;
+import org.vbencek.localization.Localization;
 import org.vbencek.model.Book;
 import org.vbencek.model.Review;
+import org.vbencek.model.ReviewPK;
+import org.vbencek.model.UserT;
 import org.vbencek.properties.ParamsCaching;
 import org.vbencek.properties.PropertiesLoader;
 
@@ -40,7 +46,14 @@ public class ViewBookDetails implements Serializable {
     ReviewFacadeLocal reviewFacade;
 
     @Inject
+    ActiveUserSession activeUserSession;
+
+    @Inject
     ParamsCaching paramsCaching;
+    
+    @Inject
+    Localization localization;
+    ResourceBundle res;
 
     @Getter
     @Setter
@@ -71,12 +84,39 @@ public class ViewBookDetails implements Serializable {
     @Getter
     @Setter
     String redirectFunction = "";
-    
+
     @Getter
     @Setter
     boolean renderNoCommentMsg = false;
 
     long numberOfComments;
+
+    //add review atrributes
+    @Getter
+    @Setter
+    String addReviewText;
+
+    @Getter
+    @Setter
+    double addReviewRating;
+
+    @Getter
+    @Setter
+    boolean addReviewIsPublic = true;
+
+    @Getter
+    @Setter
+    String reviewOkMsg = "USPJEH";
+    @Getter
+    @Setter
+    String reviewNotOkMsg = "NEUSPJEH";
+
+    @Getter
+    @Setter
+    boolean renderReviewOkMsg = false;
+    @Getter
+    @Setter
+    boolean renderReviewNotOkMsg = false;
 
     @PostConstruct
     public void init() {
@@ -99,8 +139,8 @@ public class ViewBookDetails implements Serializable {
         } else {
             bookName = thisBook.getTitle();
             //get maks number of comments
-            numberOfComments = reviewFacade.countReviewsByCriteria(thisBook, null, 0,true,true);
-            renderNoCommentMsg = numberOfComments==0;
+            numberOfComments = reviewFacade.countReviewsByCriteria(thisBook, null, 0, true, true);
+            renderNoCommentMsg = numberOfComments == 0;
         }
         PropertiesLoader propLoader = new PropertiesLoader();
         try {
@@ -129,7 +169,7 @@ public class ViewBookDetails implements Serializable {
         }
         return "";
     }
-    
+
     public String convertToFriendlyDate(Date date) {
         if (thisBook != null) {
             SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
@@ -141,7 +181,7 @@ public class ViewBookDetails implements Serializable {
     public List<Review> getListOfComments(int page) {
         int offset = page * maksCommentsPerPage;
         int size = offset + maksCommentsPerPage;
-        return reviewFacade.findReviewsByCriteria(thisBook, null, 0, "",true,true, offset, size);
+        return reviewFacade.findReviewsByCriteria(thisBook, null, 0, "", true, true, offset, size);
     }
 
     public void loadNextComments() {
@@ -164,6 +204,50 @@ public class ViewBookDetails implements Serializable {
             System.out.println("notFavorite");
         } else {
             System.out.println("Favorite");
+        }
+    }
+
+    private void clearReviewMessages() {
+        renderReviewOkMsg = false;
+        renderReviewNotOkMsg = false;
+        reviewNotOkMsg = "";
+        reviewOkMsg = "";
+    }
+    
+    private void addReviewToDatabase(UserT user){
+        Review review = new Review();
+        ReviewPK reviewPK= new ReviewPK();
+        reviewPK.setBookId(thisBook.getBookId());
+        reviewPK.setUserId(user.getUserId());
+        review.setReviewPK(reviewPK);
+        review.setBook(thisBook);
+        review.setUserT(user);
+        review.setDescription(addReviewText);
+        review.setIspublic(addReviewIsPublic);
+        review.setRating(addReviewRating);
+        review.setRatingDate(new Date());
+        reviewFacade.create(review);
+    }
+
+    public void addReview() {
+        res=ResourceBundle.getBundle("org.vbencek.localization.Translations", new Locale(localization.getLanguage()));
+        clearReviewMessages();
+        UserT activeUser = activeUserSession.getActiveUser();
+        if (activeUser != null) {
+            if (!reviewFacade.isUserReviewedBook(activeUser, thisBook)) {
+                addReviewToDatabase(activeUser);
+                renderReviewOkMsg = true;
+                renderReviewNotOkMsg = false;
+                reviewOkMsg = res.getString("viewBookDetails.addReviewMsg.ok");
+            } else {
+                renderReviewOkMsg = false;
+                renderReviewNotOkMsg = true;
+                reviewNotOkMsg = res.getString("viewBookDetails.addReviewMsg.exists");
+            }
+        } else {
+            renderReviewOkMsg = false;
+            renderReviewNotOkMsg = true;
+            reviewNotOkMsg=res.getString("viewBookDetails.addReviewMsg.login");
         }
     }
 

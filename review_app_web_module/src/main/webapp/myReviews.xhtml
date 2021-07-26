@@ -50,8 +50,8 @@
                                 <h:outputLabel class="div-myReviews-SingleReview-title" value="#{row.book.title}"/>
                             </h:commandLink>
                             <h:selectOneMenu id="isPublic" class="div-myReviews-SingleReview-combobox" value="#{row.ispublic}">
-                                <f:selectItem itemLabel="Public" itemValue="true"/>
-                                <f:selectItem itemLabel="Private" itemValue="false"/>                    
+                                <f:selectItem itemLabel="#{l['combobox.comment.public']}" itemValue="true"/>
+                                <f:selectItem itemLabel="#{l['combobox.comment.private']}" itemValue="false"/>                    
                             </h:selectOneMenu>        
                             <h:selectOneMenu id="MinRating" converter="javax.faces.Double" class="div-myReviews-SingleReview-combobox" value="#{row.rating}">
                                 <f:selectItem itemLabel="#{l['combobox.rating.one']}" itemValue="1"/>

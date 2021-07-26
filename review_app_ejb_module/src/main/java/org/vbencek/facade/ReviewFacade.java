@@ -170,4 +170,24 @@ public class ReviewFacade extends AbstractFacade<Review> implements ReviewFacade
         return count;
     }
 
+    @Override
+    public boolean isUserReviewedBook(UserT userT, Book book) {
+        CriteriaBuilder cb = em.getCriteriaBuilder();
+        CriteriaQuery<Long> cq = cb.createQuery(Long.class);
+        Root<Review> review = cq.from(Review.class);
+        List<Predicate> predicates = new ArrayList<Predicate>();
+        if(userT !=null){
+            predicates.add(cb.equal(review.get("userT"), userT));
+        }
+        if(book !=null){
+            predicates.add(cb.equal(review.get("book"), book));
+        }
+        
+        //Query
+        cq.select(cb.count(review)).where(predicates.toArray(new Predicate[]{}));
+        long count=em.createQuery(cq).getSingleResult();
+        
+        return count!=0;
+    }
+
 }

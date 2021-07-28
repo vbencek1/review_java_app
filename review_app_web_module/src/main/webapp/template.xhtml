@@ -20,6 +20,7 @@
 
         <h:body onload="#{localizationForcer.init()};currentSlide(1);currentSlideLatest(1)">
             <div id="top">
+                <img class="logo" src="resources/images/LOGO.png"/>
                 <div id="top-content-right">
                     <h:outputLabel class="pleaseLogInMsg" value="#{activeUserSession.pleaseLoginMsg}"/>
                     <h:outputLabel class="pleaseLogInMsg" value="#{activeUserSession.failedLoginMsg}"/>
@@ -79,7 +80,7 @@
             <div id="divForgot" class="divForgotPass">
                 <h:form id="frmForgot" class="divForgotPass-content animate">
                     <div class="imgcontainer">
-                        <img src="resources/images/Logo_Spider.png" alt="Logo" class="avatar"/>
+                        <img src="resources/images/LOGO_dark.png" alt="Logo" class="logo"/>
                     </div>
                     <div class="container">
                         <h:outputLabel id='messageFrg' class="frgLabel" value="#{forgotenPasswordBean.message}"/>

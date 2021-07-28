@@ -284,6 +284,7 @@ html, body {
     margin-left: 5%;
     margin-bottom: 10px;
     border-radius: 10px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
 .div-book-container:hover{
@@ -788,7 +789,7 @@ img {
     margin-bottom: 20px;
     display: inline-block;
     border-radius: 10px;
-    border: 1px solid #333333;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
 .div-bookSearch-container:hover{
@@ -822,13 +823,14 @@ img {
     min-height: 500px;
 }
 .div-myReviews-SingleReview{
-    background: #faf7f7;
+    background: #FFFFFF;
     border-radius: 5px;
     border-bottom-right-radius: 0px;
     width: 100%;
     height: 180px;
     margin-top: 10px;
     padding: 5px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 .div-myReviews-SingleReview:hover{
     border: 2px solid #333333;
@@ -913,6 +915,7 @@ img {
     color: #ffffff;
     background: #333333;
     border: 1px solid #333333;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
 .div-myReviews-SingleReview-buttonEdit:hover{
@@ -932,6 +935,7 @@ img {
     border-bottom-right-radius: 5px;
     border-bottom-left-radius: 5px;
     margin-left: 10px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
 .div-myReviews-SingleReview-buttonDelete:hover{

@@ -48,6 +48,16 @@ html, body {
     
 }
 
+.logo{
+    width: 265px;
+}
+
+@media only screen and (min-width: 0px) and (max-width: 760px){
+    .logo{
+        display: none;
+    }
+}
+
 .pleaseLogInMsg{
     color: #ff3333;
     letter-spacing: 1px;

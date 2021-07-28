@@ -124,69 +124,69 @@
             <h:outputLabel value="#{l['viewHome.header.latest']}" class="div-home-header"/>
             <div id="div-home-latest-container">
                 <div class="div-home-slide-latest">
-                    <ui:repeat value="#{viewHome.getSixLatestbooks(0, 2)}" var="row">
-                        <h:outputLink  value="#{viewHome.redirectToBookDetails(row.id)}">
+                    <ui:repeat value="#{viewHome.getLatestbooks(0, 2)}" var="row">
+                        <h:outputLink  value="#{viewHome.redirectToBookDetails(row.bookId)}">
                             <div class="div-book-container">
                                 <div class="div-book-image-container">
-                                    <img src="resources/images/book_placeholder.jpg" alt="book_placeholder"/>
+                                    <img src="#{viewHome.setIMG(row)}" alt="#{viewHome.makeTextShorter(row.title, 100)}"/>
                                 </div>
-                                <h:outputLabel class="div-book-header" value="#{row.naziv} (#{row.godina})"/>
+                                <h:outputLabel class="div-book-header" value="#{viewHome.makeTextShorter(row.title, 100)} (#{viewHome.convertDateToYear(row.publicationDate)}.)"/>
 
-                                <h:outputLabel class="div-book-details" value="#{row.autor}"/>
-                                <h:outputLabel class="div-book-details" value="#{row.izdavac}"/>
+                                <h:outputLabel class="div-book-details" value="#{row.authors}"/>
+                                <h:outputLabel class="div-book-details" value="#{row.publisher}"/>
 
-                                <h:outputText class="div-book-description" value="#{l['viewHome.book.description']}: #{row.opis}"/>
+                                <h:outputText class="div-book-description" value="#{l['viewHome.book.description']}: #{row.description}"/>
                                 <div class="div-book-grade-text">
                                     <h:outputLabel class="div-book-grade-text-gradeText"  value="#{l['viewHome.book.rating']}:"/>
-                                    <h:outputLabel class="div-book-grade-text-gradeValue" value=" #{row.ocjena}&#9734; "/>
-                                    <h:outputLabel class="div-book-grade-text-NOratings" value="(#{row.brojOcjena})"/>
+                                    <h:outputLabel class="div-book-grade-text-gradeValue" value=" #{row.averageRating}&#9734; "/>
+                                    <h:outputLabel class="div-book-grade-text-NOratings" value="(#{row.ratingsCount})"/>
                                 </div>
                             </div>
                         </h:outputLink>>
                     </ui:repeat>
                 </div>
                 <div class="div-home-slide-latest">
-                    <ui:repeat value="#{viewHome.getSixLatestbooks(2, 2)}" var="row">
-                        <h:outputLink  value="#{viewHome.redirectToBookDetails(row.id)}">
+                    <ui:repeat value="#{viewHome.getLatestbooks(2, 2)}" var="row">
+                        <h:outputLink  value="#{viewHome.redirectToBookDetails(row.bookId)}">
                             <div class="div-book-container">
                                 <div class="div-book-image-container">
-                                    <img src="resources/images/book_placeholder.jpg" alt="book_placeholder"/>
+                                    <img src="#{viewHome.setIMG(row)}" alt="#{viewHome.makeTextShorter(row.title, 100)}"/>
                                 </div>
-                                <h:outputLabel class="div-book-header" value="#{row.naziv} (#{row.godina})"/>
+                                <h:outputLabel class="div-book-header" value="#{viewHome.makeTextShorter(row.title, 100)} (#{viewHome.convertDateToYear(row.publicationDate)}.)"/>
 
-                                <h:outputLabel class="div-book-details" value="#{row.autor}"/>
-                                <h:outputLabel class="div-book-details" value="#{row.izdavac}"/>
+                                <h:outputLabel class="div-book-details" value="#{row.authors}"/>
+                                <h:outputLabel class="div-book-details" value="#{row.publisher}"/>
 
-                                <h:outputText class="div-book-description" value="#{l['viewHome.book.description']}: #{row.opis}"/>
+                                <h:outputText class="div-book-description" value="#{l['viewHome.book.description']}: #{row.description}"/>
                                 <div class="div-book-grade-text">
                                     <h:outputLabel class="div-book-grade-text-gradeText"  value="#{l['viewHome.book.rating']}:"/>
-                                    <h:outputLabel class="div-book-grade-text-gradeValue" value=" #{row.ocjena}&#9734; "/>
-                                    <h:outputLabel class="div-book-grade-text-NOratings" value="(#{row.brojOcjena})"/>
+                                    <h:outputLabel class="div-book-grade-text-gradeValue" value=" #{row.averageRating}&#9734; "/>
+                                    <h:outputLabel class="div-book-grade-text-NOratings" value="(#{row.ratingsCount})"/>
                                 </div>
                             </div>
-                        </h:outputLink>
+                        </h:outputLink>>
                     </ui:repeat>
                 </div>
                 <div class="div-home-slide-latest">
-                    <ui:repeat value="#{viewHome.getSixLatestbooks(4, 2)}" var="row">
-                        <h:outputLink value="#{viewHome.redirectToBookDetails(row.id)}">
-                            <div class="div-book-container"> 
+                    <ui:repeat value="#{viewHome.getLatestbooks(4, 2)}" var="row">
+                        <h:outputLink  value="#{viewHome.redirectToBookDetails(row.bookId)}">
+                            <div class="div-book-container">
                                 <div class="div-book-image-container">
-                                    <img src="resources/images/book_placeholder.jpg" alt="book_placeholder"/>
+                                    <img src="#{viewHome.setIMG(row)}" alt="#{viewHome.makeTextShorter(row.title, 100)}"/>
                                 </div>
-                                <h:outputLabel class="div-book-header" value="#{row.naziv} (#{row.godina})"/>
+                                <h:outputLabel class="div-book-header" value="#{viewHome.makeTextShorter(row.title, 100)} (#{viewHome.convertDateToYear(row.publicationDate)}.)"/>
 
-                                <h:outputLabel class="div-book-details" value="#{row.autor}"/>
-                                <h:outputLabel class="div-book-details" value="#{row.izdavac}"/>
+                                <h:outputLabel class="div-book-details" value="#{row.authors}"/>
+                                <h:outputLabel class="div-book-details" value="#{row.publisher}"/>
 
-                                <h:outputText class="div-book-description" value="#{l['viewHome.book.description']}: #{row.opis}"/>
+                                <h:outputText class="div-book-description" value="#{l['viewHome.book.description']}: #{row.description}"/>
                                 <div class="div-book-grade-text">
                                     <h:outputLabel class="div-book-grade-text-gradeText"  value="#{l['viewHome.book.rating']}:"/>
-                                    <h:outputLabel class="div-book-grade-text-gradeValue" value=" #{row.ocjena}&#9734; "/>
-                                    <h:outputLabel class="div-book-grade-text-NOratings" value="(#{row.brojOcjena})"/>
+                                    <h:outputLabel class="div-book-grade-text-gradeValue" value=" #{row.averageRating}&#9734; "/>
+                                    <h:outputLabel class="div-book-grade-text-NOratings" value="(#{row.ratingsCount})"/>
                                 </div>
                             </div>
-                        </h:outputLink>
+                        </h:outputLink>>
                     </ui:repeat>
                 </div>
                 <!-- Next/prev buttons -->

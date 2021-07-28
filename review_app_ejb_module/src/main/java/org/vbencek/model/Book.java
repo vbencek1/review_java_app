@@ -94,6 +94,8 @@ public class Book implements Serializable {
     @Column(name = "IMG_PATH", length = 255)
     private String imgPath;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "book")
+    private List<Collection> collectionList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "book")
     private List<Review> reviewList;
 
     public Book() {
@@ -218,6 +220,15 @@ public class Book implements Serializable {
 
     public void setImgPath(String imgPath) {
         this.imgPath = imgPath;
+    }
+
+    @XmlTransient
+    public List<Collection> getCollectionList() {
+        return collectionList;
+    }
+
+    public void setCollectionList(List<Collection> collectionList) {
+        this.collectionList = collectionList;
     }
 
     @XmlTransient

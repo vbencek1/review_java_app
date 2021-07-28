@@ -6,40 +6,36 @@
 package org.vbencek.model;
 
 import java.io.Serializable;
-import java.util.List;
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
  * @author Tino
  */
 @Entity
-@Table(name = "USER_T")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "UserT.findAll", query = "SELECT u FROM UserT u")})
-public class UserT implements Serializable {
+    @NamedQuery(name = "Employee.findAll", query = "SELECT e FROM Employee e")})
+public class Employee implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @Column(name = "USER_ID", nullable = false)
-    private Integer userId;
+    @Column(name = "EMPLOYEE_ID", nullable = false)
+    private Integer employeeId;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 25)
@@ -66,36 +62,31 @@ public class UserT implements Serializable {
     @NotNull
     @Column(nullable = false)
     private Boolean isblocked;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "userT")
-    private List<Collection> collectionList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "userId")
-    private List<DataLog> dataLogList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "userId")
-    private List<Request> requestList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "userT")
-    private List<Review> reviewList;
+    @JoinColumn(name = "EMPLOYEE_ROLE_ID", referencedColumnName = "EMPLOYEE_ROLE_ID", nullable = false)
+    @ManyToOne(optional = false)
+    private EmployeeRole employeeRoleId;
 
-    public UserT() {
+    public Employee() {
     }
 
-    public UserT(Integer userId) {
-        this.userId = userId;
+    public Employee(Integer employeeId) {
+        this.employeeId = employeeId;
     }
 
-    public UserT(Integer userId, String username, String password, String email, Boolean isblocked) {
-        this.userId = userId;
+    public Employee(Integer employeeId, String username, String password, String email, Boolean isblocked) {
+        this.employeeId = employeeId;
         this.username = username;
         this.password = password;
         this.email = email;
         this.isblocked = isblocked;
     }
 
-    public Integer getUserId() {
-        return userId;
+    public Integer getEmployeeId() {
+        return employeeId;
     }
 
-    public void setUserId(Integer userId) {
-        this.userId = userId;
+    public void setEmployeeId(Integer employeeId) {
+        this.employeeId = employeeId;
     }
 
     public String getUsername() {
@@ -146,57 +137,29 @@ public class UserT implements Serializable {
         this.isblocked = isblocked;
     }
 
-    @XmlTransient
-    public List<Collection> getCollectionList() {
-        return collectionList;
+    public EmployeeRole getEmployeeRoleId() {
+        return employeeRoleId;
     }
 
-    public void setCollectionList(List<Collection> collectionList) {
-        this.collectionList = collectionList;
-    }
-
-    @XmlTransient
-    public List<DataLog> getDataLogList() {
-        return dataLogList;
-    }
-
-    public void setDataLogList(List<DataLog> dataLogList) {
-        this.dataLogList = dataLogList;
-    }
-
-    @XmlTransient
-    public List<Request> getRequestList() {
-        return requestList;
-    }
-
-    public void setRequestList(List<Request> requestList) {
-        this.requestList = requestList;
-    }
-
-    @XmlTransient
-    public List<Review> getReviewList() {
-        return reviewList;
-    }
-
-    public void setReviewList(List<Review> reviewList) {
-        this.reviewList = reviewList;
+    public void setEmployeeRoleId(EmployeeRole employeeRoleId) {
+        this.employeeRoleId = employeeRoleId;
     }
 
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (userId != null ? userId.hashCode() : 0);
+        hash += (employeeId != null ? employeeId.hashCode() : 0);
         return hash;
     }
 
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof UserT)) {
+        if (!(object instanceof Employee)) {
             return false;
         }
-        UserT other = (UserT) object;
-        if ((this.userId == null && other.userId != null) || (this.userId != null && !this.userId.equals(other.userId))) {
+        Employee other = (Employee) object;
+        if ((this.employeeId == null && other.employeeId != null) || (this.employeeId != null && !this.employeeId.equals(other.employeeId))) {
             return false;
         }
         return true;
@@ -204,7 +167,7 @@ public class UserT implements Serializable {
 
     @Override
     public String toString() {
-        return "org.vbencek.model.UserT[ userId=" + userId + " ]";
+        return "org.vbencek.model.Employee[ employeeId=" + employeeId + " ]";
     }
     
 }

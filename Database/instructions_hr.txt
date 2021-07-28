@@ -9,3 +9,12 @@
 	create-jdbc-resource --connectionpoolid book_review_db_Pool jdbc/book_review_db
 
 3. Izvršiti skripte za kreiranje tablica
+   Izvršiti redoslijedom:
+	1. create_user_table.sql
+	2. create_book_table.sql
+	3. create_review_table.sql
+	4. create_collection_table.sql
+	5. create_request_table.sql
+	6. create_employee_role.sql
+	7. create_employee_table.sql
+	8. create_data_log_table.sql

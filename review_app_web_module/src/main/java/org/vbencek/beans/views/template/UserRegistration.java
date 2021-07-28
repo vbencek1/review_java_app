@@ -131,6 +131,7 @@ public class UserRegistration implements Serializable {
         user.setFirstname(firstName);
         user.setLastname(lastName);
         user.setEmail(email);
+        user.setIsblocked(false);
         userTFacade.create(user);
         loginUser(user);
     }

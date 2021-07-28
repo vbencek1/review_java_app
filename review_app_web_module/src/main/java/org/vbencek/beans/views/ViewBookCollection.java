@@ -13,12 +13,14 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import javax.annotation.PostConstruct;
+import javax.ejb.EJB;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import lombok.Getter;
 import lombok.Setter;
 import org.vbencek.beans.ActiveUserSession;
 import org.vbencek.beans.TestnaKlasaObrisati;
+import org.vbencek.facade.CollectionFacadeLocal;
 import org.vbencek.properties.ParamsCaching;
 import org.vbencek.properties.PropertiesLoader;
 
@@ -29,7 +31,10 @@ import org.vbencek.properties.PropertiesLoader;
 @Named(value = "viewBookCollection")
 @ViewScoped
 public class ViewBookCollection implements Serializable {
-
+    
+    @EJB(beanName = "CollectionFacade")
+    CollectionFacadeLocal collectionFacade;
+    
     @Inject
     ActiveUserSession activeUserSession;
 
@@ -94,6 +99,7 @@ public class ViewBookCollection implements Serializable {
             } catch (NumberFormatException e) {
                 maksBooksPerPage = 10;
             }
+            System.out.println(collectionFacade.count());
         }
     }
 

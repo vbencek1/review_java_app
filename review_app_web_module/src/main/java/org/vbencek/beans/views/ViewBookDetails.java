@@ -22,9 +22,12 @@ import lombok.Getter;
 import lombok.Setter;
 import org.vbencek.beans.ActiveUserSession;
 import org.vbencek.facade.BookFacadeLocal;
+import org.vbencek.facade.CollectionFacadeLocal;
 import org.vbencek.facade.ReviewFacadeLocal;
 import org.vbencek.localization.Localization;
 import org.vbencek.model.Book;
+import org.vbencek.model.Collection;
+import org.vbencek.model.CollectionPK;
 import org.vbencek.model.Review;
 import org.vbencek.model.ReviewPK;
 import org.vbencek.model.UserT;
@@ -45,12 +48,15 @@ public class ViewBookDetails implements Serializable {
     @EJB(beanName = "ReviewFacade")
     ReviewFacadeLocal reviewFacade;
 
+    @EJB(beanName = "CollectionFacade")
+    CollectionFacadeLocal collectionFacade;
+
     @Inject
     ActiveUserSession activeUserSession;
 
     @Inject
     ParamsCaching paramsCaching;
-    
+
     @Inject
     Localization localization;
     ResourceBundle res;
@@ -137,11 +143,28 @@ public class ViewBookDetails implements Serializable {
             redirectFunction = "location.href = 'index.xhtml';";
             renderRedirect = true;
         } else {
-            bookName = thisBook.getTitle();
-            //get maks number of comments
-            numberOfComments = reviewFacade.countReviewsByCriteria(thisBook, null, 0, true, true);
-            renderNoCommentMsg = numberOfComments == 0;
+            setTitleAndCommentsMsg();
+            setFavoriteStatus();
         }
+        loadProperties();
+    }
+
+    private void setTitleAndCommentsMsg() {
+        bookName = thisBook.getTitle();
+        //get maks number of comments
+        numberOfComments = reviewFacade.countReviewsByCriteria(thisBook, null, 0, true, true);
+        //set msg if there's no comments
+        renderNoCommentMsg = numberOfComments == 0;
+    }
+
+    private void setFavoriteStatus() {
+        UserT userT = activeUserSession.getActiveUser();
+        if (userT != null) {
+            notFavorite = !collectionFacade.isBookInCollection(thisBook, userT);
+        }
+    }
+
+    private void loadProperties() {
         PropertiesLoader propLoader = new PropertiesLoader();
         try {
             maksCommentsPerPage = Integer.parseInt(propLoader.getProperty("details.maxCommentsPerPage"));
@@ -198,13 +221,41 @@ public class ViewBookDetails implements Serializable {
 
     }
 
-    public void addBookToCollection() {
+    private void addBookToUserCollection(UserT user) {
+        Collection collection=new Collection();
+        CollectionPK collectionPK= new CollectionPK();
+        collectionPK.setBookId(thisBook.getBookId());
+        collectionPK.setUserId(user.getUserId());
+        collection.setBook(thisBook);
+        collection.setUserT(user);
+        collection.setCollectionPK(collectionPK);
+        collection.setDateAdded(new Date());
+        collectionFacade.create(collection);
+    }
 
-        if (notFavorite) {
-            System.out.println("notFavorite");
+    private void removeBookFromUserCollection(UserT user) {
+        Collection collectionToDelete=collectionFacade.find(new CollectionPK(thisBook.getBookId(),user.getUserId()));
+        collectionFacade.remove(collectionToDelete);
+    }
+
+    public void addBookToCollection() {
+        paramsCaching.setBookIdCache(bookID);
+        UserT userT = activeUserSession.getActiveUser();
+        if (userT != null) {
+            if (notFavorite) {
+                System.out.println("notFavorite");
+                addBookToUserCollection(userT);
+                notFavorite=false;
+            } else {
+                System.out.println("Favorite");
+                removeBookFromUserCollection(userT);
+                notFavorite=true;
+            }
         } else {
-            System.out.println("Favorite");
+            //TO DO -> message for non logged in users
+            notFavorite=true;
         }
+
     }
 
     private void clearReviewMessages() {
@@ -213,10 +264,10 @@ public class ViewBookDetails implements Serializable {
         reviewNotOkMsg = "";
         reviewOkMsg = "";
     }
-    
-    private void addReviewToDatabase(UserT user){
+
+    private void addReviewToDatabase(UserT user) {
         Review review = new Review();
-        ReviewPK reviewPK= new ReviewPK();
+        ReviewPK reviewPK = new ReviewPK();
         reviewPK.setBookId(thisBook.getBookId());
         reviewPK.setUserId(user.getUserId());
         review.setReviewPK(reviewPK);
@@ -230,7 +281,8 @@ public class ViewBookDetails implements Serializable {
     }
 
     public void addReview() {
-        res=ResourceBundle.getBundle("org.vbencek.localization.Translations", new Locale(localization.getLanguage()));
+        paramsCaching.setBookIdCache(bookID);
+        res = ResourceBundle.getBundle("org.vbencek.localization.Translations", new Locale(localization.getLanguage()));
         clearReviewMessages();
         UserT activeUser = activeUserSession.getActiveUser();
         if (activeUser != null) {
@@ -247,7 +299,7 @@ public class ViewBookDetails implements Serializable {
         } else {
             renderReviewOkMsg = false;
             renderReviewNotOkMsg = true;
-            reviewNotOkMsg=res.getString("viewBookDetails.addReviewMsg.login");
+            reviewNotOkMsg = res.getString("viewBookDetails.addReviewMsg.login");
         }
     }
 

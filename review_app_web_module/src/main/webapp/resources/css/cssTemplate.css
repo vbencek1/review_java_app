@@ -490,6 +490,7 @@ body .ui-button:hover {
     display: block;
     width: 60%;
     letter-spacing: 1px; 
+    overflow-wrap: break-word;
 }
 
 #bottom-down{

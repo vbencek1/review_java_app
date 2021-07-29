@@ -16,8 +16,8 @@
             <div class="div-addBook-section">
                 <h:outputLabel class="div-addBook-textInfo" value="#{l['viewAddBookRequest.infoISBN']}" />
                 <form>
-                    <h:inputText id="ISBN" class="div-addBook-inputISBN" a:placeholder="ISBN" value="#{viewAddBookRequest.isbn}"  onkeypress="if (event.which &lt; 48 || event.which &gt; 57) return false;"/>
-                    <h:commandButton id="ActionIsbn" class="div-addBook-buttonISBN" value="#{l['viewAddBookRequest.btnSendISBN']}" action="#{viewAddBookRequest.sendISBNBookRequest()}"/>               
+                    <h:inputText id="ISBN" class="div-addBook-inputISBN" a:placeholder="ISBN" value="#{viewAddBookRequest.isbn}"/>
+                    <h:commandButton id="ActionIsbn" class="div-addBook-buttonISBN" value="#{l['viewAddBookRequest.btnSendISBN']}"/>               
                 </form>
                 <h:outputLabel class="div-addBook-msgReply" value="#{viewAddBookRequest.messageIsbn}" rendered="#{viewAddBookRequest.renderReplyIsbn}"/>
             </div>

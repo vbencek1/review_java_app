@@ -21,6 +21,9 @@ html, body {
     font-family: sans-serif;
     font-size: 12px;
 } 
+a{
+    text-decoration: none;
+}
 
 .page-top-bar{
     width: 100%;

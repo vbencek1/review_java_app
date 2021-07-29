@@ -59,7 +59,7 @@
                         <div class="div-bookSearch-container">
                             <div class="div-bookSearch-image-container">
                                 <img id="spinner" class="loading" src="resources/images/Spinner-200px.gif"/>
-                                <img class="top-small" src="#{viewSearchBooks.setIMG(row)}" alt="#{row.title}"/>
+                                <img class="top-small" src="#{viewSearchBooks.setIMG(row)}" alt="#{viewSearchBooks.makeTextShorter(row.title,100)}"/>
                             </div>
                             <h:outputLabel class="div-book-header" value="#{viewSearchBooks.makeTextShorter(row.title,100)} (#{viewSearchBooks.convertDateToYear(row.publicationDate)}.)"/>
 

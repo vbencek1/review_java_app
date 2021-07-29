@@ -8,7 +8,7 @@ package org.vbencek.beans.views;
 import javax.inject.Named;
 import javax.faces.view.ViewScoped;
 import java.io.Serializable;
-import java.util.ArrayList;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -18,9 +18,10 @@ import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import lombok.Getter;
 import lombok.Setter;
+import org.apache.commons.lang3.StringUtils;
 import org.vbencek.beans.ActiveUserSession;
-import org.vbencek.beans.TestnaKlasaObrisati;
 import org.vbencek.facade.CollectionFacadeLocal;
+import org.vbencek.model.Book;
 import org.vbencek.properties.ParamsCaching;
 import org.vbencek.properties.PropertiesLoader;
 
@@ -67,14 +68,11 @@ public class ViewBookCollection implements Serializable {
 
     @Getter
     @Setter
-    List<TestnaKlasaObrisati> testList = new ArrayList<>();
-
-    @Getter
-    @Setter
     int pageNum = 0;
 
     int maksBooksPerPage;
-
+    long numberOfUserBooks=0;
+    
     @Getter
     @Setter
     boolean renderRedirect = false;
@@ -90,16 +88,13 @@ public class ViewBookCollection implements Serializable {
             renderRedirect = true;
         } else {
             setSearchParams();
-            testList.add(new TestnaKlasaObrisati(6, "Knjiga o psima", 1002, "Tino Dr", "Nekaj trece", "Svetlo na kraju tunela za mnoge ljudei", 5.00, 11, new Date(1234576)));
-            testList.add(new TestnaKlasaObrisati(7, "Knjiga o svemu 2", 1002, "Tino Ed", "Nekaj trece", "Svetlo na kraju tunela za mnoge ljudei", 5.00, 11, new Date(1234576)));
-            testList.add(new TestnaKlasaObrisati(8, "Skupljanje pokemona", 1002, "Tino Tinek", "Nekaj trece", "Svetlo na kraju tunela za mnoge ljudei", 5.00, 11, new Date(1234576)));
             PropertiesLoader propLoader = new PropertiesLoader();
             try {
                 maksBooksPerPage = Integer.parseInt(propLoader.getProperty("books.maxBooksPerPage"));
             } catch (NumberFormatException e) {
                 maksBooksPerPage = 10;
             }
-            System.out.println(collectionFacade.count());
+            numberOfUserBooks=collectionFacade.countUserBooksByCriteria(activeUserSession.getActiveUser(), isbn, keyword, year, publisher, minRating);
         }
     }
 
@@ -129,24 +124,32 @@ public class ViewBookCollection implements Serializable {
 
     }
 
-    public List<TestnaKlasaObrisati> testnaLista(int page) {
-        List<TestnaKlasaObrisati> temp = new ArrayList<>();
+    public String convertDateToYear(Date date) {
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("EEEE");
+        simpleDateFormat = new SimpleDateFormat("YYYY");
+        return simpleDateFormat.format(date).toUpperCase();
+    }
+    
+    public String setIMG(Book book) {
+        if (book.getImgPath() != null) {
+            return book.getImgPath();
+        } else {
+            return "http://covers.openlibrary.org/b/isbn/" + book.getIsbn() + "-M.jpg";
+        }
+    }
+    
+    public String makeTextShorter(String text, int maxChars){
+        return StringUtils.abbreviate(text, maxChars);
+    }
+    
+    public List<Book> getListOfBooks(int page) {
         int offset = page * maksBooksPerPage;
         int size = offset + maksBooksPerPage;
-        for (int i = offset; i < size; i++) {
-            if (testList.size() <= i) {
-                break;
-            }
-            if (keyword != null && testList.get(i).getNaziv().contains(keyword)) {
-                temp.add(testList.get(i));
-            }
-
-        }
-        return temp;
+        return collectionFacade.findUserBooksByCriteria(activeUserSession.getActiveUser(), isbn, keyword, year, publisher, minRating, sortOption, offset, size);
     }
 
     public void nextPage() {
-        if (pageNum < testList.size() / maksBooksPerPage) {
+        if (pageNum < numberOfUserBooks / maksBooksPerPage) {
             pageNum++;
         }
     }

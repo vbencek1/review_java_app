@@ -9,7 +9,6 @@ import javax.inject.Named;
 import javax.faces.view.ViewScoped;
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -20,7 +19,6 @@ import javax.inject.Inject;
 import lombok.Getter;
 import lombok.Setter;
 import org.vbencek.beans.ActiveUserSession;
-import org.vbencek.beans.TestnaKlasaKomentar;
 import org.vbencek.facade.ReviewFacadeLocal;
 import org.vbencek.model.Review;
 import org.vbencek.properties.ParamsCaching;
@@ -117,7 +115,6 @@ public class ViewMyReviews implements Serializable {
         } else {
             return "http://covers.openlibrary.org/b/isbn/" + review.getBook().getIsbn() + "-S.jpg";
         }
-
     }
 
     public String convertToFriendlyDate(Date date) {

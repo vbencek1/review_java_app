@@ -8,16 +8,21 @@ package org.vbencek.beans.views;
 import javax.inject.Named;
 import javax.faces.view.ViewScoped;
 import java.io.Serializable;
+import java.util.Date;
 import java.util.Locale;
 import java.util.Map;
 import java.util.ResourceBundle;
 import javax.annotation.PostConstruct;
+import javax.ejb.EJB;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import lombok.Getter;
 import lombok.Setter;
 import org.vbencek.beans.ActiveUserSession;
+import org.vbencek.facade.BookFacadeLocal;
+import org.vbencek.facade.RequestFacadeLocal;
 import org.vbencek.localization.Localization;
+import org.vbencek.model.Request;
 
 /**
  *
@@ -26,7 +31,13 @@ import org.vbencek.localization.Localization;
 @Named(value = "viewAddBookRequest")
 @ViewScoped
 public class ViewAddBookRequest implements Serializable {
-
+    
+    @EJB(beanName = "RequestFacade")
+    RequestFacadeLocal requestFacade;
+    
+    @EJB(beanName = "BookFacade")
+    BookFacadeLocal bookFacade;
+    
     @Inject
     ActiveUserSession activeUserSession;
 
@@ -120,19 +131,29 @@ public class ViewAddBookRequest implements Serializable {
     private void sendISBNBookRequest() {
         res = ResourceBundle.getBundle("org.vbencek.localization.Translations", new Locale(localization.getLanguage()));
         renderReplyIsbn = true;
-        if (true) {
+        if (!bookFacade.isISBNExists(isbn)) {
+            //Request is added in db for now, in future, book should be added directly from OpenLibrary API
             messageIsbn = res.getString("viewAddBookRequest.messageISBN.ok");
+            addRequest();
         } else {
             messageIsbn = res.getString("viewAddBookRequest.messageISBN.notOk");
         }
-        System.out.println("Sending: " + isbn);
     }
 
     private void sendInfoBookRequest() {
         res = ResourceBundle.getBundle("org.vbencek.localization.Translations", new Locale(localization.getLanguage()));
         renderReplyInfo = true;
         messageInfo = res.getString("viewAddBookRequest.messageInfo.ok");
-        System.out.println("Sending: " + bookTitle + " " + bookDescription);
+        addRequest();
     }
-
+    
+    private void addRequest(){
+        Request request= new Request();
+        request.setIsbn(isbn);
+        request.setTitle(bookTitle);
+        request.setDescription(bookDescription);
+        request.setRequestDate(new Date());
+        request.setUserId(activeUserSession.getActiveUser());
+        requestFacade.create(request);
+    }
 }

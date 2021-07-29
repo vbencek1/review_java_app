@@ -54,22 +54,23 @@
                     <p:commandButton id="btnPrevoius" class="div-bookSearch-btnScroll-left" value="&lt;&lt;#{l['viewBookDetails.btnPrevious']}" action="#{viewBookCollection.previousPage()}" update="form-buttons"/>
                     <p:commandButton id="btnNext" class="div-bookSearch-btnScroll-right" value="#{l['viewBookDetails.btnNext']}&gt;&gt;" action="#{viewBookCollection.nextPage()}" update="form-buttons"/>
                 </div>
-                <ui:repeat id="bookRepeater" value="#{viewBookCollection.testnaLista(viewBookCollection.pageNum)}" var="row">
-                    <h:commandLink action="#{viewBookCollection.redirectToBookDetails(row.id)}">
+                <ui:repeat id="bookRepeater" value="#{viewBookCollection.getListOfBooks(viewBookCollection.pageNum)}" var="row">
+                    <h:commandLink action="#{viewBookCollection.redirectToBookDetails(row.bookId)}">
                         <div class="div-bookSearch-container">
-                            <div class="div-bookDetails-imageContainer">
-                                <img src="resources/images/book_placeholder.jpg" alt="book_placeholder"/>
+                            <div class="div-bookSearch-image-container">
+                                <img id="spinner" class="loading" src="resources/images/Spinner-200px.gif"/>
+                                <img class="top-small" src="#{viewSearchBooks.setIMG(row)}" alt="#{viewSearchBooks.makeTextShorter(row.title,100)}"/>
                             </div>
-                            <h:outputLabel class="div-book-header" value="#{row.naziv} (#{row.godina})"/>
+                            <h:outputLabel class="div-book-header" value="#{viewBookCollection.makeTextShorter(row.title, 100)} (#{viewBookCollection.convertDateToYear(row.publicationDate)})."/>
 
-                            <h:outputLabel class="div-book-details" value="#{row.autor}"/>
-                            <h:outputLabel class="div-book-details" value="#{row.izdavac}"/>
+                            <h:outputLabel class="div-book-details" value="#{row.authors}"/>
+                            <h:outputLabel class="div-book-details" value="#{row.publisher}"/>
 
-                            <h:outputText class="div-book-description" value="#{l['viewHome.book.description']}: #{row.opis}"/>
+                            <h:outputText class="div-book-description" value="#{l['viewHome.book.description']}: #{row.description}"/>
                             <div class="div-book-grade-text">
                                 <h:outputLabel class="div-book-grade-text-gradeText"  value="#{l['viewHome.book.rating']}:"/>
-                                <h:outputLabel class="div-book-grade-text-gradeValue" value=" #{row.ocjena}&#9734; "/>
-                                <h:outputLabel class="div-book-grade-text-NOratings" value="(#{row.brojOcjena})"/>
+                                <h:outputLabel class="div-book-grade-text-gradeValue" value=" #{row.averageRating}&#9734; "/>
+                                <h:outputLabel class="div-book-grade-text-NOratings" value="(#{row.ratingsCount})"/>
                             </div>
                         </div>
                     </h:commandLink>

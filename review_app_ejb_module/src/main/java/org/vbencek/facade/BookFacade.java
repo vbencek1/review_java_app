@@ -158,4 +158,20 @@ public class BookFacade extends AbstractFacade<Book> implements BookFacadeLocal 
         return publisherList;
     }
 
+    @Override
+    public boolean isISBNExists(String isbn) {
+        CriteriaBuilder cb = em.getCriteriaBuilder();
+        CriteriaQuery<Long> cq = cb.createQuery(Long.class);
+        Root<Book> book = cq.from(Book.class);
+        List<Predicate> predicates = new ArrayList<Predicate>();
+        if (isbn != null && !"".equals(isbn)) {
+            predicates.add(cb.equal(book.get("isbn"), isbn));
+        }
+        cq.select(cb.count(book)).where(predicates.toArray(new Predicate[]{}));
+        //execute query and do something with result
+        long count = em.createQuery(cq).getSingleResult();
+
+        return count!=0;
+    }
+
 }

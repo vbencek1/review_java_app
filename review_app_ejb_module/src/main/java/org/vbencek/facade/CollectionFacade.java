@@ -56,5 +56,109 @@ public class CollectionFacade extends AbstractFacade<Collection> implements Coll
         
         return count!=0;
     }
+
+    @Override
+    public List<Book> findUserBooksByCriteria(UserT userT, String isbn, String keyword, int publishYear, String publisher, double minimumAvgRating, String sortOption, int offset, int limit) {
+        CriteriaBuilder cb = em.getCriteriaBuilder();
+        CriteriaQuery<Book> cq = cb.createQuery(Book.class);
+        Root<Book> book = cq.from(Book.class);
+        Root<Collection> collection = cq.from(Collection.class);
+        List<Predicate> predicates = new ArrayList<Predicate>();
+        if(userT!=null){
+            predicates.add(cb.equal(collection.get("userT"), userT));
+        }
+        
+        if (isbn != null && !"".equals(isbn)) {
+            predicates.add(cb.equal(book.get("isbn"), isbn));
+        }
+        
+        if (keyword != null && !"".equals(keyword)) {
+            Predicate title = cb.like(cb.upper(book.get("title")), "%" + keyword.toUpperCase() + "%");
+            Predicate authors = cb.like(cb.upper(book.get("authors")), "%" + keyword.toUpperCase() + "%");
+            predicates.add(cb.or(title, authors));
+        }
+
+        if (publishYear != 0) {
+            predicates.add(cb.equal(cb.function("year", Integer.class, book.get("publicationDate")), publishYear));
+        }
+
+        if (publisher != null && !"".equals(publisher)) {
+            predicates.add(cb.equal(book.get("publisher"), publisher));
+        }
+
+        if (minimumAvgRating != 0) {
+            predicates.add(cb.greaterThanOrEqualTo(book.get("averageRating"), minimumAvgRating));
+        }
+        //add sort options
+        if (sortOption != null && !"".equals(sortOption)) {
+            if ("title".equals(sortOption)) {
+                cq.orderBy(cb.asc(book.get("title")));
+            }
+            if ("rating".equals(sortOption)) {
+                cq.orderBy(cb.desc(book.get("averageRating")));
+            }
+
+            if ("reviews".equals(sortOption)) {
+                cq.orderBy(cb.desc(book.get("ratingsCount")));
+            }
+        }
+        
+        //JOIN TABLES
+        predicates.add(cb.equal(book.get("bookId"), collection.get("book").get("bookId")));
+        
+        //Query
+        cq.select(book).where(predicates.toArray(new Predicate[]{}));
+        //execute query and do something with result
+        List<Book> results = em.createQuery(cq)
+                .setFirstResult(offset)
+                .setMaxResults(limit)
+                .getResultList();
+
+        return results;
+    }
+
+    @Override
+    public long countUserBooksByCriteria(UserT userT, String isbn, String keyword, int publishYear, String publisher, double minimumAvgRating) {
+        CriteriaBuilder cb = em.getCriteriaBuilder();
+        CriteriaQuery<Long> cq = cb.createQuery(Long.class);
+        Root<Book> book = cq.from(Book.class);
+        Root<Collection> collection = cq.from(Collection.class);
+        List<Predicate> predicates = new ArrayList<Predicate>();
+        if(userT!=null){
+            predicates.add(cb.equal(collection.get("userT"), userT));
+        }
+        
+        if (isbn != null && !"".equals(isbn)) {
+            predicates.add(cb.equal(book.get("isbn"), isbn));
+        }
+        
+        if (keyword != null && !"".equals(keyword)) {
+            Predicate title = cb.like(cb.upper(book.get("title")), "%" + keyword.toUpperCase() + "%");
+            Predicate authors = cb.like(cb.upper(book.get("authors")), "%" + keyword.toUpperCase() + "%");
+            predicates.add(cb.or(title, authors));
+        }
+
+        if (publishYear != 0) {
+            predicates.add(cb.equal(cb.function("year", Integer.class, book.get("publicationDate")), publishYear));
+        }
+
+        if (publisher != null && !"".equals(publisher)) {
+            predicates.add(cb.equal(book.get("publisher"), publisher));
+        }
+
+        if (minimumAvgRating != 0) {
+            predicates.add(cb.greaterThanOrEqualTo(book.get("averageRating"), minimumAvgRating));
+        }
+        
+        //JOIN TABLES
+        predicates.add(cb.equal(book.get("bookId"), collection.get("book").get("bookId")));
+        
+        //Query
+        cq.select(cb.count(book)).where(predicates.toArray(new Predicate[]{}));
+        //execute query and do something with result
+        long count = em.createQuery(cq).getSingleResult();
+
+        return count;
+    }
     
 }

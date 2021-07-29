@@ -33,4 +33,8 @@ public interface CollectionFacadeLocal {
     int count();
     
     boolean isBookInCollection(Book book, UserT userT);
+    
+    List<Book> findUserBooksByCriteria(UserT userT,String isbn, String keyword, int publishYear, String publisher, double minimumAvgRating,String sortOption,int offset,int limit);
+    
+    long countUserBooksByCriteria(UserT userT,String isbn, String keyword, int publishYear, String publisher, double minimumAvgRating);
 }

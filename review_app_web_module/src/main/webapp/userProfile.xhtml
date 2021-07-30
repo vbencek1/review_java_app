@@ -89,18 +89,18 @@
                             document.getElementById('divPassword').style.display = 'none';
                         }
                     </script>
-                    <h:form>
+                    <h:form id="changePassForm">
                         <div class="div-userProfile-section-group">
                             <h:outputLabel value="#{l['viewUserProfile.currentPass']}"/>
                             <h:inputSecret value="#{viewUserProfile.password}"/>
                         </div>
                         <div class="div-userProfile-section-group">
                             <h:outputLabel value="#{l['viewUserProfile.newPass']}"/>
-                            <h:inputSecret value="#{viewUserProfile.newPassword}" validator="#{validations.validatePassword}"/>
+                            <h:inputSecret value="#{viewUserProfile.newPassword}" validator="#{validations.validatePasswordOnUserInfo}"/>
                         </div>
                         <div class="div-userProfile-section-group">
                             <h:outputLabel value="#{l['viewUserProfile.confNewPass']}"/>
-                            <h:inputSecret value="#{viewUserProfile.confNewPassword}"/>
+                            <h:inputSecret id="confPassword" value="#{viewUserProfile.confNewPassword}"/>
                         </div>
                         <h:commandButton class="div-userProfile-section-newPassBtn" value="#{l['viewUserProfile.btnUpdatePass']}" action="#{viewUserProfile.updateUserPassword()}"/>
                         <h:outputLabel id="validationLabel" class="div-userProfile-section-errorMsg" value="#{validations.printValidationMessagePassword()}"/><br/>

@@ -20,6 +20,7 @@ import lombok.Getter;
 import lombok.Setter;
 import org.vbencek.beans.ActiveUserSession;
 import org.vbencek.facade.BookFacadeLocal;
+import org.vbencek.facade.DataLogFacadeLocal;
 import org.vbencek.facade.RequestFacadeLocal;
 import org.vbencek.localization.Localization;
 import org.vbencek.model.Request;
@@ -37,6 +38,9 @@ public class ViewAddBookRequest implements Serializable {
     
     @EJB(beanName = "BookFacade")
     BookFacadeLocal bookFacade;
+    
+    @EJB(beanName = "DataLogFacade")
+    DataLogFacadeLocal dataLogFacade;
     
     @Inject
     ActiveUserSession activeUserSession;
@@ -153,6 +157,8 @@ public class ViewAddBookRequest implements Serializable {
         request.setTitle(bookTitle);
         request.setDescription(bookDescription);
         request.setRequestDate(new Date());
+        //Sending object to be converted to json before I add user to avoid infinite loop. Alternative is to use  @JsonIgnoreProperties or similar anotation
+        activeUserSession.addDataLog(this.getClass().getSimpleName(), new Object(){}.getClass().getEnclosingMethod().getName(), request);
         request.setUserId(activeUserSession.getActiveUser());
         requestFacade.create(request);
     }

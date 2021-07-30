@@ -179,6 +179,7 @@ public class ViewUserProfile implements Serializable {
             userTFacade.edit(updatedUser);
             rendermessageInfoOK = true;
             messageInfo = res.getString("viewUserProfile.msg.updateData");
+            activeUserSession.addDataLog(this.getClass().getSimpleName(), new Object(){}.getClass().getEnclosingMethod().getName(), "Information update");
         } else {
             rendermessageInfoNotOK = true;
             messageInfo = res.getString("viewUserProfile.msg.invalidPass");
@@ -209,6 +210,7 @@ public class ViewUserProfile implements Serializable {
         UserT updatedUser = thisUser;
         updatedUser.setEmail(email);
         userTFacade.edit(updatedUser);
+        activeUserSession.addDataLog(this.getClass().getSimpleName(), new Object(){}.getClass().getEnclosingMethod().getName(), "New email: "+email);
     }
 
     public void updateUserEmail() {
@@ -229,6 +231,7 @@ public class ViewUserProfile implements Serializable {
         UserT updatedUser = thisUser;
         updatedUser.setPassword(encoder.encode(newPassword));
         userTFacade.edit(updatedUser);
+        activeUserSession.addDataLog(this.getClass().getSimpleName(), new Object(){}.getClass().getEnclosingMethod().getName(), "Password update");
     }
 
     public void updateUserPassword() {

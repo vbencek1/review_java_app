@@ -145,6 +145,7 @@ public class ViewBookDetails implements Serializable {
         } else {
             setTitleAndCommentsMsg();
             setFavoriteStatus();
+            activeUserSession.addDataLog(this.getClass().getSimpleName(), new Object(){}.getClass().getEnclosingMethod().getName(), "Opening BookView ID: "+thisBook.getBookId());
         }
         loadProperties();
     }
@@ -231,11 +232,13 @@ public class ViewBookDetails implements Serializable {
         collection.setCollectionPK(collectionPK);
         collection.setDateAdded(new Date());
         collectionFacade.create(collection);
+        activeUserSession.addDataLog(this.getClass().getSimpleName(), new Object(){}.getClass().getEnclosingMethod().getName(), "Book ID: "+thisBook.getBookId());
     }
 
     private void removeBookFromUserCollection(UserT user) {
         Collection collectionToDelete=collectionFacade.find(new CollectionPK(thisBook.getBookId(),user.getUserId()));
         collectionFacade.remove(collectionToDelete);
+        activeUserSession.addDataLog(this.getClass().getSimpleName(), new Object(){}.getClass().getEnclosingMethod().getName(), "Book ID: "+thisBook.getBookId());
     }
 
     public void addBookToCollection() {
@@ -278,6 +281,8 @@ public class ViewBookDetails implements Serializable {
         review.setRating(addReviewRating);
         review.setRatingDate(new Date());
         reviewFacade.create(review);
+        activeUserSession.addDataLog(this.getClass().getSimpleName(), new Object(){}.getClass().getEnclosingMethod().getName(), "Review ID: "+review.getReviewPK());
+        
     }
 
     public void addReview() {

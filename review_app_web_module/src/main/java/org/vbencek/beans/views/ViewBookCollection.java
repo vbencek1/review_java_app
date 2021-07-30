@@ -114,14 +114,15 @@ public class ViewBookCollection implements Serializable {
             minRating = 0;
         }
         sortOption = params.get("SortBy");
-        System.out.println("ViewBookCollection: Opening view with parametars: "
+        String stringParams="ViewBookCollection: Opening view with parametars: "
                 + "ISBN: " + isbn + " "
                 + "Keyword: " + keyword + " "
                 + "Year: " + year + " "
                 + "Publisher: " + publisher + " "
                 + "MinRating: " + minRating + " "
-                + "SortBy: " + sortOption);
-
+                + "SortBy: " + sortOption;
+        System.out.println(stringParams);
+        activeUserSession.addDataLog(this.getClass().getSimpleName(), new Object(){}.getClass().getEnclosingMethod().getName(), stringParams);
     }
 
     public String convertDateToYear(Date date) {

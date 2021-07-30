@@ -23,6 +23,7 @@ import org.vbencek.model.Book;
 import org.vbencek.properties.ParamsCaching;
 import org.vbencek.properties.PropertiesLoader;
 import org.apache.commons.lang3.StringUtils;
+import org.vbencek.beans.ActiveUserSession;
 
 /**
  *
@@ -33,6 +34,9 @@ import org.apache.commons.lang3.StringUtils;
 public class ViewSearchBooks implements Serializable {
     @EJB(beanName = "BookFacade")
     BookFacadeLocal bookFacade;
+    
+    @Inject
+    ActiveUserSession activeUserSession;
     
     @Inject
     ParamsCaching paramsCaching;
@@ -106,14 +110,15 @@ public class ViewSearchBooks implements Serializable {
         if(sortOption==null){
             sortOption="title";
         }
-        System.out.println("ViewSearchBooks: Opening view with parametars: "
+        String stringParams="ViewSearchBooks: Opening view with parametars: "
                 + "ISBN: " + isbn + " "
                 + "Keyword: " + keyword + " "
                 + "Year: " + year + " "
                 + "Publisher: " + publisher + " "
                 + "MinRating: " + minRating + " "
-                + "SortBy: " + sortOption);
-
+                + "SortBy: " + sortOption;
+        System.out.println(stringParams);
+        activeUserSession.addDataLog(this.getClass().getSimpleName(), new Object(){}.getClass().getEnclosingMethod().getName(), stringParams);
     }
 
     public String convertDateToYear(Date date) {

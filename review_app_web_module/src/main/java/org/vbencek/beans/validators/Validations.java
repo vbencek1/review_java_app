@@ -101,6 +101,21 @@ public class Validations implements Serializable {
             msgPassword = "*" + res.getString("validations.validateConfPassword") + "\n";
         }
     }
+    
+    public void validatePasswordOnUserInfo(FacesContext context, UIComponent comp, Object value) {
+        msgPassword="";
+        String validString = (String) value;
+        String confPassword = context.getExternalContext().getRequestParameterMap().get("changePassForm:confPassword");
+        if (validString.length() < 4 || validString.length() > 20) {
+            System.out.println("validations: invalid password");
+            ((UIInput) comp).setValid(false);
+            msgPassword = "*" + res.getString("validations.validatePassword") + "\n";
+        } else if (!validString.equals(confPassword)) {
+            System.out.println("validations: password aren't matching");
+            ((UIInput) comp).setValid(false);
+            msgPassword = "*" + res.getString("validations.validateConfPassword") + "\n";
+        }
+    }
 
     public void validateEmail(FacesContext context, UIComponent comp, Object value) {
         msgEmail="";

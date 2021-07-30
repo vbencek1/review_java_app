@@ -5,9 +5,12 @@
  */
 package org.vbencek.beans;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
 import java.io.Serializable;
+import java.util.Date;
 import java.util.Locale;
 import java.util.Map;
 import java.util.ResourceBundle;
@@ -17,10 +20,12 @@ import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import lombok.Getter;
 import lombok.Setter;
-import org.primefaces.PrimeFaces;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.security.crypto.password.Pbkdf2PasswordEncoder;
+import org.vbencek.facade.DataLogFacadeLocal;
 import org.vbencek.facade.UserTFacadeLocal;
 import org.vbencek.localization.Localization;
+import org.vbencek.model.DataLog;
 import org.vbencek.model.UserT;
 
 /**
@@ -33,6 +38,9 @@ public class ActiveUserSession implements Serializable {
 
     @EJB(beanName = "UserTFacade")
     UserTFacadeLocal userTFacade;
+
+    @EJB(beanName = "DataLogFacade")
+    DataLogFacadeLocal dataLogFacade;
 
     @Inject
     Localization localization;
@@ -118,6 +126,7 @@ public class ActiveUserSession implements Serializable {
         renderScripter = true;
         failedLoginMsg = "";
         script = switchButtonDisplay("none");
+        addDataLog(this.getClass().getSimpleName(), new Object(){}.getClass().getEnclosingMethod().getName(), "login");
     }
 
     private void renderLogout() {
@@ -130,6 +139,7 @@ public class ActiveUserSession implements Serializable {
         showForgottenPassLink = true;
         showRegistrationLink = true;
         script = switchButtonDisplay("block");
+        addDataLog(this.getClass().getSimpleName(), new Object(){}.getClass().getEnclosingMethod().getName(), "logout");
     }
 
     public void authenticate() {
@@ -155,8 +165,8 @@ public class ActiveUserSession implements Serializable {
             }
         } else {
             //logout
-            activeUser = null;
             renderLogout();
+            activeUser = null;
         }
     }
 
@@ -203,6 +213,29 @@ public class ActiveUserSession implements Serializable {
             return "addBookRequest.xhmtl?faces-redirect=true";
         } else {
             return "index.xhtml?action=openLogin&faces-redirect=true";
+        }
+    }
+
+    //user action logging
+    public <T> void addDataLog(String viewName, String methodName, T params) {
+        if (activeUser != null) {
+            ObjectMapper mapper = new ObjectMapper();
+            DataLog dataLog = new DataLog();
+            String stringParams = "";
+            if (params != null) {
+                try {
+                    stringParams = mapper.writeValueAsString(params);
+                } catch (JsonProcessingException e) {
+                    e.printStackTrace();
+                }
+            }
+            String shorterParams=StringUtils.abbreviate(stringParams, 250);
+            dataLog.setUserId(activeUser);
+            dataLog.setActionDate(new Date());
+            dataLog.setMathodName(methodName);
+            dataLog.setViewName(viewName);
+            dataLog.setParametars(shorterParams);
+            dataLogFacade.create(dataLog);
         }
     }
 

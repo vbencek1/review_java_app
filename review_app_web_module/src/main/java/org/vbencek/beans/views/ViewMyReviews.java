@@ -96,10 +96,12 @@ public class ViewMyReviews implements Serializable {
         } catch (Exception e) {
             minRating = 0;
         }
-        System.out.println("ViewSearchBooks: Opening view with parametars: "
+        String stringParams="ViewSearchBooks: Opening view with parametars: "
                 + "Keyword: " + keyword + " "
                 + "MinRating: " + minRating + " "
-                + "SortBy: " + sortOption);
+                + "SortBy: " + sortOption;
+        System.out.println(stringParams);
+        activeUserSession.addDataLog(this.getClass().getSimpleName(), new Object(){}.getClass().getEnclosingMethod().getName(), stringParams);
 
     }
 
@@ -142,9 +144,11 @@ public class ViewMyReviews implements Serializable {
     public void saveData(Review review) {
         review.setRatingDate(new Date());
         reviewFacade.edit(review);
+        activeUserSession.addDataLog(this.getClass().getSimpleName(), new Object(){}.getClass().getEnclosingMethod().getName(), "Review ID: "+review.getReviewPK());
     }
     public void deleteData(Review review) {
         reviewFacade.remove(review);
+        activeUserSession.addDataLog(this.getClass().getSimpleName(), new Object(){}.getClass().getEnclosingMethod().getName(), "Review ID: "+review.getReviewPK());
     }
 
 }

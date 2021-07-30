@@ -133,7 +133,8 @@ public class UserRegistration implements Serializable {
         user.setEmail(email);
         user.setIsblocked(false);
         userTFacade.create(user);
-        loginUser(user);
+        loginUser(user);   
+        activeUserSession.addDataLog(this.getClass().getSimpleName(), new Object(){}.getClass().getEnclosingMethod().getName(), user);
     }
 
     private void loginUser(UserT user) {

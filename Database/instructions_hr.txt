@@ -18,3 +18,4 @@
 	6. create_employee_role.sql
 	7. create_employee_table.sql
 	8. create_data_log_table.sql
+	9. create_data_log_employees_table.sql

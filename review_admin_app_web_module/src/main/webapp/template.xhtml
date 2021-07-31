@@ -11,7 +11,7 @@
         <h:head>
             <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
             <h:outputStylesheet library="css" name="cssTemplate.css"/>
-            <h:outputStylesheet library="css" name="cssPages.css"/>
+            <h:outputStylesheet library="css" name="cssAdminPages.css"/>
             <title><ui:insert name="title">Title</ui:insert></title>
         </h:head>
 
@@ -48,8 +48,8 @@
                     <h:commandLink value="#{l['admin.template.link.requests']}" class="navigation-link" action="adminRequests.xhmtl?faces-redirect=true"/>
                     <h:commandLink value="#{l['admin.template.link.users']}" class="navigation-link" action="adminUsers.xhmtl?faces-redirect=true"/>
                     <h:commandLink value="#{l['admin.template.link.statistics']}" class="navigation-link" action="adminStatistics.xhmtl?faces-redirect=true"/>
-                    <h:commandLink value="#{l['admin.template.link.moderators']}" class="navigation-link" action="adminModerators.xhmtl?faces-redirect=true"/>
-                    <h:commandLink value="#{l['admin.template.link.log']}" class="navigation-link" action="adminLog.xhmtl?faces-redirect=true"/>
+                    <h:commandLink value="#{l['admin.template.link.moderators']}" rendered="#{activeUserSession.isUserAdmin()}" class="navigation-link" action="adminModerators.xhmtl?faces-redirect=true"/>
+                    <h:commandLink value="#{l['admin.template.link.log']}" rendered="#{activeUserSession.isUserAdmin()}" class="navigation-link" action="adminLog.xhmtl?faces-redirect=true"/>
                 </h:form>
 
             </div>

@@ -1,0 +1,32 @@
+
+/* BOJE
+
+crna:         #333333
+bijela:       #FFFFFF
+plava:        #D9D9D9
+narančasta:   #FF785A
+crvena:       #CC2936
+lijepa plava: #048BA8
+
+
+extra crna: #131313
+formal gray: #f2f3f7
+crvena-hover: #ff3333
+*/
+
+html, body {
+    margin: 0;
+    padding: 0;
+    font-family: sans-serif;
+    font-size: 12px;
+} 
+a{
+    text-decoration: none;
+}
+
+/* BOOKS*/
+.div-books{
+    border-radius: 10px;
+    padding: 10px;
+    border: 1px solid #333333;
+}

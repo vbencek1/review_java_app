@@ -8,6 +8,16 @@ package org.vbencek.beans.views;
 import javax.inject.Named;
 import javax.faces.view.ViewScoped;
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
+import javax.annotation.PostConstruct;
+import javax.ejb.EJB;
+import lombok.Getter;
+import lombok.Setter;
+import org.apache.commons.lang3.StringUtils;
+import org.vbencek.facade.BookFacadeLocal;
+import org.vbencek.model.Book;
 
 /**
  *
@@ -17,10 +27,26 @@ import java.io.Serializable;
 @ViewScoped
 public class ViewAdminBooks implements Serializable {
 
-    /**
-     * Creates a new instance of ViewAdminBooks
-     */
-    public ViewAdminBooks() {
+    @EJB(beanName = "BookFacade")
+    BookFacadeLocal bookFacade;
+
+    @Getter
+    @Setter
+    List<Book> listBooks;
+
+    @PostConstruct
+    public void init() {
+        //samo za testiranje, iskoristiti serversko stranicenje
+        listBooks = bookFacade.findAll();
     }
-    
+
+    public String convertDateToYear(Date date) {
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("YYYY");
+        return simpleDateFormat.format(date).toUpperCase();
+    }
+
+    public String makeTextShorter(String text, int maxChars) {
+        return StringUtils.abbreviate(text, maxChars);
+    }
+
 }

@@ -7,9 +7,33 @@
                 xmlns:f="http://xmlns.jcp.org/jsf/core"
                 xmlns:a="http://xmlns.jcp.org/jsf/passthrough">
 
-    <ui:define name="title">Change this!!!</ui:define>
+    <ui:define name="title">#{l['admin.viewAdminBooks.page.title']}</ui:define>
 
     <ui:define name="content">
-        
+        <div class='div-books'>
+            <h:form>
+                <p:dataTable value="#{viewAdminBooks.listBooks}" var="row"                            
+                             rows="10" paginator="true" id="books"
+                             paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                             currentPageReportTemplate="{startRecord}-{endRecord} of {totalRecords} records">
+
+                    <p:column sortBy="#{row.isbn}" filterBy="#{row.isbn}">
+                        <f:facet name="header">ISBN</f:facet>#{row.isbn}
+                    </p:column>       
+                    <p:column sortBy="#{row.title}" filterBy="#{row.title}">
+                        <f:facet name="header">#{l['admin.viewAdminBooks.title']}</f:facet>#{viewAdminBooks.makeTextShorter(row.title, 100)}
+                    </p:column>  
+                    <p:column sortBy="#{row.authors}" filterBy="#{row.authors}">
+                        <f:facet name="header">#{l['admin.viewAdminBooks.authors']}</f:facet>#{row.authors}
+                    </p:column>  
+                    <p:column sortBy="#{row.publicationDate}" filterBy="#{viewAdminBooks.convertDateToYear(row.publicationDate)}">
+                        <f:facet name="header">#{l['admin.viewAdminBooks.publishYear']}</f:facet>#{viewAdminBooks.convertDateToYear(row.publicationDate)}
+                    </p:column> 
+                    <p:column sortBy="#{row.publisher}" filterBy="#{row.publisher}">
+                        <f:facet name="header">#{l['admin.viewAdminBooks.publisher']}</f:facet>#{row.publisher}
+                    </p:column>
+                </p:dataTable>
+            </h:form>
+        </div>
     </ui:define>
 </ui:composition>

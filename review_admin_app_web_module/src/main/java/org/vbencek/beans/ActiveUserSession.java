@@ -21,12 +21,11 @@ import lombok.Setter;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.security.crypto.password.Pbkdf2PasswordEncoder;
 import org.vbencek.facade.DataLogEmployeesFacadeLocal;
-import org.vbencek.facade.DataLogFacadeLocal;
 import org.vbencek.facade.EmployeeFacadeLocal;
 import org.vbencek.localization.Localization;
-import org.vbencek.model.DataLog;
 import org.vbencek.model.DataLogEmployees;
 import org.vbencek.model.Employee;
+import org.vbencek.properties.PropertiesLoader;
 
 /**
  *
@@ -57,7 +56,7 @@ public class ActiveUserSession implements Serializable {
     String failedLoginMsg = "";
     @Getter
     @Setter
-    boolean renderLoginRedirect=false;
+    boolean renderLoginRedirect = false;
     @Getter
     @Setter
     Employee activeUser = null;
@@ -67,8 +66,8 @@ public class ActiveUserSession implements Serializable {
         //prijevodi
         res = ResourceBundle.getBundle("org.vbencek.localization.Translations", new Locale(localization.getLanguage()));
     }
-    
-    public void loginUser(){
+
+    public void loginUser() {
         if (activeUser == null) {
             Employee tempUser = employeeFacade.findEmployeeByUsername(username);
             if (tempUser != null) {
@@ -88,31 +87,46 @@ public class ActiveUserSession implements Serializable {
             } else {
                 failedLoginMsg = res.getString("template.login.wrongUsername");
             }
-        } 
+        }
     }
-    
-    public void logoutUser(){
-        if (activeUser != null){
+
+    public void logoutUser() {
+        if (activeUser != null) {
             renderLogout();
             activeUser = null;
         }
     }
-    
+
     private void renderLogin() {
         failedLoginMsg = "";
-        renderLoginRedirect=true;
-        addDataLog(this.getClass().getSimpleName(), new Object(){}.getClass().getEnclosingMethod().getName(), "login");
+        renderLoginRedirect = true;
+        addDataLog(this.getClass().getSimpleName(), new Object() {
+        }.getClass().getEnclosingMethod().getName(), "login");
     }
 
     private void renderLogout() {
-        renderLoginRedirect=false;
-        addDataLog(this.getClass().getSimpleName(), new Object(){}.getClass().getEnclosingMethod().getName(), "logout");
+        renderLoginRedirect = false;
+        addDataLog(this.getClass().getSimpleName(), new Object() {
+        }.getClass().getEnclosingMethod().getName(), "logout");
+    }
+
+    public boolean isUserAdmin() {
+        if (activeUser != null) {
+            PropertiesLoader propLoader = new PropertiesLoader();
+            int adminRole = 0;
+            try {
+                adminRole = Integer.parseInt(propLoader.getProperty("admin.role"));
+            } catch (Exception e) {
+                System.out.println("ADMIN.ROLE ->Cant convert from properties!");
+            }
+            return activeUser.getEmployeeRoleId().getEmployeeRoleId() == adminRole;
+        }
+        return false;
     }
 
     public String redirectToUserProfile() {
         return "userProfile.xhmtl?id=" + activeUser.getEmployeeId() + "&faces-redirect=true";
     }
-
 
     //user action logging
     public <T> void addDataLog(String viewName, String methodName, T params) {
@@ -127,7 +141,7 @@ public class ActiveUserSession implements Serializable {
                     e.printStackTrace();
                 }
             }
-            String shorterParams=StringUtils.abbreviate(stringParams, 995);
+            String shorterParams = StringUtils.abbreviate(stringParams, 995);
             dataLog.setEmployeeId(activeUser);
             dataLog.setActionDate(new Date());
             dataLog.setMethodName(methodName);

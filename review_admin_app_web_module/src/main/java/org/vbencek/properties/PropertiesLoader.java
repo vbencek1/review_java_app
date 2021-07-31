@@ -16,7 +16,7 @@ public class PropertiesLoader {
             }
             prop.load(input);
             String result=prop.getProperty(propName);
-            System.out.println("Loading property: "+propName+"="+result);
+            //System.out.println("Loading property: "+propName+"="+result);
             return result;
         } catch (IOException ex) {
             ex.printStackTrace();

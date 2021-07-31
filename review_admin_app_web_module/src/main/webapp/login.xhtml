@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:a="http://xmlns.jcp.org/jsf/passthrough">
+    <f:view locale="#{localization.language}">
+        <head>
+            <title>TODO supply a title</title>
+            <link rel="stylesheet" href="resources/css/cssAdminLogin.css"/>
+        </head>
+        <body>
+            <h:outputScript rendered="#{activeUserSession.renderLoginRedirect}">location.href = 'adminBooks.xhtml';</h:outputScript>
+            <div class="div-login-top">
+                <img class="logo" src="resources/images/LOGO.png"/>
+                <div class="div-login-top-right">
+                    <h:form>
+                        <h:selectOneMenu id="language-select" value="#{localization.language}" valueChangeListener="#{localization.selectLanguage}" onchange="submit()" styleClass="languageSelect">
+                            <f:selectItem itemLabel="#{l['template.language.croatian']}" itemValue="hr"/> 
+                            <f:selectItem itemLabel="#{l['template.language.english']}" itemValue="en"/>
+                        </h:selectOneMenu>
+                    </h:form>
+                </div>
+            </div>
+            <div class="div-content">
+                <div class="div-login">
+                    <h:form>
+                        <h:inputText id="username" class="div-login-input" a:placeholder="#{l['template.username']}" value="#{activeUserSession.username}"/>
+                        <h:inputSecret id="password" class="div-login-input" a:placeholder="#{l['template.password']}" value="#{activeUserSession.password}"/>
+                        <h:commandButton id="btnLogin" class="div-login-button" value="#{l['template.login']}" action="#{activeUserSession.loginUser()}"/>
+                    </h:form>
+                </div>
+            </div>
+        </body>
+    </f:view>
+</html>

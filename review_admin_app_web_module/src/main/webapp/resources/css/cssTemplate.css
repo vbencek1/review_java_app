@@ -20,13 +20,16 @@ html, body {
 } 
 
 #top {
-    position: relative;
+    position: fixed;
+    top: 0px;
     background-color: #333333;
     color: white;
     padding: 5px;
     border-bottom: solid 2px #353535;
     border-top: solid 2px #353535;
     height: 60px;
+    width: 100%;
+    z-index: 100;
 }
 
 #top-content-right{
@@ -45,6 +48,24 @@ html, body {
     
 }
 
+.logo{
+    width: 265px;
+}
+
+@media only screen and (min-width: 0px) and (max-width: 760px){
+    .logo{
+        display: none;
+    }
+}
+
+.pleaseLogInMsg{
+    color: #ff3333;
+    letter-spacing: 1px;
+    padding-right: 5px;
+    font-style: italic;
+    display: inline-block;
+}
+
 .languageSelect{
     background: transparent;
     border: none;
@@ -57,7 +78,7 @@ html, body {
 }
 
 .loginText {
-    background-color: #D9D9D9;
+    background-color: #FFFFFF;
     color: #333333;
     border: 1px solid #FFFFFF;;
     border-radius:0px;
@@ -102,7 +123,19 @@ html, body {
     text-transform: uppercase;
     font-size: 12px;
     color: #F0F8FF;
+    margin-right: 5px;
+}
+.loginUserInfo-user{
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    font-size: 12px;
+    color: #F0F8FF;
     margin-right: 15px; 
+    text-decoration: none;
+}
+.loginUserInfo-user:hover{
+    color:#048BA8;
+    cursor: pointer;
 }
 
 .loginAdditional{
@@ -190,6 +223,7 @@ body .ui-commandlink:hover, body .ui-link:hover {
 .btnLoginInPopup:hover{
     background-color: #ff3333;
     border: 1px solid transparent;
+    cursor: pointer;
 }
 
 /* Add animation (fade in the popup) */
@@ -209,7 +243,7 @@ body .ui-commandlink:hover, body .ui-link:hover {
 .divForgotPass {
     display: none;
     position: fixed; 
-    z-index: 1; 
+    z-index: 2; 
     left: 0;
     top: 0;
     width: 100%; 
@@ -360,32 +394,37 @@ body .ui-button:hover {
 #navigation {
     background-color: #ece3a5;
     background-color: transparent;
+    border: 1px #333333 solid;
+    border-left: none;
+    border-right: none;
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
     width: 100%;
-    height: 60px;
-    margin: auto;
+    height: auto;
+    margin-bottom: 80px;
     text-align: center;
-    padding-top: 10px;
-    padding-bottom: 10px;
+    position: relative;
+    top:60px;
 }
 
 .navigation-link{
     text-decoration: none;
     letter-spacing: 2px;
-    color: #FF785A;
+    color: #333333;
     font-size: 14px;
-    padding: 0px 10px 5px 10px;
-    border-bottom: 2px solid #FF785A;
+    padding: 10px 10px 10px 10px;
     margin-right: 20px;
     margin-left: 20px;
+    display: inline-block;
 }
 
 .navigation-link:hover{
-    color: #ff3333;
-    border-bottom: 2px solid #333333;
+    color: #FFFFFF;
+    background: #333333;
 }
 
 #content {
-    position: relative;
+    position: unset;
+    bottom: 0px;
     background-color: #FFFFFF;
     margin: auto 15% auto 15%;
     height: auto;
@@ -399,6 +438,7 @@ body .ui-button:hover {
     background-color: #333333;
     margin: 10px 0px 0px 0px;
     height: 200px;
+    width: 100%;
 }
 #bottom-left{
     padding: 20px;
@@ -450,6 +490,7 @@ body .ui-button:hover {
     display: block;
     width: 60%;
     letter-spacing: 1px; 
+    overflow-wrap: break-word;
 }
 
 #bottom-down{

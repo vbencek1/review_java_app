@@ -7,24 +7,49 @@
       xmlns:p="http://primefaces.org/ui"
       xmlns:a="http://xmlns.jcp.org/jsf/passthrough">
 
-    <f:view>
+    <f:view locale="#{localization.language}">
         <h:head>
             <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
             <h:outputStylesheet library="css" name="cssTemplate.css"/>
+            <h:outputStylesheet library="css" name="cssPages.css"/>
             <title><ui:insert name="title">Title</ui:insert></title>
         </h:head>
 
-        <h:body>
+        <h:body onload="#{localizationForcer.init()};">
+            <h:outputScript rendered="#{!activeUserSession.renderLoginRedirect}">location.href = 'login.xhtml';</h:outputScript>
             <div id="top">
-
+                <img class="logo" src="resources/images/LOGO.png"/>
+                <div id="top-content-right">
+                    <div id="top-content-login">
+                        <h:form>
+                            <h:commandLink id="lgnActiveUser_info" class="loginUserInfo-user" 
+                                           value="#{activeUserSession.activeUser.firstname} #{activeUserSession.activeUser.lastname} (#{activeUserSession.activeUser.username})" 
+                                           title="Your profile"
+                                           action="#{activeUserSession.redirectToUserProfile()}"/>
+                            <h:commandButton id="btnLogout" value="#{l['template.logout']}"
+                                             class="loginButton"
+                                             action="#{activeUserSession.logoutUser()}"/>
+                        </h:form>
+                    </div>
+                    <div id="top-content-language">
+                        <h:form>
+                            <h:selectOneMenu id="language-select" value="#{localization.language}" valueChangeListener="#{localization.selectLanguage}" onchange="submit()" styleClass="languageSelect">
+                                <f:selectItem itemLabel="#{l['template.language.croatian']}" itemValue="hr"/> 
+                                <f:selectItem itemLabel="#{l['template.language.english']}" itemValue="en"/>
+                            </h:selectOneMenu>
+                        </h:form>
+                    </div>
+                </div>
             </div>
             <div id="navigation">
                 <h:form>
-                    <h:commandLink value="#{l['template.link.home']}" class="navigation-link" action="index.xhmtl?faces-redirect=true"/>
-                    <h:commandLink value="#{l['template.link.search']}" class="navigation-link" action="bookSearch.xhmtl?faces-redirect=true"/>
-                    <h:commandLink value="#{l['template.link.collection']}" class="navigation-link" />
-                    <h:commandLink value="#{l['template.link.reviews']}" class="navigation-link"/>
-                    <h:commandLink value="#{l['template.link.sendBookRequest']}" class="navigation-link"/>
+                    <h:commandLink value="#{l['admin.template.link.books']}" class="navigation-link" action="adminBooks.xhmtl?faces-redirect=true"/>
+                    <h:commandLink value="#{l['admin.template.link.reviews']}" class="navigation-link" action="adminReviews.xhmtl?faces-redirect=true"/>
+                    <h:commandLink value="#{l['admin.template.link.requests']}" class="navigation-link" action="adminRequests.xhmtl?faces-redirect=true"/>
+                    <h:commandLink value="#{l['admin.template.link.users']}" class="navigation-link" action="adminUsers.xhmtl?faces-redirect=true"/>
+                    <h:commandLink value="#{l['admin.template.link.statistics']}" class="navigation-link" action="adminStatistics.xhmtl?faces-redirect=true"/>
+                    <h:commandLink value="#{l['admin.template.link.moderators']}" class="navigation-link" action="adminModerators.xhmtl?faces-redirect=true"/>
+                    <h:commandLink value="#{l['admin.template.link.log']}" class="navigation-link" action="adminLog.xhmtl?faces-redirect=true"/>
                 </h:form>
 
             </div>

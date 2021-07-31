@@ -1,0 +1,84 @@
+html, body {
+    margin: 0;
+    padding: 0;
+    font-family: sans-serif;
+    font-size: 12px;
+}
+
+.div-login-top{
+    position: relative;
+    top: 0px;
+    background-color: #333333;
+    color: white;
+    padding: 5px;
+    border-bottom: solid 2px #353535;
+    border-top: solid 2px #353535;
+    height: 45px;
+}
+
+.logo{
+    width: 265px;
+}
+
+.div-login-top-right{
+    float: right;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    margin-top: 10px;
+}
+
+.languageSelect{
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid #D9D9D9;
+    color: #FFFFFF;
+}
+
+.languageSelect *{
+    background: #333333;
+}
+
+.div-content {
+    bottom: 0px;
+    background-color: #FFFFFF;
+    margin: 100px 15% auto 15%;
+    height: auto;
+    padding: 10px 0px 10px 0px;
+    display: flex;
+    justify-content: center;
+}
+
+.div-login{
+    background-color: #4d4e48;
+    width: 300px;
+    border: 2px solid #333333;
+    border-radius: 5px;
+    display: flex;
+    justify-content: center; 
+    padding: 20px;
+}
+
+.div-login-input{
+    border: none;
+    color: #333333;
+    width: 250px;
+    height: 25px;
+    margin-bottom: 10px;
+    padding-left: 5px;
+    display: block;
+    
+}
+.div-login-button{
+    background: transparent;
+    width: 257px;
+    height: 25px;
+    border: 1px solid #FFFFFF;
+    color: #FFFFFF;
+}
+.div-login-button:hover{
+    cursor: pointer;
+    border: 1px solid #FF785A;
+    background: #FF785A;
+    color: #333333;
+}

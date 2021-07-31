@@ -6,7 +6,9 @@
 package org.vbencek.model;
 
 import java.io.Serializable;
+import java.util.List;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -16,9 +18,11 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -65,6 +69,8 @@ public class Employee implements Serializable {
     @JoinColumn(name = "EMPLOYEE_ROLE_ID", referencedColumnName = "EMPLOYEE_ROLE_ID", nullable = false)
     @ManyToOne(optional = false)
     private EmployeeRole employeeRoleId;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "employeeId")
+    private List<DataLogEmployees> dataLogEmployeesList;
 
     public Employee() {
     }
@@ -143,6 +149,15 @@ public class Employee implements Serializable {
 
     public void setEmployeeRoleId(EmployeeRole employeeRoleId) {
         this.employeeRoleId = employeeRoleId;
+    }
+
+    @XmlTransient
+    public List<DataLogEmployees> getDataLogEmployeesList() {
+        return dataLogEmployeesList;
+    }
+
+    public void setDataLogEmployeesList(List<DataLogEmployees> dataLogEmployeesList) {
+        this.dataLogEmployeesList = dataLogEmployeesList;
     }
 
     @Override

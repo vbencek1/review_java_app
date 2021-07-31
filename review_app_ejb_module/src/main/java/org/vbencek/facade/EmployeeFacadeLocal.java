@@ -30,4 +30,6 @@ public interface EmployeeFacadeLocal {
 
     int count();
     
+    Employee findEmployeeByUsername(String username);
+    
 }

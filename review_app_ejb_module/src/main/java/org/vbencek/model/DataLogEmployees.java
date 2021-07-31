@@ -29,11 +29,11 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author Tino
  */
 @Entity
-@Table(name = "DATA_LOG")
+@Table(name = "DATA_LOG_EMPLOYEES")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "DataLog.findAll", query = "SELECT d FROM DataLog d")})
-public class DataLog implements Serializable {
+    @NamedQuery(name = "DataLogEmployees.findAll", query = "SELECT d FROM DataLogEmployees d")})
+public class DataLogEmployees implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -55,18 +55,18 @@ public class DataLog implements Serializable {
     @Column(name = "ACTION_DATE", nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
     private Date actionDate;
-    @JoinColumn(name = "USER_ID", referencedColumnName = "USER_ID", nullable = false)
+    @JoinColumn(name = "EMPLOYEE_ID", referencedColumnName = "EMPLOYEE_ID", nullable = false)
     @ManyToOne(optional = false)
-    private UserT userId;
+    private Employee employeeId;
 
-    public DataLog() {
+    public DataLogEmployees() {
     }
 
-    public DataLog(Integer dataLogId) {
+    public DataLogEmployees(Integer dataLogId) {
         this.dataLogId = dataLogId;
     }
 
-    public DataLog(Integer dataLogId, Date actionDate) {
+    public DataLogEmployees(Integer dataLogId, Date actionDate) {
         this.dataLogId = dataLogId;
         this.actionDate = actionDate;
     }
@@ -111,12 +111,12 @@ public class DataLog implements Serializable {
         this.actionDate = actionDate;
     }
 
-    public UserT getUserId() {
-        return userId;
+    public Employee getEmployeeId() {
+        return employeeId;
     }
 
-    public void setUserId(UserT userId) {
-        this.userId = userId;
+    public void setEmployeeId(Employee employeeId) {
+        this.employeeId = employeeId;
     }
 
     @Override
@@ -129,10 +129,10 @@ public class DataLog implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof DataLog)) {
+        if (!(object instanceof DataLogEmployees)) {
             return false;
         }
-        DataLog other = (DataLog) object;
+        DataLogEmployees other = (DataLogEmployees) object;
         if ((this.dataLogId == null && other.dataLogId != null) || (this.dataLogId != null && !this.dataLogId.equals(other.dataLogId))) {
             return false;
         }
@@ -141,7 +141,7 @@ public class DataLog implements Serializable {
 
     @Override
     public String toString() {
-        return "org.vbencek.model.DataLog[ dataLogId=" + dataLogId + " ]";
+        return "org.vbencek.model.DataLogEmployees[ dataLogId=" + dataLogId + " ]";
     }
     
 }

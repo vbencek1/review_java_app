@@ -229,10 +229,10 @@ public class ActiveUserSession implements Serializable {
                     e.printStackTrace();
                 }
             }
-            String shorterParams=StringUtils.abbreviate(stringParams, 250);
+            String shorterParams=StringUtils.abbreviate(stringParams, 995);
             dataLog.setUserId(activeUser);
             dataLog.setActionDate(new Date());
-            dataLog.setMathodName(methodName);
+            dataLog.setMethodName(methodName);
             dataLog.setViewName(viewName);
             dataLog.setParametars(shorterParams);
             dataLogFacade.create(dataLog);

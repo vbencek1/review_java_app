@@ -11,12 +11,15 @@
 
     <ui:define name="content">
         <div class='div-books'>
-            <h:form>
-                <p:dataTable value="#{viewAdminBooks.listBooks}" var="row"                            
-                             rows="10" paginator="true" id="books"
+            <h:form id="formBooks">
+                <p:commandButton value="#{l['admin.viewAdminBooks.newBook']}" action="adminBookDetails.xhtml?faces-redirect=true"
+                                 icon="pi pi-plus-circle" styleClass="ui-button-outlined ui-button-info"/>
+                <p:commandButton update="books" action="#{viewAdminBooks.resetvalues()}"
+                                 process="@parent" icon="pi pi-refresh" styleClass="rounded-button ui-button-secondary" style="float:right;"/>
+                <p:dataTable id="books" widgetVar="vtBooks" value="#{viewAdminBooks.listBooks}" var="row"                        
+                             rows="10" paginator="true" selectionMode="single" selection="#{viewAdminBooks.selectedBook}" rowKey="#{row.bookId}"
                              paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-                             currentPageReportTemplate="{startRecord}-{endRecord} of {totalRecords} records">
-
+                             currentPageReportTemplate="{startRecord}-{endRecord} #{l['admin.viewAdminBooks.paginator.of']} {totalRecords} #{l['admin.viewAdminBooks.paginator.records']}"> 
                     <p:column sortBy="#{row.isbn}" filterBy="#{row.isbn}">
                         <f:facet name="header">ISBN</f:facet>#{row.isbn}
                     </p:column>       
@@ -32,6 +35,8 @@
                     <p:column sortBy="#{row.publisher}" filterBy="#{row.publisher}">
                         <f:facet name="header">#{l['admin.viewAdminBooks.publisher']}</f:facet>#{row.publisher}
                     </p:column>
+                    
+                    <p:ajax event="rowSelect" listener ="#{viewAdminBooks.redirectToBookDetails()}"/> 
                 </p:dataTable>
             </h:form>
         </div>

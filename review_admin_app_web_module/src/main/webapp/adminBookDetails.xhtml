@@ -1,15 +1,61 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
                 template="./template.xhtml"
                 xmlns:h="http://xmlns.jcp.org/jsf/html"
                 xmlns:p="http://primefaces.org/ui"
                 xmlns:f="http://xmlns.jcp.org/jsf/core"
                 xmlns:a="http://xmlns.jcp.org/jsf/passthrough">
 
-    <ui:define name="title">Change this!!!</ui:define>
+    <ui:define name="title">#{viewAdminBookDetails.setTitle()}</ui:define>
 
     <ui:define name="content">
-        
+        <p:growl id="messages" showDetail="true"/>
+        <div class="div-bookDetails">
+            <h:form>
+                <p:panelGrid columns="2">
+                    <f:facet name="header">
+                        <p:graphicImage value="#{viewAdminBookDetails.bookImgPath}" width="150" height="150"/>
+                        
+                        <h:form enctype="multipart/form-data">
+                            <p:fileUpload value="#{viewFileUpload.file}" mode="simple" skinSimple="true"/>
+                            <p:commandButton value="Submit" ajax="false" action="#{viewFileUpload.upload}" styleClass="p-mt-3 ui-button-outlined p-d-block"/>
+                        </h:form>
+                        
+                    </f:facet>
+                    <p:outputLabel value="#{l['admin.viewBookDetails.title']}"/>
+                    <p:inputText value="#{viewAdminBookDetails.bookTitle}" size="70" maxlength="255"/>
+
+                    <p:outputLabel value="ISBN: "/>
+                    <p:inputText value="#{viewAdminBookDetails.bookIsbn}" maxlength="10"/>
+
+                    <p:outputLabel value="#{l['viewBookDetails.author']}"/>
+                    <p:inputText value="#{viewAdminBookDetails.bookAuthor}" size="70" maxlength="750"/>
+
+                    <p:outputLabel value="#{l['viewBookDetails.publishYear']}"/>
+                    <p:datePicker value="#{viewAdminBookDetails.bookPublishYear}"/>
+
+                    <p:outputLabel value="#{l['viewBookDetails.publisher']}"/>
+                    <p:inputText value="#{viewAdminBookDetails.bookPublisher}" size="70" maxlength="95"/>
+
+                    <p:outputLabel value="#{l['viewBookDetails.description']}"/>
+                    <p:inputTextarea value="#{viewAdminBookDetails.bookDescription}" maxlength="1000" cols="72"/>
+
+                    <p:outputLabel value="#{l['viewBookDetails.Language']}"/>
+                    <p:inputText value="#{viewAdminBookDetails.bookLanguage}" maxlength="25"/>
+
+                    <p:outputLabel value="#{l['viewBookDetails.NOPages']}"/>
+                    <p:inputText value="#{viewAdminBookDetails.bookPages}" maxlength="25"/>
+
+                    <p:outputLabel value="#{l['viewBookDetails.NOReviews']}"/>
+                    <p:inputText value="#{viewAdminBookDetails.bookReviewsCount}" disabled="true"/>
+
+                    <p:outputLabel value="#{l['viewBookDetails.avgRating']}"/>
+                    <p:inputText value="#{viewAdminBookDetails.bookAverageRating}" disabled="true"/>
+
+                </p:panelGrid>
+            </h:form>
+        </div>
     </ui:define>
 </ui:composition>

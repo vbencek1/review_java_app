@@ -78,10 +78,8 @@ public class ActiveUserSession implements Serializable {
                     activeUser = tempUser;
                     renderLogin();
                 } else if (!passMatch) {
-                    System.out.println("2");
                     failedLoginMsg = res.getString("template.login.wrongPass");
                 } else if (isBlocked) {
-                    System.out.println("1");
                     failedLoginMsg = res.getString("template.login.blockedUser");
                 }
             } else {

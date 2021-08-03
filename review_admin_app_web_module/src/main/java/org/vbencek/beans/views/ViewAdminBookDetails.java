@@ -5,6 +5,7 @@
  */
 package org.vbencek.beans.views;
 
+import java.io.IOException;
 import javax.inject.Named;
 import javax.faces.view.ViewScoped;
 import java.io.Serializable;
@@ -14,11 +15,13 @@ import java.util.Map;
 import java.util.ResourceBundle;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
+import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import lombok.Getter;
 import lombok.Setter;
 import org.vbencek.beans.ActiveUserSession;
+import org.vbencek.beans.requests.ViewFileUpload;
 import org.vbencek.facade.BookFacadeLocal;
 import org.vbencek.localization.Localization;
 import org.vbencek.model.Book;
@@ -40,6 +43,9 @@ public class ViewAdminBookDetails implements Serializable {
     @Inject
     Localization localization;
     ResourceBundle res;
+
+    @Inject
+    ViewFileUpload fileUpload;
 
     //Atributes
     @Getter
@@ -74,8 +80,10 @@ public class ViewAdminBookDetails implements Serializable {
     double bookAverageRating = 0;
     @Getter
     @Setter
-    String bookImgPath="resources/images/book_placeholder.jpg";
+    String bookImgPath = "resources/images/book_placeholder.jpg";
 
+    @Getter
+    @Setter
     Book thisBook;
 
     @PostConstruct
@@ -113,22 +121,126 @@ public class ViewAdminBookDetails implements Serializable {
             bookTitle = thisBook.getTitle();
             bookIsbn = thisBook.getIsbn();
             bookAuthor = thisBook.getAuthors();
-            bookPublishYear=thisBook.getPublicationDate();
+            bookPublishYear = thisBook.getPublicationDate();
             bookPublisher = thisBook.getPublisher();
             bookDescription = thisBook.getDescription();
             bookLanguage = thisBook.getLanguageCode();
             bookPages = thisBook.getNumPages();
             bookReviewsCount = thisBook.getRatingsCount();
             bookAverageRating = thisBook.getAverageRating();
-            bookImgPath=setIMG();
+            bookImgPath = setIMG();
         }
     }
-    
+
     private String setIMG() {
-            if (thisBook.getImgPath() != null) {
-                return thisBook.getImgPath();
-            } else {
-                return "http://covers.openlibrary.org/b/isbn/" + thisBook.getIsbn() + "-M.jpg";
-            }
+        if (thisBook.getImgPath() != null) {
+            System.out.println(thisBook.getImgPath());
+            return thisBook.getImgPath();
+        } else {
+            return "http://covers.openlibrary.org/b/isbn/" + thisBook.getIsbn() + "-M.jpg";
         }
+    }
+
+    private void setUnknown() {
+        if (bookTitle == null || bookTitle.length() == 0) {
+            bookTitle = "UNKNOWN";
+        }
+        if (bookAuthor == null || bookAuthor.length() == 0) {
+            bookAuthor = "UNKNOWN";
+        }
+        if (bookIsbn == null || bookIsbn.length() == 0) {
+            bookIsbn = "UNKNOWN";
+        }
+        if (bookPublisher == null || bookPublisher.length() == 0) {
+            bookPublisher = "UNKNOWN";
+        }
+        if (bookLanguage == null || bookLanguage.length() == 0) {
+            bookLanguage = "UNKNOWN";
+        }
+        if (bookPages == null || bookPages.length() == 0) {
+            bookPages = "UNKNOWN";
+        }
+
+    }
+
+    private void createBook() {
+        setUnknown();
+        Book newBook = new Book();
+        newBook.setTitle(bookTitle);
+        newBook.setAuthors(bookAuthor);
+        newBook.setDescription(bookDescription);
+        newBook.setIsbn(bookIsbn);
+        newBook.setIsbn13("UNKNOWN");
+        newBook.setPublisher(bookPublisher);
+        newBook.setPublicationDate(bookPublishYear);
+        newBook.setLanguageCode(bookLanguage);
+        newBook.setNumPages(bookPages);
+        if (fileUpload.getFile() != null) {
+            newBook.setImgPath("resources/images/covers/" + fileUpload.getFile().getFileName());
+        }
+        bookFacade.create(newBook);
+        thisBook = newBook;
+        activeUserSession.addDataLog(this.getClass().getSimpleName(), new Object() {
+        }.getClass().getEnclosingMethod().getName(), newBook);
+    }
+
+    private void editBook() {
+        setUnknown();
+        thisBook.setTitle(bookTitle);
+        thisBook.setAuthors(bookAuthor);
+        thisBook.setDescription(bookDescription);
+        thisBook.setIsbn(bookIsbn);
+        thisBook.setIsbn13("UNKNOWN");
+        thisBook.setPublisher(bookPublisher);
+        thisBook.setPublicationDate(bookPublishYear);
+        thisBook.setLanguageCode(bookLanguage);
+        thisBook.setNumPages(bookPages);
+        if (fileUpload.getFile() != null) {
+            thisBook.setImgPath("resources/images/covers/" + fileUpload.getFile().getFileName());
+        }
+        bookFacade.edit(thisBook);
+        activeUserSession.addDataLog(this.getClass().getSimpleName(), new Object() {
+        }.getClass().getEnclosingMethod().getName(), "EDIT BOOKID: " + thisBook.getBookId());
+    }
+
+    private void addMessage(String summary, String detail) {
+        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, summary, detail);
+        FacesContext.getCurrentInstance().addMessage(null, message);
+    }
+
+    private void redirect(String url) {
+        try {
+            FacesContext.getCurrentInstance().getExternalContext().redirect(url);
+        } catch (IOException ex) {
+            System.out.println(ex.getMessage());
+        }
+    }
+
+    public void saveData() {
+        fileUpload.handleFileUpload();
+        if (thisBook == null) {
+            createBook();
+        } else {
+            editBook();
+        }
+        String url = "adminBookDetails.xhtml?id=" + thisBook.getBookId();
+        redirect(url);
+
+    }
+
+    public void removeBook() {
+        bookFacade.remove(thisBook);
+        addMessage("Confirmed", "Record deleted");
+        refresh();
+    }
+
+    public void refresh() {
+        String url;
+        if (thisBook != null) {
+             url = "adminBookDetails.xhtml?id=" + thisBook.getBookId(); 
+        }else{
+             url = "adminBookDetails.xhtml?";
+        }
+        redirect(url);
+    }
 }

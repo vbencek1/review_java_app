@@ -11,21 +11,19 @@
     <ui:define name="title">#{viewAdminBookDetails.setTitle()}</ui:define>
 
     <ui:define name="content">
-        <p:growl id="messages" showDetail="true"/>
+        <p:growl id="messages" showDetail="false"/>
+        <p:growl id="confMessage" showDetail="true"/>
         <div class="div-bookDetails">
-            <h:form>
+            <h:form id="form-book" enctype="multipart/form-data">
                 <p:panelGrid columns="2">
                     <f:facet name="header">
-                        <p:graphicImage value="#{viewAdminBookDetails.bookImgPath}" width="150" height="150"/>
-                        
-                        <h:form enctype="multipart/form-data">
-                            <p:fileUpload value="#{viewFileUpload.file}" mode="simple" skinSimple="true"/>
-                            <p:commandButton value="Submit" ajax="false" action="#{viewFileUpload.upload}" styleClass="p-mt-3 ui-button-outlined p-d-block"/>
-                        </h:form>
-                        
+                        <p:graphicImage value="#{viewAdminBookDetails.bookImgPath}" width="150" height="150"/><br/>
+                        <p:commandButton value="ENABLE/DISABLE UPLOAD" style="margin-right: 10px;" onclick="document.getElementById('form-book:fileUpload').disabled = false;"/>
+                        <p:fileUpload id="fileUpload" value="#{viewFileUpload.file}" mode="simple" skinSimple="true" allowTypes="/(\.|\/)(jpe?g|png)$/i" disabled="true"/><br/>
+                        <p:outputLabel value=" Ako slika nije izabrana, ona će automatski biti dohvaćena preko OpenLibrary API-a za važeći ISBN" style="font-size: 10px;"/>
                     </f:facet>
                     <p:outputLabel value="#{l['admin.viewBookDetails.title']}"/>
-                    <p:inputText value="#{viewAdminBookDetails.bookTitle}" size="70" maxlength="255"/>
+                    <p:inputText value="#{viewAdminBookDetails.bookTitle}" size="70" maxlength="255" required="true" requiredMessage="#{l['admin.viewBookDetails.validation.title']}"/>
 
                     <p:outputLabel value="ISBN: "/>
                     <p:inputText value="#{viewAdminBookDetails.bookIsbn}" maxlength="10"/>
@@ -33,8 +31,8 @@
                     <p:outputLabel value="#{l['viewBookDetails.author']}"/>
                     <p:inputText value="#{viewAdminBookDetails.bookAuthor}" size="70" maxlength="750"/>
 
-                    <p:outputLabel value="#{l['viewBookDetails.publishYear']}"/>
-                    <p:datePicker value="#{viewAdminBookDetails.bookPublishYear}"/>
+                    <p:outputLabel value="#{l['admin.viewBookDetails.PublishDate']}"/>
+                    <p:calendar id="date" value="#{viewAdminBookDetails.bookPublishYear}" required="true" requiredMessage="#{l['admin.viewBookDetails.validation.year']}" navigator="true" yearRange="0:2100" showOn="button"/>
 
                     <p:outputLabel value="#{l['viewBookDetails.publisher']}"/>
                     <p:inputText value="#{viewAdminBookDetails.bookPublisher}" size="70" maxlength="95"/>
@@ -53,9 +51,27 @@
 
                     <p:outputLabel value="#{l['viewBookDetails.avgRating']}"/>
                     <p:inputText value="#{viewAdminBookDetails.bookAverageRating}" disabled="true"/>
+                    <f:facet name="footer">
+                        <p:commandButton value="#{l['admin.viewBookDetails.delete']}" action="#{viewAdminBookDetails.removeBook()}" 
+                                         update="confMessage" styleClass="ui-button-danger" icon="pi pi-times" style="float: left;" immediate="true"
+                                         rendered="#{viewAdminBookDetails.thisBook!=null}">
+                            <p:confirm message="#{l['admin.viewBookDetails.delete.msg']}" icon="pi pi-info-circle"/>
+                        </p:commandButton>
+                        <p:confirmDialog global="true" showEffect="fade" hideEffect="fade" responsive="true" width="350">
+                            <p:commandButton value="#{l['admin.viewBookDetails.delete.msg.no']}" type="button" styleClass="ui-confirmdialog-no ui-button-flat"/>
+                            <p:commandButton value="#{l['admin.viewBookDetails.delete.msg.yes']}" type="button" styleClass="ui-confirmdialog-yes" />
+                        </p:confirmDialog>
 
+                        <p:commandButton value="#{l['admin.viewBookDetails.save']}" ajax="false" action="#{viewAdminBookDetails.saveData()}" styleClass="p-mt-3 ui-button-outlined p-d-block" update="form-book" style="float: right;"/>
+                    </f:facet>
                 </p:panelGrid>
             </h:form>
+            <p:panelGrid columns="1" style="display: block;" layout="grid">
+                <h:form>
+                    <p:commandButton action="#{viewAdminBookDetails.refresh()}" icon="pi pi-refresh" styleClass="rounded-button ui-button-secondary" update="form-book" />
+
+                </h:form>
+            </p:panelGrid>
         </div>
     </ui:define>
 </ui:composition>

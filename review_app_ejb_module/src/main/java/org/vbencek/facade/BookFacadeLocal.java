@@ -40,4 +40,6 @@ public interface BookFacadeLocal {
     
     boolean isISBNExists(String isbn);
     
+    List<Book> findBooksWithReviews();
+    
 }

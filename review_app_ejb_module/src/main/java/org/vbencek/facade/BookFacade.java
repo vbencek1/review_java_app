@@ -17,6 +17,7 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.ParameterExpression;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
+import javax.persistence.criteria.Subquery;
 import org.vbencek.model.Book;
 import org.vbencek.model.Review;
 
@@ -172,6 +173,25 @@ public class BookFacade extends AbstractFacade<Book> implements BookFacadeLocal 
         long count = em.createQuery(cq).getSingleResult();
 
         return count!=0;
+    }
+
+    @Override
+    public List<Book> findBooksWithReviews() {
+        CriteriaBuilder cb = em.getCriteriaBuilder();
+        CriteriaQuery<Book> cq = cb.createQuery(Book.class);
+        Root<Book> book = cq.from(Book.class);
+        Root<Review> review = cq.from(Review.class);
+        List<Predicate> predicates = new ArrayList<Predicate>();  
+        
+        //JOIN TABLES
+        predicates.add(cb.equal(book.get("bookId"), review.get("book").get("bookId")));
+        //Query
+        cq.select(book).where(predicates.toArray(new Predicate[]{})).distinct(true);
+        //execute query and do something with result
+        List<Book> results = em.createQuery(cq)
+                .getResultList();
+
+        return results;
     }
 
 }

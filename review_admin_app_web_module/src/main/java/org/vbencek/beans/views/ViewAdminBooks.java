@@ -61,7 +61,6 @@ public class ViewAdminBooks implements Serializable {
     
     public void redirectToBookDetails(){
         try {
-            System.out.println("test"+selectedBook.getBookId());
             FacesContext.getCurrentInstance().getExternalContext().redirect("adminBookDetails.xhtml?id=" + selectedBook.getBookId());
         } catch (IOException ex) {
             Logger.getLogger(ViewAdminBooks.class.getName()).log(Level.SEVERE, null, ex);

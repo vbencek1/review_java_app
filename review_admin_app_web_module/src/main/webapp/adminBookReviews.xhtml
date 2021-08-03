@@ -1,0 +1,52 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./template.xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:a="http://xmlns.jcp.org/jsf/passthrough">
+
+    <ui:define name="title">#{viewAdminBookReviews.thisBook.title}</ui:define>
+
+    <ui:define name="content">
+        <div class='div-books'>
+            <h:form id="formBookReviews">
+                <p:commandButton update="reviews" action="#{viewAdminBookReviews.resetvalues()}"
+                                 process="@parent" icon="pi pi-refresh" styleClass="rounded-button ui-button-secondary" style="float:right;"/>
+                <p:dataTable id="reviews" widgetVar="vtBooks" value="#{viewAdminBookReviews.listBookReviews}" var="row"                        
+                             rows="10" paginator="true"
+                             paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                             currentPageReportTemplate="{startRecord}-{endRecord} #{l['admin.viewAdminBooks.paginator.of']} {totalRecords} #{l['admin.viewAdminBooks.paginator.records']}"> 
+                    <p:column sortBy="#{row.userT.username}" filterBy="#{row.userT.username}">
+                        <f:facet name="header">#{l['template.username']}</f:facet>#{row.userT.username}
+                    </p:column>       
+                    <p:column sortBy="#{row.description}" filterBy="#{row.description}">
+                        <f:facet name="header">#{l['viewHome.book.description']}</f:facet>#{row.description}
+                    </p:column>  
+                    <p:column sortBy="#{row.rating}" filterBy="#{row.rating}">
+                        <f:facet name="header">#{l['viewHome.book.rating']}</f:facet>#{row.rating}
+                    </p:column>  
+                    <p:column sortBy="#{row.ratingDate}" filterBy="#{viewAdminBookReviews.convertToFriendlyDate(row.ratingDate)}">
+                        <f:facet name="header">#{l['admin.viewAdminBookReviews.ratingDate']}</f:facet>#{viewAdminBookReviews.convertToFriendlyDate(row.ratingDate)}
+                    </p:column>
+                    <p:column sortBy="#{row.ispublic}" filterBy="#{viewAdminBookReviews.translateIsPublic(row.ispublic)}">
+                        <f:facet name="header">#{l['admin.viewAdminBookReviews.publishStatus']}</f:facet>#{viewAdminBookReviews.translateIsPublic(row.ispublic)}
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">#{l['admin.viewAdminBookReviews.delete']}</f:facet>
+                            <p:commandButton action="#{viewAdminBookReviews.deleteReview(row)}"
+                                             icon="pi pi-times" styleClass="rounded-button ui-button-danger">
+                                <p:confirm message="#{l['admin.viewAdminBookReviews.delete.msg']}" icon="pi pi-info-circle"/>
+                            </p:commandButton>
+                            <p:confirmDialog global="true" showEffect="fade" hideEffect="fade" responsive="true" width="350">
+                                <p:commandButton value="#{l['admin.viewAdminBookReviews.delete.msg.no']}" type="button" styleClass="ui-confirmdialog-no ui-button-flat"/>
+                            <p:commandButton value="#{l['admin.viewAdminBookReviews.delete.msg.yes']}" type="button" styleClass="ui-confirmdialog-yes" />
+                        </p:confirmDialog> 
+                    </p:column>  
+                </p:dataTable>
+            </h:form>
+        </div>
+    </ui:define>
+</ui:composition>

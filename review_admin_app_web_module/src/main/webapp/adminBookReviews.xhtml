@@ -37,12 +37,12 @@
                     <p:column>
                         <f:facet name="header">#{l['admin.viewAdminBookReviews.delete']}</f:facet>
                             <p:commandButton action="#{viewAdminBookReviews.deleteReview(row)}"
-                                             icon="pi pi-times" styleClass="rounded-button ui-button-danger">
+                                             icon="pi pi-times" styleClass="rounded-button ui-button-danger" update="formBookReviews">
                                 <p:confirm message="#{l['admin.viewAdminBookReviews.delete.msg']}" icon="pi pi-info-circle"/>
                             </p:commandButton>
                             <p:confirmDialog global="true" showEffect="fade" hideEffect="fade" responsive="true" width="350">
                                 <p:commandButton value="#{l['admin.viewAdminBookReviews.delete.msg.no']}" type="button" styleClass="ui-confirmdialog-no ui-button-flat"/>
-                            <p:commandButton value="#{l['admin.viewAdminBookReviews.delete.msg.yes']}" type="button" styleClass="ui-confirmdialog-yes" />
+                            <p:commandButton value="#{l['admin.viewAdminBookReviews.delete.msg.yes']}" type="button" styleClass="ui-confirmdialog-yes"/>
                         </p:confirmDialog> 
                     </p:column>  
                 </p:dataTable>

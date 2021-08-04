@@ -28,7 +28,10 @@
                         <f:facet name="header">#{l['admin.viewAdminReviews.reviewsCount']}</f:facet>#{row.ratingsCount}
                     </p:column>  
                     <p:column sortBy="#{row.averageRating}" filterBy="#{row.averageRating}">
-                        <f:facet name="header">#{l['admin.viewAdminReviews.averageRating']}</f:facet>#{row.averageRating}
+                        <f:facet name="header">#{l['admin.viewAdminReviews.averageRating']}</f:facet>
+                        <h:outputText value="#{row.averageRating}">
+                            <f:convertNumber pattern="#0.00"/>
+                        </h:outputText>
                     </p:column>
                     <p:column sortBy="#{viewAdminReviews.getLatestReview(row)}" filterBy="#{viewAdminReviews.convertToFriendlyDate(viewAdminReviews.getLatestReview(row))}">
                         <f:facet name="header">#{l['admin.viewAdminReviews.latestReview']}</f:facet>#{viewAdminReviews.convertToFriendlyDate(viewAdminReviews.getLatestReview(row))}

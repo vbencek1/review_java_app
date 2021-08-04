@@ -41,4 +41,9 @@ public interface ReviewFacadeLocal {
     long countMyReviewsByCriteria(UserT userT, String keyword, double minimumAvgRating);
     
     boolean isUserReviewedBook(UserT userT, Book book);
+    
+    List<Review> findReviewByBook(Book book);
+    
+    Review findReviewByBookAndUser(UserT userT, Book book);
+    
 }

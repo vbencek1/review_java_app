@@ -190,4 +190,39 @@ public class ReviewFacade extends AbstractFacade<Review> implements ReviewFacade
         return count!=0;
     }
 
+    @Override
+    public List<Review> findReviewByBook(Book book) {
+        CriteriaBuilder cb = em.getCriteriaBuilder();
+        CriteriaQuery<Review> cq = cb.createQuery(Review.class);
+        Root<Review> review = cq.from(Review.class);
+        List<Predicate> predicates = new ArrayList<Predicate>();
+        
+        predicates.add(cb.equal(review.get("book"), book));
+        //Query
+        cq.select(review).where(predicates.toArray(new Predicate[]{}));
+        //execute query and do something with result
+        List<Review>results=em.createQuery(cq)
+                            .getResultList();
+        
+        return results;
+    }
+
+    @Override
+    public Review findReviewByBookAndUser(UserT userT, Book book) {
+        CriteriaBuilder cb = em.getCriteriaBuilder();
+        CriteriaQuery<Review> cq = cb.createQuery(Review.class);
+        Root<Review> review = cq.from(Review.class);
+        List<Predicate> predicates = new ArrayList<Predicate>();
+        
+        predicates.add(cb.equal(review.get("book"), book));
+        predicates.add(cb.equal(review.get("userT"), userT));
+        //Query
+        cq.select(review).where(predicates.toArray(new Predicate[]{}));
+        //execute query and do something with result
+        Review result=em.createQuery(cq)
+                            .getSingleResult();
+        
+        return result;
+    }
+
 }

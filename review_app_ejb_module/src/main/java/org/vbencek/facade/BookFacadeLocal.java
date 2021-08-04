@@ -42,4 +42,6 @@ public interface BookFacadeLocal {
     
     List<Book> findBooksWithReviews();
     
+    Book findBookById(int id);
+    
 }

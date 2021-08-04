@@ -194,4 +194,19 @@ public class BookFacade extends AbstractFacade<Book> implements BookFacadeLocal 
         return results;
     }
 
+    @Override
+    public Book findBookById(int id) {
+        CriteriaBuilder cb = em.getCriteriaBuilder();
+        CriteriaQuery<Book> cq = cb.createQuery(Book.class);
+        Root<Book> book = cq.from(Book.class);
+        List<Predicate> predicates = new ArrayList<Predicate>();  
+        predicates.add(cb.equal(book.get("bookId"), id));
+        //Query
+        cq.select(book).where(predicates.toArray(new Predicate[]{}));
+        //execute query and do something with result
+        Book result = em.createQuery(cq)
+                .getSingleResult();
+        return result;
+    }
+
 }

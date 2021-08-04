@@ -68,7 +68,7 @@
                             <h:outputText class="div-book-description" value="#{l['viewHome.book.description']}: #{row.description}"/>
                             <div class="div-book-grade-text">
                                 <h:outputLabel class="div-book-grade-text-gradeText"  value="#{l['viewHome.book.rating']}:"/>
-                                <h:outputLabel class="div-book-grade-text-gradeValue" value=" #{row.averageRating}&#9734; "/>
+                                <h:outputLabel class="div-book-grade-text-gradeValue" value=" #{genFunctions.roundDouble(row.averageRating)}&#9734; "/>
                                 <h:outputLabel class="div-book-grade-text-NOratings" value="(#{row.ratingsCount})"/>
                             </div>
                         </div>

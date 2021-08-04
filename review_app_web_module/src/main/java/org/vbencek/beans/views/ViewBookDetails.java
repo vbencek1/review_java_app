@@ -21,6 +21,7 @@ import javax.inject.Inject;
 import lombok.Getter;
 import lombok.Setter;
 import org.vbencek.beans.ActiveUserSession;
+import org.vbencek.beans.requests.UpdateBook;
 import org.vbencek.facade.BookFacadeLocal;
 import org.vbencek.facade.CollectionFacadeLocal;
 import org.vbencek.facade.ReviewFacadeLocal;
@@ -56,6 +57,9 @@ public class ViewBookDetails implements Serializable {
 
     @Inject
     ParamsCaching paramsCaching;
+    
+    @Inject
+    UpdateBook updateBook;
 
     @Inject
     Localization localization;
@@ -281,6 +285,7 @@ public class ViewBookDetails implements Serializable {
         review.setRating(addReviewRating);
         review.setRatingDate(new Date());
         reviewFacade.create(review);
+        updateBook.updateRatings(review, "INSERT");
         activeUserSession.addDataLog(this.getClass().getSimpleName(), new Object(){}.getClass().getEnclosingMethod().getName(), "Review ID: "+review.getReviewPK());
         
     }

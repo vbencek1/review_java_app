@@ -25,7 +25,7 @@
                     </div>
                     <div class="div-bookDetails-text-container">
                         <h:outputLabel class="div-bookDetails-details-orange" value="#{l['viewBookDetails.avgRating']}"/>
-                        <h:outputLabel class="div-bookDetails-details" style="color: #048BA8" value="(#{viewBookDetails.thisBook.averageRating})"/>
+                        <h:outputLabel class="div-bookDetails-details" style="color: #048BA8" value="(#{genFunctions.roundDouble(viewBookDetails.thisBook.averageRating)})"/>
                         <div class="ratings">
                             <div class="empty-stars"></div>
                             <div class="full-stars" style="width:#{viewBookDetails.convertToWidth(viewBookDetails.thisBook.averageRating)}"></div>
@@ -51,7 +51,7 @@
                             <f:selectItem itemLabel="#{l['combobox.comment.public']}" itemValue="true"/>
                             <f:selectItem itemLabel="#{l['combobox.comment.private']}" itemValue="false"/>
                         </h:selectOneMenu>
-                        <h:commandButton class="div-bookDetails-addReviewBtn" style="float:right;" value="#{l['viewBookDetails.rate']}" action="#{viewBookDetails.addReview()}"/>
+                        <h:commandButton class="div-bookDetails-addReviewBtn" style="float:right; width: 100px;" value="#{l['viewBookDetails.rate']}" action="#{viewBookDetails.addReview()}"/>
                     </h:form>
                 </div>
                 <h:outputLabel class="div-userProfile-section-message-OK" value="#{viewBookDetails.reviewOkMsg}" rendered="#{viewBookDetails.renderReviewOkMsg}"/>

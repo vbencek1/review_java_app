@@ -1,16 +1,55 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
-To change this license header, choose License Headers in Project Properties.
-To change this template file, choose Tools | Templates
-and open the template in the editor.
--->
-<!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml">
-    <head>
-        <title>TODO supply a title</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    </head>
-    <body>
-        <div>TODO write content</div>
-    </body>
-</html>
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./template.xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:a="http://xmlns.jcp.org/jsf/passthrough">
+
+    <ui:define name="title">#{viewAdminModeratorDetails.setTitle()}</ui:define>
+
+    <ui:define name="content">
+        <p:growl id="messages" showDetail="false"/>
+        <p:growl id="confMessage" showDetail="true"/>
+        <div class="div-bookDetails">
+            <h:form id="form-mod">
+                <p:panelGrid columns="2">
+                    <f:facet name="header">
+                        <p:commandButton action="#{viewAdminModeratorDetails.refresh()}" icon="pi pi-refresh" styleClass="rounded-button ui-button-secondary" style="float:right;"
+                                         update="form-mod" immediate="true"/>
+                    </f:facet>
+                    <p:outputLabel value="#{l['admin.viewAdminModeratorDetails.username']}"/>
+                    <p:inputText value="#{viewAdminModeratorDetails.employeeUsername}" size="50" 
+                                 maxlength="25" required="true" requiredMessage="#{l['admin.viewAdminModeratorDetails.validation.username']}"/>
+
+                    <p:outputLabel value="#{l['admin.viewAdminModeratorDetails.firstName']}"/>
+                    <p:inputText value="#{viewAdminModeratorDetails.employeeFirstname}" size="50" 
+                                 maxlength="255" required="true" requiredMessage="#{l['admin.viewAdminModeratorDetails.validation.firstName']}"/>
+
+                    <p:outputLabel value="#{l['admin.viewAdminModeratorDetails.lastName']}"/>
+                    <p:inputText value="#{viewAdminModeratorDetails.employeeLastName}" size="50" 
+                                 maxlength="255" required="true" requiredMessage="#{l['admin.viewAdminModeratorDetails.validation.lastName']}"/>
+
+                    <p:outputLabel value="#{l['admin.viewAdminModeratorDetails.email']}"/>
+                    <p:inputText value="#{viewAdminModeratorDetails.employeeEmail}" size="50" 
+                                 maxlength="255" required="true" requiredMessage="#{l['admin.viewAdminModeratorDetails.validation.email']}"/>
+
+                    <p:outputLabel value="#{l['admin.viewAdminModeratorDetails.password']}"/>
+                    <p:password value="#{viewAdminModeratorDetails.employeePassword}" size="50" 
+                                 maxlength="255" required="true" requiredMessage="#{l['admin.viewAdminModeratorDetails.validation.password']}"/>
+
+                    <p:outputLabel value="#{l['admin.viewAdminModeratorDetails.role']}"/>
+                    <p:selectOneMenu value="#{viewAdminModeratorDetails.employeeRoleId}" converter="javax.faces.Integer">
+                        <f:selectItems value="#{viewAdminModeratorDetails.listEmployeeRole}" var="role" itemValue="#{role.employeeRoleId}" itemLabel="#{role.name}"/>
+                    </p:selectOneMenu>
+                    <f:facet name="footer">
+                        <p:commandButton value="#{l['admin.viewAdminModeratorDetails.save']}" ajax="false" action="#{viewAdminModeratorDetails.saveData()}" 
+                                         styleClass="p-mt-3 ui-button-outlined p-d-block" update="form-mod" style="float: right;"/>
+                    </f:facet>
+                </p:panelGrid>
+            </h:form>
+        </div>
+    </ui:define>
+</ui:composition>

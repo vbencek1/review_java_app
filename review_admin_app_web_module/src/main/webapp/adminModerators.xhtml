@@ -7,9 +7,45 @@
                 xmlns:f="http://xmlns.jcp.org/jsf/core"
                 xmlns:a="http://xmlns.jcp.org/jsf/passthrough">
 
-    <ui:define name="title">Change this!!!</ui:define>
+    <ui:define name="title">#{l['admin.viewAdminModerators.username']}</ui:define>
 
     <ui:define name="content">
-        
+        <div class='div-books'>
+            <h:form id="formEmployees">
+                <p:commandButton value="#{l['admin.viewAdminModerators.newModerator']}" action="adminModeratorDetails.xhtml?faces-redirect=true"
+                                 icon="pi pi-plus-circle" styleClass="ui-button-outlined ui-button-info"/>
+                <p:commandButton update="employees" action="#{viewAdminModerators.resetvalues()}"
+                                 process="@parent" icon="pi pi-refresh" styleClass="rounded-button ui-button-secondary" style="float:right;"/>  
+                <p:dataTable id="employees" widgetVar="vtEmployee" value="#{viewAdminModerators.listEmployee}" var="row"                        
+                             rows="10" paginator="true" selectionMode="single" selection="#{viewAdminModerators.selectedEmployee}" rowKey="#{row.employeeId}"
+                             paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                             currentPageReportTemplate="{startRecord}-{endRecord} #{l['admin.viewAdminBooks.paginator.of']} {totalRecords} #{l['admin.viewAdminBooks.paginator.records']}"> 
+                    <p:column sortBy="#{row.username}" filterBy="#{row.username}">
+                        <f:facet name="header">#{l['admin.viewAdminModerators.username']}</f:facet>#{row.username}
+                    </p:column>       
+                    <p:column sortBy="#{row.firstname}" filterBy="#{row.firstname}">
+                        <f:facet name="header">#{l['admin.viewAdminModerators.firstName']}</f:facet>#{row.firstname}
+                    </p:column>   
+                    <p:column sortBy="#{row.lastname}" filterBy="#{row.lastname}">
+                        <f:facet name="header">#{l['admin.viewAdminModerators.lastName']}</f:facet>#{row.lastname}
+                    </p:column>
+                    <p:column sortBy="#{row.email}" filterBy="#{row.email}">
+                        <f:facet name="header">Email</f:facet>#{row.email}
+                    </p:column> 
+                    <p:column sortBy="#{row.employeeRoleId.name}" filterBy="#{row.employeeRoleId.name}">
+                        <f:facet name="header">#{l['admin.viewAdminModerators.role']}</f:facet>#{row.employeeRoleId.name}
+                    </p:column>
+                    <p:column  headerText="#{l['admin.viewAdminModerators.status']}" sortBy="#{row.isblocked}"
+                               filterBy="#{row.isblocked.toString()}" filterMatchMode="equals" filterOptions="#{viewAdminModerators.blockedOptions}" filterStyleClass="custom-filter ui-inputfield">          
+                        <p:commandButton value="#{l['admin.viewAdminModerators.unblock']}" action="#{viewAdminModerators.unblockUser(row)}" update="employees"
+                                         styleClass="rounded-button ui-button-success" rendered="#{row.isblocked}" disabled="#{row.employeeRoleId.employeeRoleId==1}"/>
+                        <p:commandButton value="#{l['admin.viewAdminModerators.block']}" action="#{viewAdminModerators.blockUser(row)}" update="employees"
+                                         styleClass="rounded-button ui-button-danger" rendered="#{!row.isblocked}" disabled="#{row.employeeRoleId.employeeRoleId==1}"/>
+                    </p:column>
+                    
+                    <p:ajax event="rowSelect" listener ="#{viewAdminModerators.redirectToModDetails()}"/> 
+                </p:dataTable>
+            </h:form>
+        </div>
     </ui:define>
 </ui:composition>

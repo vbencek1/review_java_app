@@ -15,27 +15,27 @@
                 <p:commandButton update="logs logsEmployee" action="#{viewAdminLog.resetvalues()}"
                                  process="@parent" icon="pi pi-refresh" styleClass="rounded-button ui-button-secondary" style="float:right;"/>  
                 <p:selectOneMenu id="option" value="#{viewAdminLog.option}" valueChangeListener="#{viewAdminLog.changeView()}" onchange="submit()">
-                    <f:selectItem itemLabel="USERS" itemValue="2"/>
-                    <f:selectItem itemLabel="ADMIN/MOD" itemValue="1"/>
+                    <f:selectItem itemLabel="#{l['admin.viewAdminLog.combo.users']}" itemValue="2"/>
+                    <f:selectItem itemLabel="#{l['admin.viewAdminLog.combo.mods']}" itemValue="1"/>
                 </p:selectOneMenu>
                 <p:dataTable id="logs" widgetVar="vtLog" value="#{viewAdminLog.listDataLog}" var="row"                        
                              rows="10" paginator="true" rendered="#{viewAdminLog.renderUserLog}"
                              paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                              currentPageReportTemplate="{startRecord}-{endRecord} #{l['admin.viewAdminBooks.paginator.of']} {totalRecords} #{l['admin.viewAdminBooks.paginator.records']}"> 
                     <p:column sortBy="#{row.actionDate}" filterBy="#{row.actionDate}">
-                        <f:facet name="header">Date</f:facet>#{row.actionDate}
+                        <f:facet name="header">#{l['admin.viewAdminLog.date']}</f:facet>#{viewAdminLog.convertToFriendlyDate(row.actionDate)}
                     </p:column>       
                     <p:column sortBy="#{row.userId.username}" filterBy="#{row.userId.username}">
-                        <f:facet name="header">Username</f:facet>#{row.userId.username}
+                        <f:facet name="header">#{l['admin.viewAdminLog.username']}</f:facet>#{row.userId.username}
                     </p:column>   
                     <p:column sortBy="#{row.viewName}" filterBy="#{row.viewName}">
-                        <f:facet name="header">View name</f:facet>#{row.viewName}
+                        <f:facet name="header">#{l['admin.viewAdminLog.viewName']}</f:facet>#{row.viewName}
                     </p:column>
                     <p:column sortBy="#{row.methodName}" filterBy="#{row.methodName}">
-                        <f:facet name="header">Method name</f:facet>#{row.methodName}
+                        <f:facet name="header">#{l['admin.viewAdminLog.methodName']}</f:facet>#{row.methodName}
                     </p:column>  
                     <p:column sortBy="#{row.parametars}" filterBy="#{row.parametars}">
-                        <f:facet name="header">Params</f:facet>#{row.parametars}
+                        <f:facet name="header">#{l['admin.viewAdminLog.params']}</f:facet>#{row.parametars}
                     </p:column>
                 </p:dataTable>
 
@@ -44,19 +44,19 @@
                              paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                              currentPageReportTemplate="{startRecord}-{endRecord} #{l['admin.viewAdminBooks.paginator.of']} {totalRecords} #{l['admin.viewAdminBooks.paginator.records']}"> 
                     <p:column sortBy="#{row.actionDate}" filterBy="#{row.actionDate}">
-                        <f:facet name="header">Date</f:facet>#{row.actionDate}
+                        <f:facet name="header">#{l['admin.viewAdminLog.date']}</f:facet>#{viewAdminLog.convertToFriendlyDate(row.actionDate)}
                     </p:column>       
                     <p:column sortBy="#{row.employeeId.username}" filterBy="#{row.employeeId.username}">
-                        <f:facet name="header">Username</f:facet>#{row.employeeId.username}
+                        <f:facet name="header">#{l['admin.viewAdminLog.username']}</f:facet>#{row.employeeId.username}
                     </p:column>   
                     <p:column sortBy="#{row.viewName}" filterBy="#{row.viewName}">
-                        <f:facet name="header">View name</f:facet>#{row.viewName}
+                        <f:facet name="header">#{l['admin.viewAdminLog.viewName']}</f:facet>#{row.viewName}
                     </p:column>
                     <p:column sortBy="#{row.methodName}" filterBy="#{row.methodName}">
-                        <f:facet name="header">Method name</f:facet>#{row.methodName}
+                        <f:facet name="header">#{l['admin.viewAdminLog.methodName']}</f:facet>#{row.methodName}
                     </p:column>  
                     <p:column sortBy="#{row.parametars}" filterBy="#{row.parametars}">
-                        <f:facet name="header">Params</f:facet>#{row.parametars}
+                        <f:facet name="header">#{l['admin.viewAdminLog.params']}</f:facet>#{row.parametars}
                     </p:column>
                 </p:dataTable>
             </h:form>

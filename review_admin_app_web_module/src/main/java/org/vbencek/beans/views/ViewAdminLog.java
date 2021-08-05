@@ -8,6 +8,8 @@ package org.vbencek.beans.views;
 import javax.inject.Named;
 import javax.faces.view.ViewScoped;
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -52,11 +54,11 @@ public class ViewAdminLog implements Serializable {
     
     @Getter
     @Setter
-    String option="0";
+    String option="2";
     
     @PostConstruct
     public void init() {
-        //samo za testiranje, iskoristiti serversko stranicenje
+        System.out.println("ViewAdminLog: opening view");
         listDataLog = dataLogFacade.findAll();
         listDataLogEmployee=dataLogEmployeesFacade.findAll();
     }
@@ -65,12 +67,15 @@ public class ViewAdminLog implements Serializable {
         if("2".equals(option)){
             renderUserLog=false;
             renderEmployeeLog=true;
-            System.out.println("test1");
         }else{
             renderEmployeeLog=false;
             renderUserLog=true;
-            System.out.println("test2");
         }
+    }
+    
+    public String convertToFriendlyDate(Date date) {
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+        return simpleDateFormat.format(date).toUpperCase();
     }
     
     public void resetvalues(){

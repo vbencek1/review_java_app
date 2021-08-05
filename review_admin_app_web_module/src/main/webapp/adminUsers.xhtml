@@ -7,9 +7,38 @@
                 xmlns:f="http://xmlns.jcp.org/jsf/core"
                 xmlns:a="http://xmlns.jcp.org/jsf/passthrough">
 
-    <ui:define name="title">Change this!!!</ui:define>
+    <ui:define name="title">#{l['admin.viewAdminUsers.title']}</ui:define>
 
     <ui:define name="content">
-        
+        <div class='div-books'>
+            <h:form id="formUsers">
+                <p:commandButton update="users" action="#{viewAdminUsers.resetvalues()}"
+                                 process="@parent" icon="pi pi-refresh" styleClass="rounded-button ui-button-secondary" style="float:right;"/>  
+                <p:dataTable id="users" widgetVar="vtUser" value="#{viewAdminUsers.listUsers}" var="row"                        
+                             rows="10" paginator="true"
+                             paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                             currentPageReportTemplate="{startRecord}-{endRecord} #{l['admin.viewAdminBooks.paginator.of']} {totalRecords} #{l['admin.viewAdminBooks.paginator.records']}"> 
+                    <p:column sortBy="#{row.username}" filterBy="#{row.username}">
+                        <f:facet name="header">#{l['admin.viewAdminUsers.username']}</f:facet>#{row.username}
+                    </p:column>       
+                    <p:column sortBy="#{row.firstname}" filterBy="#{row.firstname}">
+                        <f:facet name="header">#{l['admin.viewAdminUsers.firstName']}</f:facet>#{row.firstname}
+                    </p:column>   
+                    <p:column sortBy="#{row.lastname}" filterBy="#{row.lastname}">
+                        <f:facet name="header">#{l['admin.viewAdminUsers.lastName']}</f:facet>#{row.lastname}
+                    </p:column>
+                    <p:column sortBy="#{row.email}" filterBy="#{row.email}">
+                        <f:facet name="header">Email</f:facet>#{row.email}
+                    </p:column>  
+                    <p:column  headerText="#{l['admin.viewAdminUsers.status']}" sortBy="#{row.isblocked}"
+                               filterBy="#{row.isblocked.toString()}" filterMatchMode="equals" filterOptions="#{viewAdminUsers.blockedOptions}" filterStyleClass="custom-filter ui-inputfield">          
+                        <p:commandButton value="#{l['admin.viewAdminUsers.unblock']}" action="#{viewAdminUsers.unblockUser(row)}" update="users"
+                                         styleClass="rounded-button ui-button-success" rendered="#{row.isblocked}"/>
+                        <p:commandButton value="#{l['admin.viewAdminUsers.block']}" action="#{viewAdminUsers.blockUser(row)}" update="users"
+                                         styleClass="rounded-button ui-button-danger" rendered="#{!row.isblocked}"/>
+                    </p:column>
+                </p:dataTable>
+            </h:form>
+        </div>
     </ui:define>
 </ui:composition>

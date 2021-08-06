@@ -11,7 +11,6 @@ import javax.faces.view.ViewScoped;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Locale;
-import java.util.Map;
 import java.util.ResourceBundle;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -21,7 +20,6 @@ import lombok.Getter;
 import lombok.Setter;
 import org.springframework.security.crypto.password.Pbkdf2PasswordEncoder;
 import org.vbencek.beans.ActiveUserSession;
-import static org.vbencek.beans.views.ViewAdminEmployeeInfo.pbkdf2PasswordEncoder;
 import org.vbencek.facade.EmployeeFacadeLocal;
 import org.vbencek.facade.EmployeeRoleFacadeLocal;
 import org.vbencek.localization.Localization;
@@ -32,9 +30,9 @@ import org.vbencek.model.EmployeeRole;
  *
  * @author Tino
  */
-@Named(value = "viewAdminModeratorDetails")
+@Named(value = "viewAdminEmployeeInfo")
 @ViewScoped
-public class ViewAdminModeratorDetails implements Serializable {
+public class ViewAdminEmployeeInfo implements Serializable {
 
     @EJB(beanName = "EmployeeFacade")
     EmployeeFacadeLocal employeeFacade;
@@ -78,35 +76,20 @@ public class ViewAdminModeratorDetails implements Serializable {
     List<EmployeeRole> listEmployeeRole;
     
     public static Pbkdf2PasswordEncoder pbkdf2PasswordEncoder = new Pbkdf2PasswordEncoder();
-    
+
     @PostConstruct
     void init() {
         res = ResourceBundle.getBundle("org.vbencek.localization.Translations", new Locale(localization.getLanguage()));
-        Map<String, String> params = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
-        String employeeId = params.get("id");
-        int intEmployeeId = 0;
-        try {
-            intEmployeeId = Integer.parseInt(employeeId);
-        } catch (Exception e) {
-            System.out.println("ViewEmployeeDetails: Opening view to insert new employee");
-        }
-        if (intEmployeeId != 0) {
-            thisEmployee = employeeFacade.find(intEmployeeId);
-            if (thisEmployee != null) {
-                System.out.println("ViewEmployeeDetails: Opening view for employeeID: " + intEmployeeId);   
-            } else {
-                System.out.println("ViewEmployeeDetails: employeeID: " + intEmployeeId + " doesn't exist. Opening view to insert new employee");
-            }
-        }
+        thisEmployee=activeUserSession.getActiveUser();
+        System.out.println("ViewEmployeeDetails: Opening view for employeeID: " + thisEmployee.getEmployeeId());
         setData();
     }
 
     public String setTitle() {
         if (thisEmployee != null) {
             return thisEmployee.getUsername();
-        } else {
-            return res.getString("admin.viewAdminModeratorDetails.title");
-        }
+        } 
+        return "";
     }
 
     private void setData() {
@@ -119,22 +102,6 @@ public class ViewAdminModeratorDetails implements Serializable {
             employeePassword = "";
             employeeRoleId = thisEmployee.getEmployeeRoleId().getEmployeeRoleId();
         }
-    }
-    
-    private void createEmployee() {
-        Employee employee = new Employee();
-        String hashPassword = pbkdf2PasswordEncoder.encode(employeePassword);
-        employee.setUsername(employeeUsername);
-        employee.setFirstname(employeeFirstname);
-        employee.setLastname(employeeLastName);
-        employee.setEmail(employeeEmail);
-        employee.setPassword(hashPassword);
-        employee.setEmployeeRoleId(employeeRoleFacade.find(employeeRoleId));
-        employee.setIsblocked(Boolean.FALSE);
-        employeeFacade.create(employee);
-        thisEmployee=employee;
-        activeUserSession.addDataLog(this.getClass().getSimpleName(), new Object() {
-        }.getClass().getEnclosingMethod().getName(), "EMPLOYEE ID: "+thisEmployee.getEmployeeId());
     }
 
     private void editEmployee() {
@@ -159,24 +126,15 @@ public class ViewAdminModeratorDetails implements Serializable {
     }
 
     public void saveData() {
-        if (thisEmployee == null) {
-            createEmployee();
-        } else {
-            editEmployee();
-        }
-        String url = "adminModeratorDetails.xhtml?id=" + thisEmployee.getEmployeeId();
+        editEmployee();
+        String url = "adminEmployeeInfo.xhtml";
         redirect(url);
 
     }
 
     public void refresh() {
-        String url;
-        if (thisEmployee != null) {
-             url = "adminModeratorDetails.xhtml?id=" + thisEmployee.getEmployeeId(); 
-        }else{
-             url = "adminModeratorDetails.xhtml?";
-        }
+        String  url = "adminEmployeeInfo.xhtml";
         redirect(url);
     }
-
+    
 }

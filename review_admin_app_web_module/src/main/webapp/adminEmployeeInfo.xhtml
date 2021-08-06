@@ -1,0 +1,54 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./template.xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:a="http://xmlns.jcp.org/jsf/passthrough">
+
+    <ui:define name="title">#{viewAdminEmployeeInfo.setTitle()}</ui:define>
+
+    <ui:define name="content">
+        <p:growl id="messages" showDetail="false"/>
+        <div class="div-bookDetails">
+            <h:form id="form-mod">
+                <p:panelGrid columns="2">
+                    <f:facet name="header">
+                        <p:commandButton action="#{viewAdminEmployeeInfo.refresh()}" icon="pi pi-refresh" styleClass="rounded-button ui-button-secondary" style="float:right;"
+                                         update="form-mod" immediate="true"/>
+                    </f:facet>
+                    <p:outputLabel value="#{l['admin.viewAdminModeratorDetails.username']}"/>
+                    <p:inputText value="#{viewAdminEmployeeInfo.employeeUsername}" size="50" 
+                                 disabled="true" requiredMessage="#{l['admin.viewAdminModeratorDetails.validation.username']}"/>
+
+                    <p:outputLabel value="#{l['admin.viewAdminModeratorDetails.firstName']}"/>
+                    <p:inputText value="#{viewAdminEmployeeInfo.employeeFirstname}" size="50" 
+                                 maxlength="255" required="true" requiredMessage="#{l['admin.viewAdminModeratorDetails.validation.firstName']}"/>
+
+                    <p:outputLabel value="#{l['admin.viewAdminModeratorDetails.lastName']}"/>
+                    <p:inputText value="#{viewAdminEmployeeInfo.employeeLastName}" size="50" 
+                                 maxlength="255" required="true" requiredMessage="#{l['admin.viewAdminModeratorDetails.validation.lastName']}"/>
+
+                    <p:outputLabel value="#{l['admin.viewAdminModeratorDetails.email']}"/>
+                    <p:inputText value="#{viewAdminEmployeeInfo.employeeEmail}" size="50" 
+                                 maxlength="255" required="true" requiredMessage="#{l['admin.viewAdminModeratorDetails.validation.email']}"/>
+
+                    <p:outputLabel value="#{l['admin.viewAdminModeratorDetails.password']}"/>
+                    <p:password value="#{viewAdminEmployeeInfo.employeePassword}" size="50" 
+                                 maxlength="255" required="true" requiredMessage="#{l['admin.viewAdminModeratorDetails.validation.password']}"/>
+
+                    <p:outputLabel value="#{l['admin.viewAdminModeratorDetails.role']}"/>
+                    <p:selectOneMenu value="#{viewAdminEmployeeInfo.employeeRoleId}" converter="javax.faces.Integer" disabled="true">
+                        <f:selectItems value="#{viewAdminEmployeeInfo.listEmployeeRole}" var="role" itemValue="#{role.employeeRoleId}" itemLabel="#{role.name}"/>
+                    </p:selectOneMenu>
+                    <f:facet name="footer">
+                        <p:commandButton value="#{l['admin.viewAdminModeratorDetails.save']}" ajax="false" action="#{viewAdminEmployeeInfo.saveData()}" 
+                                         styleClass="p-mt-3 ui-button-outlined p-d-block" update="form-mod" style="float: right;"/>
+                    </f:facet>
+                </p:panelGrid>
+            </h:form>
+        </div>
+    </ui:define>
+</ui:composition>

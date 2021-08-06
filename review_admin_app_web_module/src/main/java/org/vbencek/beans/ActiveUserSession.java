@@ -123,7 +123,7 @@ public class ActiveUserSession implements Serializable {
     }
 
     public String redirectToUserProfile() {
-        return "userProfile.xhmtl?id=" + activeUser.getEmployeeId() + "&faces-redirect=true";
+        return "adminEmployeeInfo.xhmtl?&faces-redirect=true";
     }
 
     //user action logging

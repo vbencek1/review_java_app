@@ -7,9 +7,24 @@
                 xmlns:f="http://xmlns.jcp.org/jsf/core"
                 xmlns:a="http://xmlns.jcp.org/jsf/passthrough">
 
-    <ui:define name="title">Change this!!!</ui:define>
+    <ui:define name="title">#{l['admin.ViewAdminStatistics.title']}</ui:define>
 
     <ui:define name="content">
+        <div class="div-graphContainer">
+            <p:barChart model="#{viewAdminStatistics.barHighestRatedBooks}" style="width: 100%; height: 500px;"/>
+        </div>
         
+        <div class="div-graphContainer">
+            <p:barChart model="#{viewAdminStatistics.hbarPopularBooks}" style="width: 100%; height: 500px;"/>
+        </div>
+        
+        <div class="div-graphContainer">
+            <p:pieChart model="#{viewAdminStatistics.pieMostActiveUsers}" style="width: 100%; height: 500px;"/>
+        </div>
+        
+         <div class="div-graphContainer">
+             <p:pieChart model="#{viewAdminStatistics.pieMostActiveMods}" style="width: 100%; height: 500px;"/>
+        </div>
+
     </ui:define>
 </ui:composition>

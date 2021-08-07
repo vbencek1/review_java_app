@@ -36,8 +36,10 @@
         <div class="div-myReviews-allReviews">
             <h:form id="form-reviews">
                 <div class="div-bookDetails-divBtnComments">
-                    <p:commandButton id="btnNext" class="div-bookDetails-review-btnScroll" value="#{l['viewBookDetails.btnNext']}&gt;&gt;" action="#{viewMyReviews.loadNextComments()}" update="form-reviews"/>
-                    <p:commandButton id="btnPrevoius" class="div-bookDetails-review-btnScroll" value="&lt;&lt;#{l['viewBookDetails.btnPrevious']}" action="#{viewMyReviews.loadPreviousComments()}" update="form-reviews"/>
+                    <p:commandButton id="btnNext" icon="pi pi-backward" styleClass="rounded-button ui-button-info ui-button-outlined" style="margin-right: 5px;"
+                                     action="#{viewMyReviews.loadNextComments()}" update="form-reviews"/>
+                    <p:commandButton id="btnPrevoius" icon="pi pi-forward" styleClass="rounded-button ui-button-info ui-button-outlined" style="margin-left: 5px;"
+                                     action="#{viewMyReviews.loadPreviousComments()}" update="form-reviews"/>
                 </div>
                 <ui:repeat id="repeater" value="#{viewMyReviews.getListOfReviews(viewMyReviews.pageNum)}" var="row" varStatus="rowStatus">
                     <div id="div-myReviews-SingleReview-#{rowStatus.index}" class="div-myReviews-SingleReview">

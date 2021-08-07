@@ -114,7 +114,7 @@ public class ViewAddBookRequest implements Serializable {
 
     private void checkEmptyISBNandSend() {
         res = ResourceBundle.getBundle("org.vbencek.localization.Translations", new Locale(localization.getLanguage()));
-        if (!"".equals(isbn.trim())) {
+        if (!"".equals(isbn.trim()) && isbn.length()==10) {
             sendISBNBookRequest();
         } else {
             renderReplyIsbn = true;

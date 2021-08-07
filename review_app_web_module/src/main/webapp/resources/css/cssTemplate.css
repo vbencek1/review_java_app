@@ -338,28 +338,6 @@ img.avatar {
     border: gray 1px;
 }
 
-body .ui-button {
-    border-radius:0px;
-    border: none;
-    background: none #FF785A;
-    color: #FFFFFF;
-    font-size: 12px;
-    font-weight: bold;
-    padding: 0px 10px 0px 10px;
-    margin: 10px 0px 2px 0px;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-    box-shadow: inset 0px 0px 0px 0px red;
-    height: 30px;
-    width: 100%;
-    margin-bottom: 20px;
-}
-
-body .ui-button:hover {
-    background-color: #ff3333;
-    border: gray 1px;
-}
-
 .frgText {
     background-color: #D9D9D9;
     color: #333333;

@@ -51,8 +51,10 @@
         <div class="div-bookSearch-allBooks">
             <h:form id="form-buttons">
                 <div class="div-bookDetails-divBtnComments">
-                    <p:commandButton id="btnPrevoius" class="div-bookSearch-btnScroll-left" value="&lt;&lt;#{l['viewBookDetails.btnPrevious']}" action="#{viewSearchBooks.previousPage()}" update="form-buttons"/>
-                    <p:commandButton id="btnNext" class="div-bookSearch-btnScroll-right" value="#{l['viewBookDetails.btnNext']}&gt;&gt;" action="#{viewSearchBooks.nextPage()}" update="form-buttons"/>
+                    <p:commandButton id="btnPrevoius"  icon="pi pi-backward" styleClass="rounded-button ui-button-info ui-button-outlined" style="margin-right: 10px;"
+                                     action="#{viewSearchBooks.previousPage()}" update="form-buttons"/>
+                    <p:commandButton id="btnNext" icon="pi pi-forward" styleClass="rounded-button ui-button-info ui-button-outlined" style="margin-left: 10px;"
+                                     action="#{viewSearchBooks.nextPage()}" update="form-buttons"/>
                 </div>
                 <ui:repeat id="bookRepeater" value="#{viewSearchBooks.getListOfBooks(viewSearchBooks.pageNum)}" var="row">
                     <h:outputLink value="#{viewSearchBooks.redirectToBookDetails(row.bookId)}">

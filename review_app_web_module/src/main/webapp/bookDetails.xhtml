@@ -101,9 +101,11 @@
             </div>           
             <div id="divComments" class="div-bookDetails-comments">
                 <h:form id="form-comments">
-                    <div class="div-bookDetails-divBtnComments">
-                        <p:commandButton id="btnNext" class="div-bookDetails-review-btnScroll" value="#{l['viewBookDetails.btnNext']}&gt;&gt;" action="#{viewBookDetails.loadNextComments()}" update="form-comments"/>
-                        <p:commandButton id="btnPrevoius" class="div-bookDetails-review-btnScroll" value="&lt;&lt;#{l['viewBookDetails.btnPrevious']}" action="#{viewBookDetails.loadPreviousComments()}" update="form-comments"/>
+                    <div class="div-bookDetails-divBtnComments">   
+                        <p:commandButton id="btnPrevoius" icon="pi pi-forward" styleClass="rounded-button ui-button-info ui-button-outlined" style="margin-left: 5px; float: right;" 
+                                         action="#{viewBookDetails.loadPreviousComments()}" update="form-comments"/>
+                        <p:commandButton id="btnNext" icon="pi pi-backward" styleClass="rounded-button ui-button-info ui-button-outlined" style="margin-right: 5px; float: right;"
+                                         action="#{viewBookDetails.loadNextComments()}" update="form-comments"/>
                     </div>
                     <ui:repeat id="repeater" value="#{viewBookDetails.getListOfComments(viewBookDetails.pageNum)}" var="row">
                         <div class="div-bookDetails-SingleComment">

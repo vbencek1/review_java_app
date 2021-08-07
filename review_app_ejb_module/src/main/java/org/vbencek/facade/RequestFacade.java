@@ -54,5 +54,23 @@ public class RequestFacade extends AbstractFacade<Request> implements RequestFac
 
         return results;
     }
+
+    @Override
+    public List<Request> findRequestsByISBN(String isbn) {
+        CriteriaBuilder cb = em.getCriteriaBuilder();
+        CriteriaQuery<Request> cq = cb.createQuery(Request.class);
+        Root<Request> request = cq.from(Request.class);
+        List<Predicate> predicates = new ArrayList<Predicate>();
+        if (isbn !=null && !"".equals(isbn)) {
+            predicates.add(cb.equal(request.get("isbn"),isbn));
+        }
+        //Query
+        cq.select(request).where(predicates.toArray(new Predicate[]{}));
+        //execute query and do something with result
+        List<Request> results = em.createQuery(cq)
+                .getResultList();
+
+        return results;
+    }
     
 }

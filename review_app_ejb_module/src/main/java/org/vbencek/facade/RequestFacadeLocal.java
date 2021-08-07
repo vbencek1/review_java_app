@@ -32,4 +32,6 @@ public interface RequestFacadeLocal {
     
     List<Request> findRequestsByISBNExists(boolean hasISBN);
     
+    List<Request> findRequestsByISBN(String isbn);
+    
 }

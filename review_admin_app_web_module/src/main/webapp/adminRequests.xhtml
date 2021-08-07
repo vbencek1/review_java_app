@@ -39,9 +39,10 @@
                     </p:column>
                     <p:column>
                         <f:facet name="header">#{l['admin.viewAdminRequests.action']}</f:facet>
-                        <p:commandButton value="#{l['admin.viewAdminRequests.action.create']}" rendered="#{!viewAdminRequests.isISBNExists(row)}"
+                        <p:commandButton value="#{l['admin.viewAdminRequests.action.create']}" rendered="#{!viewAdminRequests.isISBNExists(row)}" 
+                                         action="#{viewAdminRequests.openBookDetailView(row)}"
                                          icon="pi pi-plus-circle" styleClass="ui-button-info ui-button-outlined" style="margin-right: 10px;"/>
-                        <p:commandButton 
+                        <p:commandButton action="#{viewAdminRequests.notifyUserAndRemoveRequest(row)}" update="reqIsbn"
                                          icon="pi pi-times" styleClass="rounded-button ui-button-danger" />
                     </p:column>
                 </p:dataTable>

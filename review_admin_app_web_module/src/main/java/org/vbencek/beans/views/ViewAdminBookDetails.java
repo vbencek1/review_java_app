@@ -10,6 +10,7 @@ import javax.inject.Named;
 import javax.faces.view.ViewScoped;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.ResourceBundle;
@@ -22,9 +23,13 @@ import lombok.Getter;
 import lombok.Setter;
 import org.vbencek.beans.ActiveUserSession;
 import org.vbencek.beans.requests.ViewFileUpload;
+import org.vbencek.email.EmailSender;
 import org.vbencek.facade.BookFacadeLocal;
+import org.vbencek.facade.RequestFacadeLocal;
 import org.vbencek.localization.Localization;
 import org.vbencek.model.Book;
+import org.vbencek.model.Request;
+import org.vbencek.rest.client.RestOpenLibrary;
 
 /**
  *
@@ -36,6 +41,9 @@ public class ViewAdminBookDetails implements Serializable {
 
     @EJB(beanName = "BookFacade")
     BookFacadeLocal bookFacade;
+
+    @EJB(beanName = "RequestFacade")
+    RequestFacadeLocal requestFacade;
 
     @Inject
     ActiveUserSession activeUserSession;
@@ -86,11 +94,20 @@ public class ViewAdminBookDetails implements Serializable {
     @Setter
     Book thisBook;
 
+    @Getter
+    @Setter
+    Request thisRequest;
+
     @PostConstruct
     void init() {
         res = ResourceBundle.getBundle("org.vbencek.localization.Translations", new Locale(localization.getLanguage()));
         Map<String, String> params = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
         String bookId = params.get("id");
+        String requestId = params.get("requestId");
+        if (requestId != null && bookId == null) {
+            setParamsToCreateBookFromRequest(requestId);
+            return;
+        }
         int intBookId = 0;
         try {
             intBookId = Integer.parseInt(bookId);
@@ -104,6 +121,25 @@ public class ViewAdminBookDetails implements Serializable {
                 setData();
             } else {
                 System.out.println("ViewBookDetails: bookID: " + intBookId + " doesn't exist. Opening view to insert new book");
+            }
+        }
+    }
+
+    private void setParamsToCreateBookFromRequest(String requestId) {
+        int intRequestId = 0;
+        try {
+            intRequestId = Integer.parseInt(requestId);
+        } catch (Exception e) {
+            redirect("adminBookDetails.xhtml");
+            return;
+        }
+        if (intRequestId != 0) {
+            thisRequest = requestFacade.find(intRequestId);
+            if (thisRequest != null) {
+                System.out.println("ViewBookDetails: Opening view for requestID: " + intRequestId);
+                setDataForRequest(thisRequest);
+            } else {
+                redirect("adminBookDetails.xhtml");
             }
         }
     }
@@ -130,6 +166,28 @@ public class ViewAdminBookDetails implements Serializable {
             bookAverageRating = thisBook.getAverageRating();
             bookImgPath = setIMG();
         }
+    }
+
+    private void setDataForRequest(Request request) {
+        if (request.getIsbn() != null) {
+            RestOpenLibrary restOL = new RestOpenLibrary();
+            Book book = restOL.getBookByIsbn(request.getIsbn());
+            bookTitle = book.getTitle();
+            bookIsbn = book.getIsbn();
+            bookAuthor = book.getAuthors();
+            bookPublishYear = book.getPublicationDate();
+            bookPublisher = book.getPublisher();
+            bookDescription = book.getDescription();
+            bookLanguage = book.getLanguageCode();
+            bookPages = book.getNumPages();
+            bookReviewsCount = book.getRatingsCount();
+            bookAverageRating = book.getAverageRating();
+            bookImgPath = "http://covers.openlibrary.org/b/isbn/" + book.getIsbn() + "-M.jpg";
+        } else {
+            bookTitle=request.getTitle()!=null?request.getTitle():"";
+            bookDescription=request.getDescription()!=null?request.getDescription():"";
+        }
+
     }
 
     private String setIMG() {
@@ -215,11 +273,27 @@ public class ViewAdminBookDetails implements Serializable {
             System.out.println(ex.getMessage());
         }
     }
-
+    
+    private void notifyUsersAndRemoveRequests(){
+        if(thisRequest!=null){
+            List<Request> listRequests =requestFacade.findRequestsByISBN(thisRequest.getIsbn());
+            EmailSender emailSender=new EmailSender();
+            String msgSubject=res.getString("admin.viewBookDetails.email.subject");
+            String msgText=res.getString("admin.viewBookDetails.email.text.ok");
+            for(Request req:listRequests){
+                String msgTO=req.getUserId().getEmail();
+                emailSender.sendMessage(msgTO, msgSubject, msgText);
+                requestFacade.remove(req);
+            }
+        }
+    }
+    
     public void saveData() {
         fileUpload.handleFileUpload();
         if (thisBook == null) {
             createBook();
+            //Okida se samo ako je knjiga kreirana preko zahtjeva
+            notifyUsersAndRemoveRequests();
         } else {
             editBook();
         }
@@ -237,9 +311,9 @@ public class ViewAdminBookDetails implements Serializable {
     public void refresh() {
         String url;
         if (thisBook != null) {
-             url = "adminBookDetails.xhtml?id=" + thisBook.getBookId(); 
-        }else{
-             url = "adminBookDetails.xhtml?";
+            url = "adminBookDetails.xhtml?id=" + thisBook.getBookId();
+        } else {
+            url = "adminBookDetails.xhtml?";
         }
         redirect(url);
     }

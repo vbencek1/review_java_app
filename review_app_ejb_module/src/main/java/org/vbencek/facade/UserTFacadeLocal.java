@@ -33,4 +33,6 @@ public interface UserTFacadeLocal {
     UserT findUserByUsername(String username);
     
     boolean checkIfEmailExist(String email);
+    
+    List<UserT> findUsersWithLimit(int offset, int limit);
 }

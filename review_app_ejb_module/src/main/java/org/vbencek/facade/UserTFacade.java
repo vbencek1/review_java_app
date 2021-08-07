@@ -67,4 +67,19 @@ public class UserTFacade extends AbstractFacade<UserT> implements UserTFacadeLoc
         return !temp.isEmpty();
     }
 
+    @Override
+    public List<UserT> findUsersWithLimit(int offset, int limit) {
+        CriteriaBuilder cb = em.getCriteriaBuilder();
+        CriteriaQuery<UserT> cq = cb.createQuery(UserT.class);
+        Root<UserT> user = cq.from(UserT.class);
+        cq.select(user);
+        List<UserT> results = em.createQuery(cq)
+                .setFirstResult(offset)
+                .setMaxResults(limit)
+                .getResultList();
+
+        return results;
+        
+    }
+
 }

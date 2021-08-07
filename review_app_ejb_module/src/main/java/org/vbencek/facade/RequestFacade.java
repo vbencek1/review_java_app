@@ -5,9 +5,15 @@
  */
 package org.vbencek.facade;
 
+import java.util.ArrayList;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
 import org.vbencek.model.Request;
 
 /**
@@ -27,6 +33,26 @@ public class RequestFacade extends AbstractFacade<Request> implements RequestFac
 
     public RequestFacade() {
         super(Request.class);
+    }
+
+    @Override
+    public List<Request> findRequestsByISBNExists(boolean hasISBN) {
+        CriteriaBuilder cb = em.getCriteriaBuilder();
+        CriteriaQuery<Request> cq = cb.createQuery(Request.class);
+        Root<Request> request = cq.from(Request.class);
+        List<Predicate> predicates = new ArrayList<Predicate>();
+        if (hasISBN) {
+            predicates.add(cb.isNotNull(request.get("isbn")));
+        }else{
+            predicates.add(cb.isNull(request.get("isbn")));
+        }
+        //Query
+        cq.select(request).where(predicates.toArray(new Predicate[]{}));
+        //execute query and do something with result
+        List<Request> results = em.createQuery(cq)
+                .getResultList();
+
+        return results;
     }
     
 }

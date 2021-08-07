@@ -30,4 +30,6 @@ public interface RequestFacadeLocal {
 
     int count();
     
+    List<Request> findRequestsByISBNExists(boolean hasISBN);
+    
 }

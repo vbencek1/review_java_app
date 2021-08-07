@@ -16,7 +16,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
-import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import lombok.Getter;
 import lombok.Setter;

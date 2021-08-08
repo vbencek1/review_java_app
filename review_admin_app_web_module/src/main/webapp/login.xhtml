@@ -11,7 +11,7 @@ and open the template in the editor.
       xmlns:a="http://xmlns.jcp.org/jsf/passthrough">
     <f:view locale="#{localization.language}">
         <head>
-            <title>TODO supply a title</title>
+            <title>#{l['template.login']}</title>
             <link rel="stylesheet" href="resources/css/cssAdminLogin.css"/>
         </head>
         <body>
@@ -33,6 +33,8 @@ and open the template in the editor.
                         <h:inputText id="username" class="div-login-input" a:placeholder="#{l['template.username']}" value="#{activeUserSession.username}"/>
                         <h:inputSecret id="password" class="div-login-input" a:placeholder="#{l['template.password']}" value="#{activeUserSession.password}"/>
                         <h:commandButton id="btnLogin" class="div-login-button" value="#{l['template.login']}" action="#{activeUserSession.loginUser()}"/>
+                        
+                        <h:outputLabel value="#{activeUserSession.failedLoginMsg}" class="div-login-loginMsg"/>
                     </h:form>
                 </div>
             </div>

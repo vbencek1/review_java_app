@@ -184,8 +184,8 @@ public class ViewAdminBookDetails implements Serializable {
             bookAverageRating = book.getAverageRating();
             bookImgPath = "http://covers.openlibrary.org/b/isbn/" + book.getIsbn() + "-M.jpg";
         } else {
-            bookTitle=request.getTitle()!=null?request.getTitle():"";
-            bookDescription=request.getDescription()!=null?request.getDescription():"";
+            bookTitle = request.getTitle() != null ? request.getTitle() : "";
+            bookDescription = request.getDescription() != null ? request.getDescription() : "";
         }
 
     }
@@ -233,7 +233,8 @@ public class ViewAdminBookDetails implements Serializable {
         newBook.setPublicationDate(bookPublishYear);
         newBook.setLanguageCode(bookLanguage);
         newBook.setNumPages(bookPages);
-        if (fileUpload.getFile() != null) {
+        String filename = fileUpload.getFile().getFileName();
+        if (filename != null && !filename.isEmpty()) {
             newBook.setImgPath("resources/images/covers/" + fileUpload.getFile().getFileName());
         }
         bookFacade.create(newBook);
@@ -253,7 +254,8 @@ public class ViewAdminBookDetails implements Serializable {
         thisBook.setPublicationDate(bookPublishYear);
         thisBook.setLanguageCode(bookLanguage);
         thisBook.setNumPages(bookPages);
-        if (fileUpload.getFile() != null) {
+        String filename = fileUpload.getFile().getFileName();
+        if (filename != null && !filename.isEmpty()) {
             thisBook.setImgPath("resources/images/covers/" + fileUpload.getFile().getFileName());
         }
         bookFacade.edit(thisBook);
@@ -273,21 +275,30 @@ public class ViewAdminBookDetails implements Serializable {
             System.out.println(ex.getMessage());
         }
     }
-    
-    private void notifyUsersAndRemoveRequests(){
-        if(thisRequest!=null){
-            List<Request> listRequests =requestFacade.findRequestsByISBN(thisRequest.getIsbn());
-            EmailSender emailSender=new EmailSender();
-            String msgSubject=res.getString("admin.viewBookDetails.email.subject");
-            String msgText=res.getString("admin.viewBookDetails.email.text.ok");
-            for(Request req:listRequests){
-                String msgTO=req.getUserId().getEmail();
+
+    private void notifyUsersAndRemoveRequests() {
+        if (thisRequest != null) {
+            if (thisRequest.getIsbn() != null) {
+                List<Request> listRequests = requestFacade.findRequestsByISBN(thisRequest.getIsbn());
+                EmailSender emailSender = new EmailSender();
+                String msgSubject = res.getString("admin.viewBookDetails.email.subject");
+                String msgText = res.getString("admin.viewBookDetails.email.text.ok");
+                for (Request req : listRequests) {
+                    String msgTO = req.getUserId().getEmail();
+                    emailSender.sendMessage(msgTO, msgSubject, msgText);
+                    requestFacade.remove(req);
+                }
+            } else {
+                EmailSender emailSender = new EmailSender();
+                String msgSubject = res.getString("admin.viewBookDetails.email.subject");
+                String msgText = res.getString("admin.viewBookDetails.email.text.ok");
+                String msgTO = thisRequest.getUserId().getEmail();
                 emailSender.sendMessage(msgTO, msgSubject, msgText);
-                requestFacade.remove(req);
+                requestFacade.remove(thisRequest);
             }
         }
     }
-    
+
     public void saveData() {
         fileUpload.handleFileUpload();
         if (thisBook == null) {

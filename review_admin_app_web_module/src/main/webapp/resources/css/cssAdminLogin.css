@@ -82,3 +82,9 @@ html, body {
     background: #FF785A;
     color: #333333;
 }
+
+.div-login-loginMsg{
+    color: red;
+    display: block;
+    margin-top: 10px;
+}

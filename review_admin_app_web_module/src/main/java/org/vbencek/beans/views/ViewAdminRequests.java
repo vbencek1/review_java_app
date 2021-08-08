@@ -16,16 +16,19 @@ import java.util.Locale;
 import java.util.ResourceBundle;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
+import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import lombok.Getter;
 import lombok.Setter;
 import org.primefaces.component.datatable.DataTable;
+import org.vbencek.beans.ActiveUserSession;
 import org.vbencek.email.EmailSender;
 import org.vbencek.facade.BookFacadeLocal;
 import org.vbencek.facade.RequestFacadeLocal;
 import org.vbencek.localization.Localization;
 import org.vbencek.model.Request;
+import org.vbencek.model.UserT;
 import org.vbencek.rest.client.RestOpenLibrary;
 
 /**
@@ -41,7 +44,10 @@ public class ViewAdminRequests implements Serializable {
 
     @EJB(beanName = "BookFacade")
     BookFacadeLocal bookFacade;
-
+    
+    @Inject 
+    ActiveUserSession activeUserSession;
+    
     @Inject
     Localization localization;
     ResourceBundle res;
@@ -112,16 +118,33 @@ public class ViewAdminRequests implements Serializable {
         String url = "adminBookDetails.xhtml?requestId=" + request.getRequestId();
         redirect(url);
     }
-
-    public void notifyUserAndRemoveRequest(Request request) {
+    
+    private void notifyUser(UserT user){
         EmailSender emailSender = new EmailSender();
         String msgSubject = res.getString("admin.viewBookDetails.email.subject");
         String msgText = res.getString("admin.viewBookDetails.email.text.notOk");
-        String msgTO = request.getUserId().getEmail();
+        String msgTO = user.getEmail();
         emailSender.sendMessage(msgTO, msgSubject, msgText);
+    }
+    
+    private void addMessage(String summary, String detail) {
+        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, summary, detail);
+        FacesContext.getCurrentInstance().addMessage(null, message);
+    }
+
+    private void removeRequestFromList(Request request) {
+        if (request.getIsbn() != null) {
+            listRequestIsbn.remove(request);
+        } else {
+            listRequestInfo.remove(request);
+        }
+    }
+    
+    public void removeRequest(Request request) {
+        notifyUser(request.getUserId());
         requestFacade.remove(request);
-        redirect("adminRequests.xhtml");
+        removeRequestFromList(request);
+        addMessage(res.getString("admin.viewAdminRequests.delete.summary"),res.getString("admin.viewAdminRequests.delete.details"));
+        activeUserSession.addDataLog(this.getClass().getSimpleName(), new Object(){}.getClass().getEnclosingMethod().getName(), "DELETED REQUEST_ID: "+request.getRequestId());
     }
 }
-
-

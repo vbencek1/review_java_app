@@ -1,6 +1,7 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
                 template="./template.xhtml"
                 xmlns:h="http://xmlns.jcp.org/jsf/html"
                 xmlns:p="http://primefaces.org/ui"
@@ -12,6 +13,9 @@
     <ui:define name="content">
         <div class='div-books'>
             <h:form id="formRequests">
+                <p:messages id="messages" showDetail="true" closable="true">
+                    <p:autoUpdate/>
+                </p:messages>
                 <p:commandButton update="reqIsbn reqInfo" action="#{viewAdminRequests.resetvalues()}"
                                  process="@parent" icon="pi pi-refresh" styleClass="rounded-button ui-button-secondary" style="float:right;"/>  
                 <p:selectOneMenu id="option" value="#{viewAdminRequests.option}" valueChangeListener="#{viewAdminRequests.changeView()}" onchange="submit()">
@@ -22,7 +26,7 @@
                              rows="10" paginator="true" rendered="#{viewAdminRequests.renderRequestIsbn}"
                              paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                              currentPageReportTemplate="{startRecord}-{endRecord} #{l['admin.viewAdminBooks.paginator.of']} {totalRecords} #{l['admin.viewAdminBooks.paginator.records']}"> 
-                    
+
                     <p:column sortBy="#{row.requestDate}" filterBy="#{viewAdminRequests.convertToFriendlyDate(row.requestDate)}">
                         <f:facet name="header">#{l['admin.viewAdminRequests.date']}</f:facet>#{viewAdminRequests.convertToFriendlyDate(row.requestDate)}
                     </p:column>       
@@ -42,7 +46,7 @@
                         <p:commandButton value="#{l['admin.viewAdminRequests.action.create']}" rendered="#{!viewAdminRequests.isISBNExists(row)}" 
                                          action="#{viewAdminRequests.openBookDetailView(row)}"
                                          icon="pi pi-plus-circle" styleClass="ui-button-info ui-button-outlined" style="margin-right: 10px;"/>
-                        <p:commandButton action="#{viewAdminRequests.notifyUserAndRemoveRequest(row)}" update="reqIsbn"
+                        <p:commandButton action="#{viewAdminRequests.removeRequest(row)}" update="reqIsbn"
                                          icon="pi pi-times" styleClass="rounded-button ui-button-danger" />
                     </p:column>
                 </p:dataTable>
@@ -51,9 +55,9 @@
                              rows="10" paginator="true" rendered="#{viewAdminRequests.renderRequestInfo}"
                              paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                              currentPageReportTemplate="{startRecord}-{endRecord} #{l['admin.viewAdminBooks.paginator.of']} {totalRecords} #{l['admin.viewAdminBooks.paginator.records']}"> 
-                   
-                    <p:column sortBy="#{row.requestDate}" filterBy="#{row.requestDate}">
-                        <f:facet name="header">#{l['admin.viewAdminRequests.date']}</f:facet>#{viewAdminLog.convertToFriendlyDate(row.requestDate)}
+
+                    <p:column sortBy="#{row.requestDate}" filterBy="#{viewAdminRequests.convertToFriendlyDate(row.requestDate)}}">
+                        <f:facet name="header">#{l['admin.viewAdminRequests.date']}</f:facet>#{viewAdminRequests.convertToFriendlyDate(row.requestDate)}
                     </p:column>       
                     <p:column sortBy="#{row.userId.username}" filterBy="#{row.userId.username}">
                         <f:facet name="header">#{l['admin.viewAdminRequests.user']}</f:facet>#{row.userId.username}
@@ -63,6 +67,15 @@
                     </p:column> 
                     <p:column sortBy="#{row.description}" filterBy="#{row.description}">
                         <f:facet name="header">#{l['admin.viewAdminRequests.description']}</f:facet>#{row.description}
+                    </p:column>
+
+                    <p:column>
+                        <f:facet name="header">#{l['admin.viewAdminRequests.action']}</f:facet>
+                        <p:commandButton value="#{l['admin.viewAdminRequests.action.create']}" 
+                                         action="#{viewAdminRequests.openBookDetailView(row)}"
+                                         icon="pi pi-plus-circle" styleClass="ui-button-info ui-button-outlined" style="margin-right: 10px;"/>
+                        <p:commandButton action="#{viewAdminRequests.removeRequest(row)}" update="reqInfo"
+                                         icon="pi pi-times" styleClass="rounded-button ui-button-danger" />
                     </p:column>
                 </p:dataTable>
             </h:form>

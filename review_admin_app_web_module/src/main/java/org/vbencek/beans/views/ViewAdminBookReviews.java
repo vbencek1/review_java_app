@@ -24,11 +24,13 @@ import lombok.Setter;
 import org.primefaces.component.datatable.DataTable;
 import org.vbencek.beans.ActiveUserSession;
 import org.vbencek.beans.requests.UpdateBook;
+import org.vbencek.email.EmailSender;
 import org.vbencek.facade.BookFacadeLocal;
 import org.vbencek.facade.ReviewFacadeLocal;
 import org.vbencek.localization.Localization;
 import org.vbencek.model.Book;
 import org.vbencek.model.Review;
+import org.vbencek.model.UserT;
 
 /**
  *
@@ -111,8 +113,18 @@ public class ViewAdminBookReviews implements Serializable {
         DataTable datatable = (DataTable) FacesContext.getCurrentInstance().getViewRoot().findComponent(":formBookReviews:reviews");
         datatable.reset();
     }
-
+    
+    
+    private void notifyUser(UserT user,Review review){
+        EmailSender emailSender = new EmailSender();
+        String msgSubject = res.getString("admin.viewAdminBookReviews.email.subject");
+        String msgText = res.getString("admin.viewAdminBookReviews.email.text.notOk")+review.getBook().getTitle()+" '"+review.getDescription()+"'";
+        String msgTO = user.getEmail();
+        emailSender.sendMessage(msgTO, msgSubject, msgText);
+    }
+    
     public void deleteReview(Review review) {
+        notifyUser(review.getUserT(), review);
         updateBook.updateRatings(review, "DELETE");
         reviewFacade.remove(review);
         activeUserSession.addDataLog(this.getClass().getSimpleName(), new Object(){}.getClass().getEnclosingMethod().getName(), "DELETED REVIEW_ID: "+review.getReviewPK());

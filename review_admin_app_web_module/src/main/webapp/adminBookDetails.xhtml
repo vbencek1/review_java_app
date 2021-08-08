@@ -18,9 +18,8 @@
                 <p:panelGrid columns="2">
                     <f:facet name="header">
                         <p:graphicImage value="#{viewAdminBookDetails.bookImgPath}" width="150" height="150"/><br/>
-                        <p:commandButton value="ENABLE/DISABLE UPLOAD" style="margin-right: 10px;" onclick="document.getElementById('form-book:fileUpload').disabled = false;"/>
-                        <p:fileUpload id="fileUpload" value="#{viewFileUpload.file}" mode="simple" skinSimple="true" allowTypes="/(\.|\/)(jpe?g|png)$/i" disabled="true"/><br/>
-                        <p:outputLabel value=" Ako slika nije izabrana, ona će automatski biti dohvaćena preko OpenLibrary API-a za važeći ISBN" style="font-size: 10px;"/>
+                        <p:fileUpload id="fileUpload" label="#{l['admin.viewBookDetails.choose']}" value="#{viewFileUpload.file}" mode="simple" skinSimple="true" allowTypes="/(\.|\/)(jpe?g|png)$/i"/><br/>
+                        <p:outputLabel value="#{l['admin.viewBookDetails.choose.text']}" style="font-size: 10px;"/>
                     </f:facet>
                     <p:outputLabel value="#{l['admin.viewBookDetails.title']}"/>
                     <p:inputText value="#{viewAdminBookDetails.bookTitle}" size="70" maxlength="255" required="true" requiredMessage="#{l['admin.viewBookDetails.validation.title']}"/>

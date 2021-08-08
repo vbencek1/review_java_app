@@ -29,19 +29,21 @@ public interface BookFacadeLocal {
     List<Book> findRange(int[] range);
 
     int count();
-    
-    List<Book> findBooksByCriteria(String isbn, String keyword, int publishYear, String publisher, double minimumAvgRating,String sortOption,int offset,int limit);
-    
+
+    List<Book> findBooksByCriteria(String isbn, String keyword, int publishYear, String publisher, double minimumAvgRating, String sortOption, int offset, int limit);
+
     long countBooksByCriteria(String isbn, String keyword, int publishYear, String publisher, double minimumAvgRating);
-    
+
     List<String> findAllYears();
-    
+
     List<String> findAllPublishers();
-    
+
     boolean isISBNExists(String isbn);
-    
+
     List<Book> findBooksWithReviews();
-    
+
     Book findBookById(int id);
-    
+
+    List<Book> findRecommendedBooks(String keyword, double minimumAvgRating, int minimumRatingsCount, String sortOption, int offset, int limit);
+
 }

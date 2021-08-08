@@ -6,18 +6,14 @@
 package org.vbencek.facade;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.ParameterExpression;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
-import javax.persistence.criteria.Subquery;
 import org.vbencek.model.Book;
 import org.vbencek.model.Review;
 
@@ -207,6 +203,56 @@ public class BookFacade extends AbstractFacade<Book> implements BookFacadeLocal 
         Book result = em.createQuery(cq)
                 .getSingleResult();
         return result;
+    }
+
+    @Override
+    public List<Book> findRecommendedBooks(String keyword, double minimumAvgRating, int minimumRatingsCount, String sortOption,int offset,int limit) {
+        CriteriaBuilder cb = em.getCriteriaBuilder();
+        CriteriaQuery<Book> cq = cb.createQuery(Book.class);
+        Root<Book> book = cq.from(Book.class);
+        List<Predicate> predicates = new ArrayList<Predicate>();
+
+        if (keyword != null && !"".equals(keyword)) {
+            Predicate title = cb.like(cb.upper(book.get("title")), "%" + keyword.toUpperCase() + "%");
+            Predicate authors = cb.like(cb.upper(book.get("authors")), "%" + keyword.toUpperCase() + "%");
+            predicates.add(cb.or(title, authors));
+        }
+
+        if (minimumAvgRating != 0) {
+            predicates.add(cb.greaterThanOrEqualTo(book.get("averageRating"), minimumAvgRating));
+        }
+        
+        if (minimumRatingsCount != 0) {
+            predicates.add(cb.greaterThanOrEqualTo(book.get("ratingsCount"), minimumRatingsCount));
+        }
+        //add sort options
+        if (sortOption != null && !"".equals(sortOption)) {
+            if ("title".equals(sortOption)) {
+                cq.orderBy(cb.asc(book.get("title")));
+            }
+            if ("rating".equals(sortOption)) {
+                cq.orderBy(cb.desc(book.get("averageRating")));
+            }
+
+            if ("reviews".equals(sortOption)) {
+                cq.orderBy(cb.desc(book.get("ratingsCount")));
+            }
+            if ("date".equals(sortOption)) {
+                 Root<Review> review = cq.from(Review.class);
+                 predicates.add(cb.equal(book.get("bookId"), review.get("book").get("bookId")));
+                 cq.orderBy(cb.desc(review.get("ratingDate")));
+            }
+        }
+
+        //Query
+        cq.select(book).where(predicates.toArray(new Predicate[]{}));
+        //execute query and do something with result
+        List<Book> results = em.createQuery(cq)
+                .setFirstResult(offset)
+                .setMaxResults(limit)
+                .getResultList();
+
+        return results;
     }
 
 }

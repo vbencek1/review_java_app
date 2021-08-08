@@ -9,6 +9,7 @@ import javax.inject.Named;
 import javax.faces.view.ViewScoped;
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Random;
@@ -69,8 +70,14 @@ public class ViewHome implements Serializable {
         } else {
             //TO DO za sad nek bu defaultno
             Random rand = new Random();
-            int rndOffset = rand.nextInt(100);
-            return  bookFacade.findBooksByCriteria("", "", 0, "", 0, "rating", rndOffset, 2);
+            List<Book> recommendedBooks=bookFacade.findRecommendedBooks("", 4, 100000, "rating", 0, 100);
+            int limit=recommendedBooks.size()-1;
+            int rndBookId1 = rand.nextInt(limit);
+            int rndBookId2 = rand.nextInt(limit);
+            List<Book> listToShow=new ArrayList<>();
+            listToShow.add(recommendedBooks.get(rndBookId1));
+            listToShow.add(recommendedBooks.get(rndBookId2));
+            return listToShow;
         }
     }
 

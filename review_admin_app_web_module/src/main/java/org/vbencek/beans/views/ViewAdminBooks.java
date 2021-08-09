@@ -25,8 +25,8 @@ import org.vbencek.facade.BookFacadeLocal;
 import org.vbencek.model.Book;
 
 /**
- *
- * @author Tino
+ * View that shows all books
+ * @author vbencek
  */
 @Named(value = "viewAdminBooks")
 @ViewScoped
@@ -45,7 +45,6 @@ public class ViewAdminBooks implements Serializable {
 
     @PostConstruct
     public void init() {
-        //samo za testiranje, iskoristiti serversko stranicenje
         listBooks = bookFacade.findAll();
     }
 
@@ -53,7 +52,7 @@ public class ViewAdminBooks implements Serializable {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("YYYY");
         return simpleDateFormat.format(date).toUpperCase();
     }
-
+    
     public String makeTextShorter(String text, int maxChars) {
         return StringUtils.abbreviate(text, maxChars);
     }

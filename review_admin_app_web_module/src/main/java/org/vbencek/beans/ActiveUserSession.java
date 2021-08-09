@@ -28,7 +28,8 @@ import org.vbencek.model.Employee;
 import org.vbencek.properties.PropertiesLoader;
 
 /**
- *
+ * Class that stores active employee (user) informations.
+ * Used for login and logout
  * @author Tino
  */
 @Named(value = "activeUserSession")
@@ -67,6 +68,10 @@ public class ActiveUserSession implements Serializable {
         res = ResourceBundle.getBundle("org.vbencek.localization.Translations", new Locale(localization.getLanguage()));
     }
 
+    /**
+     * Method first checks if username exists, then it's matching password using encripter and finnaly it checks if user is blocked.
+     * Stores user in active user variable or prints apropriate message if failed.
+     */
     public void loginUser() {
         if (activeUser == null) {
             Employee tempUser = employeeFacade.findEmployeeByUsername(username);
@@ -107,7 +112,11 @@ public class ActiveUserSession implements Serializable {
         addDataLog(this.getClass().getSimpleName(), new Object() {
         }.getClass().getEnclosingMethod().getName(), "logout");
     }
-
+    
+    /**
+     * Method is used to render admin view so that moderators can't see admin options
+     * @return 
+     */
     public boolean isUserAdmin() {
         if (activeUser != null) {
             PropertiesLoader propLoader = new PropertiesLoader();
@@ -126,7 +135,13 @@ public class ActiveUserSession implements Serializable {
         return "adminEmployeeInfo.xhmtl?&faces-redirect=true";
     }
 
-    //user action logging
+    /**
+     * Used for logging. Will be replaced with filter in web.xml
+     * @param <T>
+     * @param viewName
+     * @param methodName
+     * @param params 
+     */
     public <T> void addDataLog(String viewName, String methodName, T params) {
         if (activeUser != null) {
             ObjectMapper mapper = new ObjectMapper();

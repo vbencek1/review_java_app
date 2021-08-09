@@ -5,18 +5,17 @@
  */
 package org.vbencek.beans.requests;
 
-import java.util.List;
 import javax.ejb.EJB;
 import javax.inject.Named;
 import javax.enterprise.context.RequestScoped;
-import lombok.Getter;
 import org.vbencek.facade.BookFacadeLocal;
 import org.vbencek.model.Book;
 import org.vbencek.model.Review;
 
 /**
- *
- * @author Tino
+ * Class that handles INSERT, UPDATE and DELETE on Review table.
+ * In case of CUD operation, book review and review coutn has to be updated.
+ * @author vbencek
  */
 @Named(value = "updateBook")
 @RequestScoped
@@ -26,17 +25,13 @@ public class UpdateBook {
     BookFacadeLocal bookFacade;
     
     
-    private double getOldRating(List<Review> reviewList, Review newReview){
-        for(Review rev: reviewList){
-            if(rev.getBook()==newReview.getBook() && rev.getUserT()==newReview.getUserT()){
-                return rev.getRating();
-            }
-        }return 0;
-    }
-    
-    /*
-    action= INSERT,UPDATE,DELETE
-    */
+    /**
+     * Method produces new value for averageRating(table: book) field
+     * @param review
+     * @param action UPDATE, INSERT or DELETE
+     * @param oldRating old review.rating
+     * @return 
+     */
     private double calculateRating(Review review, String action, double oldRating){
         double result=0;
         Book book = review.getBook();
@@ -79,6 +74,12 @@ public class UpdateBook {
         bookFacade.edit(book);
     }
     
+    /**
+     * Specificly needed for updating, old valuew has to be deducted from calculation
+     * @param review
+     * @param action
+     * @param oldRating 
+     */
     public void updateRatings(Review review, String action,double oldRating) {
         Book book = review.getBook();
         int ratingCount=book.getRatingsCount();

@@ -21,7 +21,6 @@ import lombok.Getter;
 import lombok.Setter;
 import org.springframework.security.crypto.password.Pbkdf2PasswordEncoder;
 import org.vbencek.beans.ActiveUserSession;
-import static org.vbencek.beans.views.ViewAdminEmployeeInfo.pbkdf2PasswordEncoder;
 import org.vbencek.facade.EmployeeFacadeLocal;
 import org.vbencek.facade.EmployeeRoleFacadeLocal;
 import org.vbencek.localization.Localization;
@@ -29,8 +28,8 @@ import org.vbencek.model.Employee;
 import org.vbencek.model.EmployeeRole;
 
 /**
- *
- * @author Tino
+ * View that's used for adding new mod/admin or editing current ones information
+ * @author vbencek
  */
 @Named(value = "viewAdminModeratorDetails")
 @ViewScoped
@@ -79,6 +78,10 @@ public class ViewAdminModeratorDetails implements Serializable {
     
     public static Pbkdf2PasswordEncoder pbkdf2PasswordEncoder = new Pbkdf2PasswordEncoder();
     
+    /**
+     * Get moderator id from URL 
+     * Switches between creating and editing
+     */
     @PostConstruct
     void init() {
         res = ResourceBundle.getBundle("org.vbencek.localization.Translations", new Locale(localization.getLanguage()));

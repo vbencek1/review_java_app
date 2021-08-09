@@ -26,8 +26,8 @@ import org.vbencek.localization.Localization;
 import org.vbencek.model.Employee;
 
 /**
- *
- * @author Tino
+ * View that shows all mods/admins
+ * @author vbencek
  */
 @Named(value = "viewAdminModerators")
 @ViewScoped

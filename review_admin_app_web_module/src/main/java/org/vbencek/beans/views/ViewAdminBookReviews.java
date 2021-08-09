@@ -33,8 +33,8 @@ import org.vbencek.model.Review;
 import org.vbencek.model.UserT;
 
 /**
- *
- * @author Tino
+ * View that is used to show all reviews of single book
+ * @author vbencek
  */
 @Named(value = "viewAdminBookReviews")
 @ViewScoped
@@ -63,7 +63,11 @@ public class ViewAdminBookReviews implements Serializable {
     @Getter
     @Setter
     List<Review> listBookReviews;
-
+    
+    
+    /**
+     * Method sets view by getting book id via URL
+     */
     @PostConstruct
     void init() {
         res = ResourceBundle.getBundle("org.vbencek.localization.Translations", new Locale(localization.getLanguage()));
@@ -101,6 +105,11 @@ public class ViewAdminBookReviews implements Serializable {
         return simpleDateFormat.format(date).toUpperCase();
     }
 
+    /**
+     * Shows boolean value of 'isPublic' atribute in readable format
+     * @param isPublic
+     * @return 
+     */
     public String translateIsPublic(boolean isPublic) {
         if (isPublic) {
             return res.getString("combobox.comment.public");
@@ -115,6 +124,11 @@ public class ViewAdminBookReviews implements Serializable {
     }
     
     
+    /**
+     * Sends email to user about status of his review (if it has been deleted)
+     * @param user
+     * @param review 
+     */
     private void notifyUser(UserT user,Review review){
         EmailSender emailSender = new EmailSender();
         String msgSubject = res.getString("admin.viewAdminBookReviews.email.subject");

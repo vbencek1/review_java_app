@@ -27,56 +27,56 @@ import org.vbencek.model.Book;
 import org.vbencek.model.Review;
 
 /**
- *
- * @author Tino
+ * View that shows all book that have writen review
+ * @author vbencek
  */
 @Named(value = "viewAdminReviews")
 @ViewScoped
 public class ViewAdminReviews implements Serializable {
-@EJB(beanName = "BookFacade")
+
+    @EJB(beanName = "BookFacade")
     BookFacadeLocal bookFacade;
 
     @Getter
     @Setter
     List<Book> listBooksWithReviews;
-    
+
     @Getter
     @Setter
     Book selectedBook;
-    
+
     @PostConstruct
     public void init() {
-        //samo za testiranje, iskoristiti serversko stranicenje
         listBooksWithReviews = bookFacade.findBooksWithReviews();
     }
-    
+
     public String makeTextShorter(String text, int maxChars) {
         return StringUtils.abbreviate(text, maxChars);
     }
-    
+
     public String convertToFriendlyDate(Date date) {
-            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
-            return simpleDateFormat.format(date).toUpperCase();
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        return simpleDateFormat.format(date).toUpperCase();
     }
-    
-    public Date getLatestReview(Book book){
-        List<Review> bookReviews=book.getReviewList();
+
+    public Date getLatestReview(Book book) {
+        List<Review> bookReviews = book.getReviewList();
         bookReviews.sort(Comparator.comparing(Review::getRatingDate).reversed());
-        Date latestDate=bookReviews.get(0).getRatingDate(); 
+        Date latestDate = bookReviews.get(0).getRatingDate();
         return latestDate;
     }
-    
-    public void redirectToBookDetails(){
+
+    public void redirectToBookDetails() {
         try {
             FacesContext.getCurrentInstance().getExternalContext().redirect("adminBookReviews.xhtml?id=" + selectedBook.getBookId());
         } catch (IOException ex) {
             Logger.getLogger(ViewAdminBooks.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
-    public void resetvalues(){
-        DataTable datatable= (DataTable )FacesContext.getCurrentInstance().getViewRoot().findComponent(":formReviews:books");
+
+    public void resetvalues() {
+        DataTable datatable = (DataTable) FacesContext.getCurrentInstance().getViewRoot().findComponent(":formReviews:books");
         datatable.reset();
     }
-    
+
 }

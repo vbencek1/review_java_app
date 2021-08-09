@@ -29,11 +29,11 @@ import org.vbencek.facade.RequestFacadeLocal;
 import org.vbencek.localization.Localization;
 import org.vbencek.model.Book;
 import org.vbencek.model.Request;
-import org.vbencek.rest.client.RestOpenLibrary;
+import org.vbencek.web.rest.client.RestOpenLibrary;
 
 /**
- *
- * @author Tino
+ *View from book details. Usage: create books, view book info, create book from request
+ * @author vbencek
  */
 @Named(value = "viewAdminBookDetails")
 @ViewScoped
@@ -97,7 +97,10 @@ public class ViewAdminBookDetails implements Serializable {
     @Getter
     @Setter
     Request thisRequest;
-
+    
+    /**
+     * Method gets bookId from URL. IF book with that id exists, it will fetch book from DB, if not, it will open view to create new book
+     */
     @PostConstruct
     void init() {
         res = ResourceBundle.getBundle("org.vbencek.localization.Translations", new Locale(localization.getLanguage()));
@@ -124,7 +127,11 @@ public class ViewAdminBookDetails implements Serializable {
             }
         }
     }
-
+    
+    /**
+     * If request id is passed via URL, this method will trigger and set up view accordingly.
+     * @param requestId 
+     */
     private void setParamsToCreateBookFromRequest(String requestId) {
         int intRequestId = 0;
         try {
@@ -275,7 +282,11 @@ public class ViewAdminBookDetails implements Serializable {
             System.out.println(ex.getMessage());
         }
     }
-
+    
+    /**
+     * Sends email to all users with same request (for requests with isbn) or just one user if request doesn't have isbn (only book info was passed)
+     * It will also delete requests from DB.
+     */
     private void notifyUsersAndRemoveRequests() {
         if (thisRequest != null) {
             if (thisRequest.getIsbn() != null) {

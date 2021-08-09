@@ -13,8 +13,8 @@ import lombok.Setter;
 import org.vbencek.properties.PropertiesLoader;
 
 /**
- *
- * @author Tino
+ * Sets footer information
+ * @author vbencek
  */
 @Named(value = "footerInformation")
 @ApplicationScoped

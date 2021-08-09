@@ -23,8 +23,8 @@ import org.vbencek.model.DataLog;
 import org.vbencek.model.DataLogEmployees;
 
 /**
- *
- * @author Tino
+ * View that shows user actions (Data Log)
+ * @author vbencek
  */
 @Named(value = "viewAdminLog")
 @ViewScoped
@@ -63,6 +63,9 @@ public class ViewAdminLog implements Serializable {
         listDataLogEmployee=dataLogEmployeesFacade.findAll();
     }
     
+    /**
+     * Switched between admin/mod log and app user log
+     */
     public void changeView(){
         if("2".equals(option)){
             renderUserLog=false;

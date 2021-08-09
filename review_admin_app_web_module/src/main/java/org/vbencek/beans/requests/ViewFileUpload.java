@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package org.vbencek.beans.requests;
 
 import java.io.File;
@@ -17,6 +12,10 @@ import javax.faces.context.FacesContext;
 import org.primefaces.model.file.UploadedFile;
 import org.vbencek.properties.PropertiesLoader;
 
+/**
+ * File uploader
+ * @author vbencek
+ */
 @Named(value = "viewFileUpload")
 @RequestScoped
 public class ViewFileUpload {

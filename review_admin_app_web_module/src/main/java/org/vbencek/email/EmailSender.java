@@ -11,6 +11,10 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import org.vbencek.properties.PropertiesLoader;
 
+/**
+ * Class that's used to send email
+ * @author Tino
+ */
 public class EmailSender {
 
     private String username = "";
@@ -50,10 +54,5 @@ public class EmailSender {
         } catch (MessagingException e) {
             throw new RuntimeException(e);
         }
-    }
-
-    public int generateConfirmationCode() {
-        Random rand = new Random();
-        return rand.nextInt(1000000); 
     }
 }

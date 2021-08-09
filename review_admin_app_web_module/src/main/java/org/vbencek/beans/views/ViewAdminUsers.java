@@ -8,7 +8,6 @@ package org.vbencek.beans.views;
 import javax.inject.Named;
 import javax.faces.view.ViewScoped;
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.ResourceBundle;
@@ -26,8 +25,8 @@ import org.vbencek.localization.Localization;
 import org.vbencek.model.UserT;
 
 /**
- *
- * @author Tino
+ * View that shows all users
+ * @author vbencek
  */
 @Named(value = "viewAdminUsers")
 @ViewScoped

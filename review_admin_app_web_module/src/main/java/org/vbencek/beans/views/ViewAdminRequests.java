@@ -29,11 +29,10 @@ import org.vbencek.facade.RequestFacadeLocal;
 import org.vbencek.localization.Localization;
 import org.vbencek.model.Request;
 import org.vbencek.model.UserT;
-import org.vbencek.rest.client.RestOpenLibrary;
 
 /**
- *
- * @author Tino
+ * View that shows all book requests
+ * @author vbencek
  */
 @Named(value = "viewAdminRequests")
 @ViewScoped
@@ -79,7 +78,10 @@ public class ViewAdminRequests implements Serializable {
         listRequestIsbn = requestFacade.findRequestsByISBNExists(true);
         listRequestInfo = requestFacade.findRequestsByISBNExists(false);
     }
-
+    
+    /**
+     * Switched between requests with ISBN and request withput ISBN
+     */
     public void changeView() {
         if ("2".equals(option)) {
             renderRequestIsbn = false;
@@ -94,7 +96,12 @@ public class ViewAdminRequests implements Serializable {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
         return simpleDateFormat.format(date).toUpperCase();
     }
-
+    
+    /**
+     * check if request has ISBN set
+     * @param request
+     * @return 
+     */
     public boolean isISBNExists(Request request) {
         return bookFacade.isISBNExists(request.getIsbn());
     }
@@ -119,6 +126,10 @@ public class ViewAdminRequests implements Serializable {
         redirect(url);
     }
     
+    /**
+     * Send email to user that created request
+     * @param user 
+     */
     private void notifyUser(UserT user){
         EmailSender emailSender = new EmailSender();
         String msgSubject = res.getString("admin.viewBookDetails.email.subject");

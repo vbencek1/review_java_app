@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.vbencek.rest.client;
+package org.vbencek.web.rest.client;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -19,6 +19,11 @@ import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.core.MediaType;
 import org.vbencek.model.Book;
 
+/**
+ * Class that consumes REST service.
+ * Gets data from Open Library API
+ * @author Tino
+ */
 public class RestOpenLibrary {
 
     private static final String BASE_URI = "http://openlibrary.org";
@@ -130,7 +135,12 @@ public class RestOpenLibrary {
             return "";
         }
     }
-
+    
+    /**
+     * Reconverts String date to database readable date
+     * @param strDate
+     * @return 
+     */
     private Date reconvertDate(String strDate) {
         try {
             DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("MMMM d, u", Locale.ENGLISH);

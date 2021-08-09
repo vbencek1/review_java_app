@@ -39,8 +39,8 @@ import org.vbencek.model.Employee;
 import org.vbencek.model.UserT;
 
 /**
- *
- * @author Tino
+ * View that generates statistics : graphs, pie charts etc
+ * @author vbencek
  */
 @Named(value = "viewAdminStatistics")
 @ViewScoped

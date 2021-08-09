@@ -4,7 +4,10 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 
-
+/**
+ * Class that loads application properties
+ * @author vbencek
+ */
 public class PropertiesLoader {
     
     public String getProperty(String propName){

@@ -27,8 +27,8 @@ import org.vbencek.model.Employee;
 import org.vbencek.model.EmployeeRole;
 
 /**
- *
- * @author Tino
+ * Views that shows active user informations
+ * @author vbencek
  */
 @Named(value = "viewAdminEmployeeInfo")
 @ViewScoped

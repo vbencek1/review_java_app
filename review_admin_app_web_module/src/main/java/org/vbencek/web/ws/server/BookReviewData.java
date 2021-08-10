@@ -67,7 +67,12 @@ public class BookReviewData {
         } catch (Exception e) {
             System.out.println("WS ERROR: User doesn't exist");
         }
-        return reviewFacade.findReviewsByCriteria(book, user, minimumAvgRating, sortOption, hasDescription, isPublic, offset, limit);
+        //Creating temporary list to remove password field
+        List<Review> tempList=reviewFacade.findReviewsByCriteria(book, user, minimumAvgRating, sortOption, hasDescription, isPublic, offset, limit);
+        for(Review rew:tempList){
+            rew.getUserT().setPassword("");
+        }
+        return tempList;
     }
 
     public long getCountReviewsByCriteria(int bookId, int userId, double minimumAvgRating, boolean hasDescription, boolean isPublic) {
@@ -93,7 +98,12 @@ public class BookReviewData {
         } catch (Exception e) {
             System.out.println("WS ERROR: Book doesn't exist");
         }
-        return reviewFacade.findReviewByBook(book);
+        //Creating temporary list to remove password field
+        List<Review> tempList=reviewFacade.findReviewByBook(book);
+        for(Review rew:tempList){
+            rew.getUserT().setPassword("");
+        }
+        return tempList;
     }
 
 }

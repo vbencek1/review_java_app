@@ -5,6 +5,7 @@
  */
 package org.vbencek.beans.views;
 
+import java.io.IOException;
 import javax.inject.Named;
 import javax.faces.view.ViewScoped;
 import java.io.Serializable;
@@ -27,6 +28,7 @@ import org.vbencek.properties.PropertiesLoader;
 
 /**
  * View that shows user review
+ *
  * @author vbencek
  */
 @Named(value = "viewMyReviews")
@@ -41,17 +43,21 @@ public class ViewMyReviews implements Serializable {
 
     @Inject
     ParamsCaching paramsCaching;
-    
+
     @Inject
     UpdateBook updateBook;
 
     @Getter
     @Setter
-    String keyword;
+    String keyword = "";
 
     @Getter
     @Setter
     double minRating;
+
+    @Getter
+    @Setter
+    Boolean isPublic = null;
 
     @Getter
     @Setter
@@ -86,33 +92,57 @@ public class ViewMyReviews implements Serializable {
             } catch (NumberFormatException e) {
                 maksReviewsPerPage = 10;
             }
-            numberOfReviews = reviewFacade.countMyReviewsByCriteria(activeUserSession.getActiveUser(), keyword, minRating);
+            numberOfReviews = reviewFacade.countMyReviewsByCriteria(activeUserSession.getActiveUser(), keyword, minRating, isPublic);
         }
 
     }
 
     private void setSearchParams() {
         Map<String, String> params = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
-        keyword = params.get("Keyword");
+        keyword = params.get("Keyword") != null ? params.get("Keyword") : "";
+        String strIsPublic = params.get("IsPublic");
+        if (strIsPublic != null && strIsPublic.equals("true")) {
+            isPublic = true;
+        } else if (strIsPublic != null && strIsPublic.equals("false")) {
+            isPublic = false;
+        } else {
+            isPublic = null;
+        }
         sortOption = params.get("SortBy");
         try {
             minRating = Double.parseDouble(params.get("MinRating"));
         } catch (Exception e) {
             minRating = 0;
         }
-        String stringParams="ViewSearchBooks: Opening view with parametars: "
+        try {
+            pageNum = Integer.parseInt(params.get("PageNum"));
+        } catch (Exception e) {
+            pageNum = 0;
+        }
+        String stringParams = "ViewSearchBooks: Opening view with parametars: "
                 + "Keyword: " + keyword + " "
                 + "MinRating: " + minRating + " "
+                + "isPublic: " + isPublic + " "
                 + "SortBy: " + sortOption;
         System.out.println(stringParams);
-        activeUserSession.addDataLog(this.getClass().getSimpleName(), new Object(){}.getClass().getEnclosingMethod().getName(), stringParams);
+        setParamsForPagination();
+        activeUserSession.addDataLog(this.getClass().getSimpleName(), new Object() {
+        }.getClass().getEnclosingMethod().getName(), stringParams);
 
     }
 
-    public List<Review> getListOfReviews(int page) {
-        int offset = page * maksReviewsPerPage;
+    private void setParamsForPagination() {
+        String url = "myReviews.xhtml?Keyword=" + keyword
+                + "&MinRating=" + minRating
+                + "&IsPublic=" + isPublic
+                + "&SortBy=" + sortOption;
+        paramsCaching.setNavigationUrl(url);
+    }
+
+    public List<Review> getListOfReviews() {
+        int offset = pageNum * maksReviewsPerPage;
         int size = offset + maksReviewsPerPage;
-        return reviewFacade.findMyReviewsByCriteria(activeUserSession.getActiveUser(), keyword, minRating, sortOption, offset, size);
+        return reviewFacade.findMyReviewsByCriteria(activeUserSession.getActiveUser(), keyword, minRating, isPublic, sortOption, offset, size);
     }
 
     public String setIMG(Review review) {
@@ -127,16 +157,40 @@ public class ViewMyReviews implements Serializable {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
         return simpleDateFormat.format(date).toUpperCase();
     }
+    
+    public String showPaginationInfo(){
+        int offset = pageNum * maksReviewsPerPage;
+        int size = offset + maksReviewsPerPage;
+        if(size>numberOfReviews){
+            int diff=(int) (size-numberOfReviews);
+            size=size-diff;
+        }
+        return offset+" - "+size+" (Maks: "+numberOfReviews+")";
+    }
+
+    public void redirectToUrl(String url) {
+        try {
+            FacesContext.getCurrentInstance().getExternalContext().redirect(url);
+        } catch (IOException ex) {
+            System.out.println(ex.getStackTrace());
+        }
+    }
 
     public void loadNextComments() {
         if (pageNum < numberOfReviews / maksReviewsPerPage) {
             pageNum++;
+            String url = paramsCaching.getNavigationUrl()
+                    + "&PageNum=" + pageNum;
+            redirectToUrl(url);
         }
     }
 
     public void loadPreviousComments() {
         if (pageNum > 0) {
             pageNum--;
+            String url = paramsCaching.getNavigationUrl()
+                    + "&PageNum=" + pageNum;
+            redirectToUrl(url);
         }
     }
 
@@ -147,15 +201,24 @@ public class ViewMyReviews implements Serializable {
 
     public void saveData(Review review) {
         review.setRatingDate(new Date());
-        Review oldReview=reviewFacade.findReviewByBookAndUser(review.getUserT(), review.getBook());
+        Review oldReview = reviewFacade.findReviewByBookAndUser(review.getUserT(), review.getBook());
         reviewFacade.edit(review);
-        updateBook.updateRatings(review, "UPDATE",oldReview.getRating());
-        activeUserSession.addDataLog(this.getClass().getSimpleName(), new Object(){}.getClass().getEnclosingMethod().getName(), "Review ID: "+review.getReviewPK());
+        updateBook.updateRatings(review, "UPDATE", oldReview.getRating());
+        activeUserSession.addDataLog(this.getClass().getSimpleName(), new Object() {
+        }.getClass().getEnclosingMethod().getName(), "Review ID: " + review.getReviewPK());
+        String url = paramsCaching.getNavigationUrl()
+                + "&PageNum=" + pageNum;
+        redirectToUrl(url);
     }
+
     public void deleteData(Review review) {
         reviewFacade.remove(review);
         updateBook.updateRatings(review, "DELETE");
-        activeUserSession.addDataLog(this.getClass().getSimpleName(), new Object(){}.getClass().getEnclosingMethod().getName(), "Review ID: "+review.getReviewPK());
+        activeUserSession.addDataLog(this.getClass().getSimpleName(), new Object() {
+        }.getClass().getEnclosingMethod().getName(), "Review ID: " + review.getReviewPK());
+        String url = paramsCaching.getNavigationUrl()
+                + "&PageNum=" + pageNum;
+        redirectToUrl(url);
     }
 
 }

@@ -15,19 +15,19 @@
         <div class="div-bookSearch-search">
             <form>
                 <div class="div-bookSearch-section">
-                    <h:inputText id="ISBN" class="div-bookSearch-search-input" a:placeholder="ISBN" value="#{viewSearchBooks.isbn}"/>
-                    <h:inputText id="Keyword" class="div-bookSearch-search-input" a:placeholder="#{l['viewSearchBooks.keyword']}" value="#{viewSearchBooks.keyword}"/>
+                    <h:inputText id="ISBN" class="div-bookSearch-search-input" a:placeholder="ISBN" value="#{viewSearchBooks.isbn}" style="width: 30%;"/>
+                    <h:inputText id="Keyword" class="div-bookSearch-search-input" a:placeholder="#{l['viewSearchBooks.keyword']}" value="#{viewSearchBooks.keyword}" style="width: 30%;"/>
                 </div>
                 <div class="div-bookSearch-section">
-                    <h:selectOneMenu id="Year" class="div-bookSearch-search-combobox" value="#{viewSearchBooks.year}">
+                    <h:selectOneMenu id="Year" class="div-bookSearch-search-combobox" value="#{viewSearchBooks.year}" style="width: 20%;">
                         <f:selectItem itemLabel="#{l['viewSearchBooks.combo.year']}" itemValue=""/>
                         <f:selectItems value="#{comboboxData.publishYears}" var="year" itemLabel="#{year}" itemValue="#{year}"/>
                     </h:selectOneMenu>
-                    <h:selectOneMenu id="Publisher" class="div-bookSearch-search-combobox" value="#{viewSearchBooks.publisher}">
+                    <h:selectOneMenu id="Publisher" class="div-bookSearch-search-combobox" value="#{viewSearchBooks.publisher}" style="width: 20%;">
                         <f:selectItem itemLabel="#{l['viewSearchBooks.combo.publisher']}"/>
                         <f:selectItems value="#{comboboxData.publishers}" var="publisher" itemLabel="#{publisher}" itemValue="#{publisher}"/>
                     </h:selectOneMenu>
-                    <h:selectOneMenu id="MinRating" class="div-bookSearch-search-combobox" value="#{viewSearchBooks.minRating}">
+                    <h:selectOneMenu id="MinRating" class="div-bookSearch-search-combobox" value="#{viewSearchBooks.minRating}" style="width: 20%;">
                         <f:selectItem itemLabel="#{l['viewSearchBooks.combo.minRating']}"/>
                         <f:selectItem itemLabel="#{l['combobox.rating.one']}" itemValue="1"/>
                         <f:selectItem itemLabel="#{l['combobox.rating.two']}" itemValue="2"/>
@@ -49,14 +49,17 @@
         </div>
 
         <div class="div-bookSearch-allBooks">
-            <h:form id="form-buttons">
+            <h:form>
                 <div class="div-bookDetails-divBtnComments">
                     <p:commandButton id="btnPrevoius"  icon="pi pi-backward" styleClass="rounded-button ui-button-info ui-button-outlined" style="margin-right: 10px;"
-                                     action="#{viewSearchBooks.previousPage()}" update="form-buttons"/>
+                                     action="#{viewSearchBooks.previousPage()}"/>
                     <p:commandButton id="btnNext" icon="pi pi-forward" styleClass="rounded-button ui-button-info ui-button-outlined" style="margin-left: 10px;"
-                                     action="#{viewSearchBooks.nextPage()}" update="form-buttons"/>
+                                     action="#{viewSearchBooks.nextPage()}"/>
+                    <h:outputLabel value="#{viewSearchBooks.showPaginationInfo()}" class="div-bookSearch-counter"/>
                 </div>
-                <ui:repeat id="bookRepeater" value="#{viewSearchBooks.getListOfBooks(viewSearchBooks.pageNum)}" var="row">
+            </h:form>
+            <h:form id="form-buttons">
+                <ui:repeat id="bookRepeater" value="#{viewSearchBooks.getListOfBooks()}" var="row">
                     <h:outputLink value="#{viewSearchBooks.redirectToBookDetails(row.bookId)}">
                         <div class="div-bookSearch-container">
                             <div class="div-bookSearch-image-container">

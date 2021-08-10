@@ -710,14 +710,14 @@ img {
 }
 
 .div-bookSearch-search-input{
-    width: 30%;
+    width: 20%;
     min-width: 200px;
     margin-left: 10px;
     margin-right: 10px;
 }
 .div-bookSearch-search-button{
     width: 20%;
-    min-width: 200px;
+    min-width: 150px;
     margin-left: 10px;
     margin-right: 10px;
     border-radius: 0px;
@@ -736,8 +736,8 @@ img {
 }
 
 .div-bookSearch-search-combobox{
-    width: 20%;
-    min-width: 200px;
+    width: 15%;
+    min-width: 150px;
     background: none;
     color: white;
     border: none;
@@ -812,6 +812,13 @@ img {
     border: 1px solid #333333;
     border-radius: 10px;
     float:left;
+}
+
+.div-bookSearch-counter{
+    float: right;
+    padding-right: 25px;
+    padding-top: 5px;
+    color: #333333; 
 }
 
 /* MY REVIEWS FORM*/

@@ -23,4 +23,8 @@ public class ParamsCaching implements Serializable {
     @Setter
     int BookIdCache;
     
+    @Getter
+    @Setter
+    String navigationUrl="";
+    
 }

@@ -5,6 +5,7 @@
  */
 package org.vbencek.beans.views;
 
+import java.io.IOException;
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -91,14 +92,14 @@ public class ViewSearchBooks implements Serializable {
 
     private void setSearchParams() {
         Map<String, String> params = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
-        isbn = params.get("ISBN");
-        keyword = params.get("Keyword");
+        isbn = params.get("ISBN") != null ? params.get("ISBN") : "";
+        keyword = params.get("Keyword") != null ? params.get("Keyword") : "";
         try {
             year = Integer.parseInt(params.get("Year"));
         } catch (Exception e) {
             year = 0;
         }
-        publisher = params.get("Publisher");
+        publisher = params.get("Publisher") != null ? params.get("Publisher") : "";
         defaultPublisher=publisher;
         try {
             minRating = Double.parseDouble(params.get("MinRating"));
@@ -107,8 +108,10 @@ public class ViewSearchBooks implements Serializable {
         }
         sortOption = params.get("SortBy");
         defaultSort=sortOption;
-        if(sortOption==null){
-            sortOption="title";
+        try {
+            pageNum = Integer.parseInt(params.get("PageNum"));
+        } catch (Exception e) {
+            pageNum = 0;
         }
         String stringParams="ViewSearchBooks: Opening view with parametars: "
                 + "ISBN: " + isbn + " "
@@ -118,9 +121,20 @@ public class ViewSearchBooks implements Serializable {
                 + "MinRating: " + minRating + " "
                 + "SortBy: " + sortOption;
         System.out.println(stringParams);
+        setParamsForPagination();
         activeUserSession.addDataLog(this.getClass().getSimpleName(), new Object(){}.getClass().getEnclosingMethod().getName(), stringParams);
     }
-
+    
+    private void setParamsForPagination() {
+        String url = "bookSearch.xhtml?ISBN=" + isbn
+                + "&Keyword=" + keyword
+                + "&Year=" + year
+                + "&Publisher=" + publisher
+                + "&MinRating=" + minRating
+                + "&SortBy=" + sortOption;
+        paramsCaching.setNavigationUrl(url);
+    }
+    
     public String convertDateToYear(Date date) {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("EEEE");
         simpleDateFormat = new SimpleDateFormat("YYYY");
@@ -139,21 +153,45 @@ public class ViewSearchBooks implements Serializable {
         return StringUtils.abbreviate(text, maxChars);
     }
     
-    public List<Book> getListOfBooks(int page) {
-        int offset = page * maksBooksPerPage;
+    public String showPaginationInfo(){
+        int offset = pageNum * maksBooksPerPage;
+        int size = offset + maksBooksPerPage;
+        if(size>numberOfBooks){
+            int diff=(int) (size-numberOfBooks);
+            size=size-diff;
+        }
+        return offset+" - "+size+" (Maks: "+numberOfBooks+")";
+    }
+    
+    public List<Book> getListOfBooks() {
+        int offset = pageNum * maksBooksPerPage;
         int size = offset + maksBooksPerPage;
         return bookFacade.findBooksByCriteria(isbn, keyword, year, defaultPublisher, minRating, defaultSort, offset, size);
     }
-
+    
+    public void redirectToUrl(String url) {
+        try {
+            FacesContext.getCurrentInstance().getExternalContext().redirect(url);
+        } catch (IOException ex) {
+            System.out.println(ex.getStackTrace());
+        }
+    }
+    
     public void nextPage() {      
         if (pageNum < numberOfBooks / maksBooksPerPage) {
             pageNum++;
+            String url = paramsCaching.getNavigationUrl()
+                    + "&PageNum=" + pageNum;
+            redirectToUrl(url);
         }
     }
 
     public void previousPage() {
         if (pageNum > 0) {
             pageNum--;
+            String url = paramsCaching.getNavigationUrl()
+                    + "&PageNum=" + pageNum;
+            redirectToUrl(url);
         }
     }
 

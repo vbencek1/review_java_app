@@ -6,8 +6,8 @@
 package org.vbencek.beans.comboboxes.custum.classes;
 
 /**
- *
- * @author Tino
+ * Custom class for minimu rating
+ * @author vbencek
  */
 public class MinimumRating {
     String name;

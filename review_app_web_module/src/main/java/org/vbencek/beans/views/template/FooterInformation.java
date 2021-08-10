@@ -13,8 +13,8 @@ import lombok.Setter;
 import org.vbencek.properties.PropertiesLoader;
 
 /**
- *
- * @author Tino
+ * View that sets footer information
+ * @author vbencek
  */
 @Named(value = "footerInformation")
 @ApplicationScoped
@@ -40,7 +40,7 @@ public class FooterInformation {
     String postalCode="";
 
     @PostConstruct
-    private void init() {
+    public void init() {
         loadInformationFromProperties();
     }
     

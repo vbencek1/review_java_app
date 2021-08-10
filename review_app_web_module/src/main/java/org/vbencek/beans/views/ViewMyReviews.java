@@ -26,8 +26,8 @@ import org.vbencek.properties.ParamsCaching;
 import org.vbencek.properties.PropertiesLoader;
 
 /**
- *
- * @author Tino
+ * View that shows user review
+ * @author vbencek
  */
 @Named(value = "viewMyReviews")
 @ViewScoped

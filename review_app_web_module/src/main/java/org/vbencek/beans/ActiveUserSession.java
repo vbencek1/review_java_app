@@ -29,8 +29,8 @@ import org.vbencek.model.DataLog;
 import org.vbencek.model.UserT;
 
 /**
- *
- * @author Tino
+ * Class that holds active user information. It also Login, logout and application navigation
+ * @author vbencek
  */
 @Named(value = "activeUserSession")
 @SessionScoped
@@ -95,7 +95,10 @@ public class ActiveUserSession implements Serializable {
     @Getter
     @Setter
     UserT activeUser = null;
-
+    
+    /**
+     * Checks if user was redirected here. If he was, show him aprropriate message.
+     */
     @PostConstruct
     public void init() {
         //prijevodi
@@ -113,7 +116,10 @@ public class ActiveUserSession implements Serializable {
         setActiveUser(user);
         renderLogin();
     }
-
+    
+    /**
+     * Hides unnessesery fields when user is successfuly loged in
+     */
     private void renderLogin() {
         res = ResourceBundle.getBundle("org.vbencek.localization.Translations", new Locale(localization.getLanguage()));
         showBtnLogout = true;
@@ -128,7 +134,10 @@ public class ActiveUserSession implements Serializable {
         script = switchButtonDisplay("none");
         addDataLog(this.getClass().getSimpleName(), new Object(){}.getClass().getEnclosingMethod().getName(), "login");
     }
-
+    
+    /**
+     * Hides unnessesery fields when user is successfuly logged out
+     */
     private void renderLogout() {
         res = ResourceBundle.getBundle("org.vbencek.localization.Translations", new Locale(localization.getLanguage()));
         showBtnLogout = false;
@@ -141,10 +150,10 @@ public class ActiveUserSession implements Serializable {
         script = switchButtonDisplay("block");
         addDataLog(this.getClass().getSimpleName(), new Object(){}.getClass().getEnclosingMethod().getName(), "logout");
     }
-
+    
     public void authenticate() {
         if (activeUser == null) {
-            //login
+            // Active user doesn't exist. Login
             UserT tempUser = userTFacade.findUserByUsername(username);
             if (tempUser != null) {
                 Pbkdf2PasswordEncoder encoder = new Pbkdf2PasswordEncoder();
@@ -164,12 +173,17 @@ public class ActiveUserSession implements Serializable {
                 failedLoginMsg = res.getString("template.login.wrongUsername");
             }
         } else {
-            //logout
+            // Active user exists. Logout
             renderLogout();
             activeUser = null;
         }
     }
-
+    
+    /**
+     * Show login form
+     * @param mode
+     * @return 
+     */
     private String switchButtonDisplay(String mode) {
         String fja = "document.getElementById('loginPopup').style.display = '" + mode + "'";
         return fja;

@@ -9,14 +9,13 @@ import java.util.List;
 import javax.ejb.EJB;
 import javax.inject.Named;
 import javax.enterprise.context.RequestScoped;
-import lombok.Getter;
 import org.vbencek.facade.BookFacadeLocal;
 import org.vbencek.model.Book;
 import org.vbencek.model.Review;
 
 /**
- *
- * @author Tino
+ * Updates book atributes: averageRating and ratinsCount when there's CUD operation on review table.
+ * @author vbencek
  */
 @Named(value = "updateBook")
 @RequestScoped
@@ -26,17 +25,13 @@ public class UpdateBook {
     BookFacadeLocal bookFacade;
     
     
-    private double getOldRating(List<Review> reviewList, Review newReview){
-        for(Review rev: reviewList){
-            if(rev.getBook()==newReview.getBook() && rev.getUserT()==newReview.getUserT()){
-                return rev.getRating();
-            }
-        }return 0;
-    }
-    
-    /*
-    action= INSERT,UPDATE,DELETE
-    */
+    /**
+     * Calculates new average rating value for book
+     * @param review 
+     * @param action INSERT,UPDATE,DELETE
+     * @param oldRating current rating that will get removed or updated
+     * @return 
+     */
     private double calculateRating(Review review, String action, double oldRating){
         double result=0;
         Book book = review.getBook();
@@ -63,6 +58,11 @@ public class UpdateBook {
         return result;
     }
     
+    /**
+     * update book with new values
+     * @param review
+     * @param action 
+     */
     public void updateRatings(Review review, String action) {
         Book book = review.getBook();
         int ratingCount=book.getRatingsCount();
@@ -79,6 +79,12 @@ public class UpdateBook {
         bookFacade.edit(book);
     }
     
+    /**
+     * update book with new values. Used primary for UPDATE function
+     * @param review
+     * @param action
+     * @param oldRating 
+     */
     public void updateRatings(Review review, String action,double oldRating) {
         Book book = review.getBook();
         int ratingCount=book.getRatingsCount();

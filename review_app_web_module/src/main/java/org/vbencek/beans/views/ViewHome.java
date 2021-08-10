@@ -23,8 +23,8 @@ import org.vbencek.model.Book;
 import org.vbencek.properties.ParamsCaching;
 
 /**
- *
- * @author Tino
+ * View that show application landing page
+ * @author vbencek
  */
 @Named(value = "viewHome")
 @ViewScoped
@@ -62,13 +62,18 @@ public class ViewHome implements Serializable {
         return StringUtils.abbreviate(text, maxChars);
     }
 
+    /**
+     * Shows recomended books:
+     * 1. Non logged in users: show them random book in to 100 highest rated books
+     * 2. Logged in users: show them random book in top 100 most popular/highest rated books
+     * @return 
+     */
     public List<Book> getRecomendedbooks() {
         if (activeUserSession.getActiveUser() == null) {
             Random rand = new Random();
             int rndOffset = rand.nextInt(100);
             return  bookFacade.findBooksByCriteria("", "", 0, "", 0, "rating", rndOffset, 2);
         } else {
-            //TO DO za sad nek bu defaultno
             Random rand = new Random();
             List<Book> recommendedBooks=bookFacade.findRecommendedBooks("", 4, 100000, "rating", 0, 100);
             int limit=recommendedBooks.size()-1;

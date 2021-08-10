@@ -12,8 +12,8 @@ import lombok.Getter;
 import lombok.Setter;
 
 /**
- *
- * @author Tino
+ * bug fix when view scope losses Url ID
+ * @author vbencek
  */
 @Named(value = "paramsCaching")
 @SessionScoped

@@ -26,8 +26,8 @@ import org.vbencek.localization.Localization;
 import org.vbencek.model.Request;
 
 /**
- *
- * @author Tino
+ * View for adding new book request
+ * @author vbencek
  */
 @Named(value = "viewAddBookRequest")
 @ViewScoped
@@ -91,11 +91,11 @@ public class ViewAddBookRequest implements Serializable {
             redirectFunction = "location.href = 'index.xhtml?action=openLogin';";
             renderRedirect = true;
         } else {
-            setSearchParams();
+            setParams();
         }
     }
 
-    private void setSearchParams() {
+    private void setParams() {
         Map<String, String> params = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
         isbn = params.get("ISBN");
         bookTitle = params.get("BookTitle");
@@ -112,6 +112,9 @@ public class ViewAddBookRequest implements Serializable {
         }
     }
 
+    /**
+     * Method that checks if isbn isn't empty or not equal to length of 10. IF isbn is in correct format: send request.
+     */
     private void checkEmptyISBNandSend() {
         res = ResourceBundle.getBundle("org.vbencek.localization.Translations", new Locale(localization.getLanguage()));
         if (!"".equals(isbn.trim()) && isbn.length()==10) {
@@ -121,7 +124,10 @@ public class ViewAddBookRequest implements Serializable {
             messageIsbn =res.getString("viewAddBookRequest.messageRequiredISBN");
         }
     }
-
+    
+    /**
+     * Method that checks if title isn't empty . IF title is in correct format: send request.
+     */
     private void checkEmptyInfoandSend() {
         res = ResourceBundle.getBundle("org.vbencek.localization.Translations", new Locale(localization.getLanguage()));
         if (!"".equals(bookTitle.trim())) {
@@ -132,11 +138,13 @@ public class ViewAddBookRequest implements Serializable {
         }
     }
 
+    /**
+     * Method checks if ISBN already exist in DB. if exists: dont add to DB, otherwise, add request
+     */
     private void sendISBNBookRequest() {
         res = ResourceBundle.getBundle("org.vbencek.localization.Translations", new Locale(localization.getLanguage()));
         renderReplyIsbn = true;
         if (!bookFacade.isISBNExists(isbn)) {
-            //Request is added in db for now, in future, book should be added directly from OpenLibrary API
             messageIsbn = res.getString("viewAddBookRequest.messageISBN.ok");
             addRequest();
         } else {
@@ -151,6 +159,9 @@ public class ViewAddBookRequest implements Serializable {
         addRequest();
     }
     
+    /**
+     * Method adds book request to DB
+     */
     private void addRequest(){
         Request request= new Request();
         request.setIsbn(isbn);

@@ -13,8 +13,8 @@ import javax.inject.Inject;
 import org.vbencek.beans.ActiveUserSession;
 
 /**
- *
- * @author Tino
+ * Force localization on session beans
+ * @author vbencek
  */
 @Named(value = "localizationForcer")
 @ViewScoped

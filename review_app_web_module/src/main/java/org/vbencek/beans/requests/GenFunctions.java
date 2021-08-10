@@ -9,13 +9,18 @@ import javax.inject.Named;
 import javax.enterprise.context.RequestScoped;
 
 /**
- *
- * @author Tino
+ * Class that holds general function used across all other views
+ * @author vbencek
  */
 @Named(value = "genFunctions")
 @RequestScoped
 public class GenFunctions {
 
+    /**
+     * Rounds double to 2 decimal spots
+     * @param number
+     * @return 
+     */
     public Double roundDouble(double number) {
 
         number = number * 100;

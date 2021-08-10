@@ -24,8 +24,8 @@ import org.vbencek.facade.UserTFacadeLocal;
 import org.vbencek.localization.Localization;
 
 /**
- *
- * @author Tino
+ * Class that holds custom validation for input fields
+ * @author vbencek
  */
 @Named(value = "validations")
 @ViewScoped
@@ -102,6 +102,12 @@ public class Validations implements Serializable {
         }
     }
     
+    /**
+     * Same as validatePassword method but with support for validation on user inormation form
+     * @param context
+     * @param comp
+     * @param value 
+     */
     public void validatePasswordOnUserInfo(FacesContext context, UIComponent comp, Object value) {
         msgPassword="";
         String validString = (String) value;

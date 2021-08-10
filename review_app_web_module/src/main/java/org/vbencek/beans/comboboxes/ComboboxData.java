@@ -22,8 +22,8 @@ import org.vbencek.facade.BookFacadeLocal;
 import org.vbencek.localization.Localization;
 
 /**
- *
- * @author Tino
+ * Combobox informations that are same for every application user. Fills comboboxes on search forms
+ * @author vbencek
  */
 @Named(value = "comboboxData")
 @ApplicationScoped

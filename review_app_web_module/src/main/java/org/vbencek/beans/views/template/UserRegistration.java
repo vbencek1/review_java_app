@@ -18,8 +18,8 @@ import org.vbencek.localization.Localization;
 import org.vbencek.model.UserT;
 
 /**
- *
- * @author Tino
+ * View for user registration
+ * @author vbencek
  */
 @Named(value = "userRegistration")
 @ViewScoped

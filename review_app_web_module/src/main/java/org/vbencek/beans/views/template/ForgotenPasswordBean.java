@@ -14,7 +14,6 @@ import javax.ejb.EJB;
 import javax.inject.Inject;
 import lombok.Getter;
 import lombok.Setter;
-import org.primefaces.PrimeFaces;
 import org.springframework.security.crypto.password.Pbkdf2PasswordEncoder;
 import org.vbencek.email.EmailSender;
 import org.vbencek.facade.UserTFacadeLocal;
@@ -22,8 +21,8 @@ import org.vbencek.localization.Localization;
 import org.vbencek.model.UserT;
 
 /**
- *
- * @author Tino
+ * View that's used to recover forgoten password
+ * @author vbencek
  */
 @Named(value = "forgotenPasswordBean")
 @ViewScoped
@@ -65,7 +64,10 @@ public class ForgotenPasswordBean implements Serializable {
         updatedUser.setPassword(hashPassword);
         userTFacade.edit(updatedUser);
     }
-
+    
+    /**
+     * Sends password via email
+     */
     public void sendPassword() {
         res = ResourceBundle.getBundle("org.vbencek.localization.Translations", new Locale(localization.getLanguage()));
         UserT user = findUserWithEmail(username);

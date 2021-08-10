@@ -11,6 +11,10 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import org.vbencek.properties.PropertiesLoader;
 
+/**
+ * Class for sending email
+ * @author vbencek
+ */
 public class EmailSender {
 
     private String username = "";
@@ -51,7 +55,11 @@ public class EmailSender {
             throw new RuntimeException(e);
         }
     }
-
+    
+    /**
+     * Generate random confiramtion code (Currently, it's also used to generate passwords)
+     * @return 
+     */
     public int generateConfirmationCode() {
         Random rand = new Random();
         return rand.nextInt(1000000); 

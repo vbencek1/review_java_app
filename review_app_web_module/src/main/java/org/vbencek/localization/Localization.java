@@ -15,8 +15,8 @@ import lombok.Getter;
 import lombok.Setter;
 
 /**
- *
- * @author Tino
+ * Holds active language
+ * @author vbencek
  */
 @Named(value = "localization")
 @SessionScoped

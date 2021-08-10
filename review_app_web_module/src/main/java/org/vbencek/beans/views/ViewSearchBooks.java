@@ -26,8 +26,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.vbencek.beans.ActiveUserSession;
 
 /**
- *
- * @author Tino
+ * Views that shows all books with serach options
+ * @author vbencek
  */
 @Named(value = "viewSearchBooks")
 @ViewScoped

@@ -36,8 +36,8 @@ import org.vbencek.properties.ParamsCaching;
 import org.vbencek.properties.PropertiesLoader;
 
 /**
- *
- * @author Tino
+ * View that shows book details
+ * @author vbencek
  */
 @Named(value = "viewBookDetails")
 @ViewScoped
@@ -127,7 +127,10 @@ public class ViewBookDetails implements Serializable {
     @Getter
     @Setter
     boolean renderReviewNotOkMsg = false;
-
+    
+    /**
+     * Method redirects if passed book id doesn't exist
+     */
     @PostConstruct
     public void init() {
         Map<String, String> params = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
@@ -161,7 +164,10 @@ public class ViewBookDetails implements Serializable {
         //set msg if there's no comments
         renderNoCommentMsg = numberOfComments == 0;
     }
-
+    
+    /**
+     * Check if book is in active user collection
+     */
     private void setFavoriteStatus() {
         UserT userT = activeUserSession.getActiveUser();
         if (userT != null) {
@@ -290,6 +296,9 @@ public class ViewBookDetails implements Serializable {
         
     }
 
+    /**
+     * Method checks if user is logged in and if he doesn't have review on this book
+     */
     public void addReview() {
         paramsCaching.setBookIdCache(bookID);
         res = ResourceBundle.getBundle("org.vbencek.localization.Translations", new Locale(localization.getLanguage()));
@@ -312,7 +321,12 @@ public class ViewBookDetails implements Serializable {
             reviewNotOkMsg = res.getString("viewBookDetails.addReviewMsg.login");
         }
     }
-
+    
+    /**
+     * converts Rating to Width so it can be used to fill stars on presentation layer
+     * @param rating
+     * @return 
+     */
     public String convertToWidth(Double rating) {
         if (thisBook != null) {
             String width = "0%";

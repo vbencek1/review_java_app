@@ -23,8 +23,8 @@ import org.vbencek.localization.Localization;
 import org.vbencek.model.UserT;
 
 /**
- *
- * @author Tino
+ * View that shows active user information
+ * @author vbencek
  */
 @Named(value = "viewUserProfile")
 @ViewScoped
@@ -145,9 +145,6 @@ public class ViewUserProfile implements Serializable {
     }
 
     private void setUserparams() {
-        //Netreba mi ovo ali za sad ostavljam
-        //Map<String, String> params = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
-        //String userID = params.get("id");
         username = thisUser.getUsername();
         firstname = thisUser.getFirstname();
         lastname = thisUser.getLastname();

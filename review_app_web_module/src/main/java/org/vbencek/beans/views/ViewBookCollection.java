@@ -26,8 +26,8 @@ import org.vbencek.properties.ParamsCaching;
 import org.vbencek.properties.PropertiesLoader;
 
 /**
- *
- * @author Tino
+ * View that shows books in active user collection
+ * @author vbencek
  */
 @Named(value = "viewBookCollection")
 @ViewScoped
@@ -83,6 +83,7 @@ public class ViewBookCollection implements Serializable {
 
     @PostConstruct
     void init() {
+        //redirect if not loged in
         if (activeUserSession.getActiveUser() == null) {
             redirectFunction = "location.href = 'index.xhtml?action=openLogin';";
             renderRedirect = true;

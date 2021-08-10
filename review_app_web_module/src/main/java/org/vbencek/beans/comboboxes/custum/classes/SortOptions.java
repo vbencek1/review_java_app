@@ -6,8 +6,8 @@
 package org.vbencek.beans.comboboxes.custum.classes;
 
 /**
- *
- * @author Tino
+ * Custom class for sort options
+ * @author vbencek
  */
 public class SortOptions {
     String optionName;

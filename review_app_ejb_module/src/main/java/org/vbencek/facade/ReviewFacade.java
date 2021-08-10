@@ -105,7 +105,7 @@ public class ReviewFacade extends AbstractFacade<Review> implements ReviewFacade
     }
 
     @Override
-    public List<Review> findMyReviewsByCriteria(UserT userT, String keyword, double minimumAvgRating, String sortOption, int offset, int limit) {
+    public List<Review> findMyReviewsByCriteria(UserT userT, String keyword, double minimumAvgRating, Boolean isPublic, String sortOption, int offset, int limit) {
         CriteriaBuilder cb = em.getCriteriaBuilder();
         CriteriaQuery<Review> cq = cb.createQuery(Review.class);
         Root<Review> review = cq.from(Review.class);
@@ -122,6 +122,11 @@ public class ReviewFacade extends AbstractFacade<Review> implements ReviewFacade
         if(minimumAvgRating!=0){
             predicates.add(cb.greaterThanOrEqualTo(review.get("rating"), minimumAvgRating));
         }
+        
+        if(isPublic!=null){
+            predicates.add(cb.equal(review.get("ispublic"), isPublic));
+        }
+        
         //sort options
         if(sortOption!=null && !"".equals(sortOption)){    
             if("title".equals(sortOption)){
@@ -147,7 +152,7 @@ public class ReviewFacade extends AbstractFacade<Review> implements ReviewFacade
     }
 
     @Override
-    public long countMyReviewsByCriteria(UserT userT, String keyword, double minimumAvgRating) {
+    public long countMyReviewsByCriteria(UserT userT, String keyword, double minimumAvgRating, Boolean isPublic) {
         CriteriaBuilder cb = em.getCriteriaBuilder();
         CriteriaQuery<Long> cq = cb.createQuery(Long.class);
         Root<Review> review = cq.from(Review.class);
@@ -162,6 +167,9 @@ public class ReviewFacade extends AbstractFacade<Review> implements ReviewFacade
         } 
         if(minimumAvgRating!=0){
             predicates.add(cb.greaterThanOrEqualTo(review.get("rating"), minimumAvgRating));
+        }
+        if(isPublic!=null){
+            predicates.add(cb.equal(review.get("ispublic"), isPublic));
         }
         //Query
         cq.select(cb.count(review)).where(predicates.toArray(new Predicate[]{}));

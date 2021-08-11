@@ -73,6 +73,15 @@ function showComments() {
     }
 }
 
+function showStatistics() {
+    var x = document.getElementById("divStatistics");
+    if (x.style.display === "none") {
+        x.style.display = "block";
+    } else {
+        x.style.display = "none";
+    }
+}
+
 function showReviewForm() {
     var x = document.getElementById("divReviewForm");
     if (x.style.display === "none") {

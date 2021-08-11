@@ -57,6 +57,7 @@
                 <h:outputLabel class="div-userProfile-section-message-OK" value="#{viewBookDetails.reviewOkMsg}" rendered="#{viewBookDetails.renderReviewOkMsg}"/>
                 <h:outputLabel class="div-userProfile-section-message-NotOK" value="#{viewBookDetails.reviewNotOkMsg}" rendered="#{viewBookDetails.renderReviewNotOkMsg}"/>
                 <h:commandButton id="btnToggleComments" class="div-bookDetails-toogleBtn" value="#{l['viewBookDetails.toogleReviews']}" onclick="showComments()"/>
+                <h:commandButton id="btnToggleStatistics" class="div-bookDetails-toogleBtn" value="#{l['viewBookDetails.toogleStatistic']}" onclick="showStatistics()"/>
             </div>
             <div class="div-bookDetails-header">
                 <h:outputLabel class="div-bookDetails-header-text" value="#{viewBookDetails.thisBook.title}"/>
@@ -124,6 +125,15 @@
                     </ui:repeat>
                     <h:outputLabel class="div-bookDetails-noCommentLabel" value="#{l['viewBookDetails.noComment']}" rendered="#{viewBookDetails.renderNoCommentMsg}"/>
                 </h:form>
+            </div>
+
+            <div id="divStatistics" class="div-bookDetails-comments" style="display: block">
+                <h:outputLabel value="#{l['viewBookDetails.statistics.title']}" class="div-bookStatistic-header"/>
+                <h:outputLabel value="#{viewBookStatistic.showAverageRatingComparison(viewBookDetails.thisBook)}" class="div-bookStatistic-label"/>
+                <h:outputLabel value="#{viewBookStatistic.showAverageCountComparison(viewBookDetails.thisBook)}" class="div-bookStatistic-label"/>
+                <div class="div-bookStatistic-graphContainer">
+                    <p:pieChart model="#{viewBookStatistic.createBookReviewsPieModel(viewBookDetails.thisBook)}" style="width: 100%; height: 500px;"/>
+                </div>
             </div>
         </div>
     </ui:define>

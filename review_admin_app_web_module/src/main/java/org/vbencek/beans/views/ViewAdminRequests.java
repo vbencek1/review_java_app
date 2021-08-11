@@ -29,6 +29,8 @@ import org.vbencek.facade.RequestFacadeLocal;
 import org.vbencek.localization.Localization;
 import org.vbencek.model.Request;
 import org.vbencek.model.UserT;
+import org.vbencek.pdf.PdfGenerator;
+import org.vbencek.properties.PropertiesLoader;
 
 /**
  * View that shows all book requests
@@ -157,5 +159,17 @@ public class ViewAdminRequests implements Serializable {
         removeRequestFromList(request);
         addMessage(res.getString("admin.viewAdminRequests.delete.summary"),res.getString("admin.viewAdminRequests.delete.details"));
         activeUserSession.addDataLog(this.getClass().getSimpleName(), new Object(){}.getClass().getEnclosingMethod().getName(), "DELETED REQUEST_ID: "+request.getRequestId());
+    }
+    
+    public void generatePdf(){
+        PdfGenerator pdfGenerator= new PdfGenerator();
+        if ("2".equals(option)) {
+            pdfGenerator.generatePdfForRequests(listRequestIsbn);
+        } else {
+            pdfGenerator.generatePdfForRequests(listRequestInfo);
+        }
+        String summary=res.getString("admin.viewAdminRequests.pdf.summary");
+        String details=res.getString("admin.viewAdminRequests.pdf.details");
+        addMessage(summary, details);
     }
 }

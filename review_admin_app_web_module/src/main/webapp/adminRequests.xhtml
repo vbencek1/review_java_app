@@ -12,6 +12,10 @@
 
     <ui:define name="content">
         <div class='div-books'>
+            <h:form>
+                <p:commandButton value="#{l['admin.viewAdminRequests.export']}" action="#{viewAdminRequests.generatePdf()}" 
+                                 styleClass="ui-button-outlined ui-button-secondary" icon="pi pi-bookmark" style="margin-bottom: 20px;"/>
+            </h:form>
             <h:form id="formRequests">
                 <p:messages id="messages" showDetail="true" closable="true">
                     <p:autoUpdate/>

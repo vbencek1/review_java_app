@@ -233,4 +233,22 @@ public class ReviewFacade extends AbstractFacade<Review> implements ReviewFacade
         return result;
     }
 
+    @Override
+    public long countRatingScore(Book book, double rating) {
+        CriteriaBuilder cb = em.getCriteriaBuilder();
+        CriteriaQuery<Long> cq = cb.createQuery(Long.class);
+        Root<Review> review = cq.from(Review.class);
+        List<Predicate> predicates = new ArrayList<Predicate>();
+        
+        predicates.add(cb.equal(review.get("book"), book));
+        predicates.add(cb.equal(review.get("rating"), rating));
+        //Query
+        cq.select(cb.count(review)).where(predicates.toArray(new Predicate[]{}));
+        //execute query and do something with result
+        long result=em.createQuery(cq)
+                            .getSingleResult();
+        
+        return result;
+    }
+
 }

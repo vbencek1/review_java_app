@@ -255,4 +255,30 @@ public class BookFacade extends AbstractFacade<Book> implements BookFacadeLocal 
         return results;
     }
 
+    @Override
+    public double getAverageRatingAllBooks() {
+        CriteriaBuilder cb = em.getCriteriaBuilder();
+        CriteriaQuery<Double> cq = cb.createQuery(Double.class);
+        Root<Book> book = cq.from(Book.class);
+
+        cq.select(cb.avg(book.get("averageRating")));
+        
+        double result = em.createQuery(cq)
+                .getSingleResult();
+        return result;
+    }
+    
+    @Override
+    public double getAverageRatingCountAllBooks() {
+        CriteriaBuilder cb = em.getCriteriaBuilder();
+        CriteriaQuery<Double> cq = cb.createQuery(Double.class);
+        Root<Book> book = cq.from(Book.class);
+
+        cq.select(cb.avg(book.get("ratingsCount")));
+        
+        double result = em.createQuery(cq)
+                .getSingleResult();
+        return result;
+    }
+
 }

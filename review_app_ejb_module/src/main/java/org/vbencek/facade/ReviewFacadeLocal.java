@@ -46,4 +46,6 @@ public interface ReviewFacadeLocal {
     
     Review findReviewByBookAndUser(UserT userT, Book book);
     
+    long countRatingScore(Book book, double rating);
+    
 }

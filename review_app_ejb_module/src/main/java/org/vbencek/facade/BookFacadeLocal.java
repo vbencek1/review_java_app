@@ -45,5 +45,9 @@ public interface BookFacadeLocal {
     Book findBookById(int id);
 
     List<Book> findRecommendedBooks(String keyword, double minimumAvgRating, int minimumRatingsCount, String sortOption, int offset, int limit);
+    
+    double getAverageRatingAllBooks();
+    
+    double getAverageRatingCountAllBooks();
 
 }

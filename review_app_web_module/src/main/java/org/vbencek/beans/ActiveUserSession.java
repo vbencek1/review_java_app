@@ -7,6 +7,7 @@ package org.vbencek.beans;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import java.io.IOException;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
 import java.io.Serializable;
@@ -135,6 +136,14 @@ public class ActiveUserSession implements Serializable {
         addDataLog(this.getClass().getSimpleName(), new Object(){}.getClass().getEnclosingMethod().getName(), "login");
     }
     
+    public void redirectToUrl(String url) {
+        try {
+            FacesContext.getCurrentInstance().getExternalContext().redirect(url);
+        } catch (IOException ex) {
+            System.out.println(ex.getStackTrace());
+        }
+    }
+    
     /**
      * Hides unnessesery fields when user is successfuly logged out
      */
@@ -149,6 +158,7 @@ public class ActiveUserSession implements Serializable {
         showRegistrationLink = true;
         script = switchButtonDisplay("block");
         addDataLog(this.getClass().getSimpleName(), new Object(){}.getClass().getEnclosingMethod().getName(), "logout");
+        redirectToUrl("index.xhtml");
     }
     
     public void authenticate() {
@@ -190,23 +200,23 @@ public class ActiveUserSession implements Serializable {
     }
 
     public String redirectToUserProfile() {
-        return "userProfile.xhmtl?id=" + activeUser.getUserId() + "&faces-redirect=true";
+        return "userProfile.xhtml?id=" + activeUser.getUserId() + "&faces-redirect=true";
     }
 
     public String redirectToIndex() {
         setFailedLoginMsg("");
-        return "index.xhmtl?faces-redirect=true";
+        return "index.xhtml?faces-redirect=true";
     }
 
     public String redirectToBookSearch() {
         setFailedLoginMsg("");
-        return "bookSearch.xhmtl?faces-redirect=true";
+        return "bookSearch.xhtml?faces-redirect=true";
     }
 
     public String redirectToMyCollecion() {
         setFailedLoginMsg("");
         if (activeUser != null) {
-            return "bookCollection.xhmtl?faces-redirect=true";
+            return "bookCollection.xhtml?faces-redirect=true";
         } else {
             return "index.xhtml?action=openLogin&faces-redirect=true";
         }

@@ -279,6 +279,7 @@ img.avatar {
 }
 .cancelbtn {
     border:none;
+    border-radius: 10px;
     width: auto;
     padding: 5px 10px;
     background-color: #CC2936;

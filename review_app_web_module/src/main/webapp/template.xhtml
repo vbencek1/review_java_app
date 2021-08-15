@@ -88,7 +88,7 @@
                         <h:inputText id="username" a:placeholder="#{l['template.username']}" class="frgText" value="#{forgotenPasswordBean.username}"/>
                         <h:inputText  id="email" a:placeholder="#{l['template.email']}" class="frgText" value="#{forgotenPasswordBean.email}"/>                 
                         <p:commandButton id="btnForgot" value="#{l['template.sendPassword']}"
-                                         class="btnSendEmail"
+                                         class="btnSendEmail" style="margin-bottom: 10px;"
                                          update="frmForgot"
                                          action="#{forgotenPasswordBean.sendPassword()}"/>
                         <h:commandButton id="btnCancel" class="cancelbtn" value="X"/>

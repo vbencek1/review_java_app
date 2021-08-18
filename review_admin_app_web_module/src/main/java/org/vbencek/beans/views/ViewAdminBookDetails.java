@@ -293,7 +293,7 @@ public class ViewAdminBookDetails implements Serializable {
                 List<Request> listRequests = requestFacade.findRequestsByISBN(thisRequest.getIsbn());
                 EmailSender emailSender = new EmailSender();
                 String msgSubject = res.getString("admin.viewBookDetails.email.subject");
-                String msgText = res.getString("admin.viewBookDetails.email.text.ok");
+                String msgText = res.getString("admin.viewBookDetails.email.text.ok")+thisRequest.getIsbn();
                 for (Request req : listRequests) {
                     String msgTO = req.getUserId().getEmail();
                     emailSender.sendMessage(msgTO, msgSubject, msgText);

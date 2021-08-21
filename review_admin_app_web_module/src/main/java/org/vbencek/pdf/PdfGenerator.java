@@ -38,12 +38,12 @@ public class PdfGenerator {
         return simpleDateFormat.format(date).toUpperCase();
     }
   
-  public void generatePdfForRequests(List<Request> listRequest) {
+  public void generatePdfForRequests(List<Request> listRequest,String pdfName) {
   Document document = null;			
     try {
       System.out.println("PDF GENERATOR: staring pdf generation...");
       document = new Document();
-      PdfWriter.getInstance(document,new FileOutputStream(CREATED_REQUEST_PDF));
+      PdfWriter.getInstance(document,new FileOutputStream(CREATED_REQUEST_PDF+pdfName));
       Font font = new Font(Font.HELVETICA, 12, Font.BOLD);
       Table table = new Table(6); 
       table.setPadding(5);

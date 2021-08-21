@@ -21,6 +21,7 @@ import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import lombok.Getter;
 import lombok.Setter;
+import org.primefaces.PrimeFaces;
 import org.primefaces.component.datatable.DataTable;
 import org.vbencek.beans.ActiveUserSession;
 import org.vbencek.email.EmailSender;
@@ -72,6 +73,17 @@ public class ViewAdminRequests implements Serializable {
     @Getter
     @Setter
     String option = "2";
+    
+    //PDF ATRIBUTES
+    @Getter
+    @Setter
+    String pdfLink;
+    @Getter
+    @Setter
+    String pdfLinkDisplayName;
+    @Getter
+    @Setter
+    boolean renderPdfLink=false;
 
     @PostConstruct
     public void init() {
@@ -161,13 +173,28 @@ public class ViewAdminRequests implements Serializable {
         activeUserSession.addDataLog(this.getClass().getSimpleName(), new Object(){}.getClass().getEnclosingMethod().getName(), "DELETED REQUEST_ID: "+request.getRequestId());
     }
     
+    private void generatePdfLink(String pdfName){
+        PropertiesLoader propLoader = new PropertiesLoader();
+        String path=propLoader.getProperty("pdf.path.requestList");
+        String fullURL=path+pdfName;
+        pdfLink=fullURL;
+        renderPdfLink=true;
+        pdfLinkDisplayName=pdfName;
+        PrimeFaces.current().ajax().update("generatePdf:pdfLink");
+        
+    }
+    
     public void generatePdf(){
         PdfGenerator pdfGenerator= new PdfGenerator();
+        String pdfName=activeUserSession.getUsername()+"_requests_";       
         if ("2".equals(option)) {
-            pdfGenerator.generatePdfForRequests(listRequestIsbn);
+            pdfName=pdfName+"isbn.pdf";
+            pdfGenerator.generatePdfForRequests(listRequestIsbn,pdfName);
         } else {
-            pdfGenerator.generatePdfForRequests(listRequestInfo);
+            pdfName=pdfName+"titles.pdf";
+            pdfGenerator.generatePdfForRequests(listRequestInfo,pdfName);
         }
+        generatePdfLink(pdfName);
         String summary=res.getString("admin.viewAdminRequests.pdf.summary");
         String details=res.getString("admin.viewAdminRequests.pdf.details");
         addMessage(summary, details);

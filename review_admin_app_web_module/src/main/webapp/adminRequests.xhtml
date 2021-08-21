@@ -12,9 +12,14 @@
 
     <ui:define name="content">
         <div class='div-books'>
-            <h:form>
+            <h:form id="generatePdf">
                 <p:commandButton value="#{l['admin.viewAdminRequests.export']}" action="#{viewAdminRequests.generatePdf()}" 
-                                 styleClass="ui-button-outlined ui-button-secondary" icon="pi pi-bookmark" style="margin-bottom: 20px;"/>
+                                 styleClass="ui-button-outlined ui-button-secondary" icon="pi pi-bookmark" style="margin-bottom: 20px;"
+                                 update="generatePdf"/>
+                
+                <h:outputLink id="pdfLink" value="#{viewAdminRequests.pdfLink}" target="_blank" rendered="#{viewAdminRequests.renderPdfLink}" class="pdf-link">
+                    #{viewAdminRequests.pdfLinkDisplayName}
+                </h:outputLink>
             </h:form>
             <h:form id="formRequests">
                 <p:messages id="messages" showDetail="true" closable="true">

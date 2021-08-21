@@ -1,0 +1,20 @@
+1. Create local database: 
+	name: book_review_db
+	username: app_user
+	password: app_user
+
+2. Create connection pool on glassfish so that persistent unit would be valid
+	create-jdbc-connection-pool --datasourceclassname org.apache.derby.jdbc.ClientDataSource40 --restype javax.sql.DataSource --property  portNumber=1527:password=app_user:user=app_user:serverName=localhost:databaseName=book_review_db:url="jdbc\:derby\://localhost\:1527/book_review_db" book_review_db_Pool
+
+	create-jdbc-resource --connectionpoolid book_review_db_Pool jdbc/book_review_db
+
+3. Execute SQL scripts in order:
+	1. create_user_table.sql
+	2. create_book_table.sql
+	3. create_review_table.sql
+	4. create_collection_table.sql
+	5. create_request_table.sql
+	6. create_employee_role.sql
+	7. create_employee_table.sql
+	8. create_data_log_table.sql
+	9. create_data_log_employees_table.sql

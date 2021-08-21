@@ -10,6 +10,9 @@ Web application with modules that can be used as book review platform
 
 # Technology
 Backend - Java
+
 Frontend - JSF 2.3, Primefaces 10.0, Html, CSS, JS
+
 Server - Glassfish 5.1
+
 IDE - Netbeans 12.4
